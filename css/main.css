@@ -1,0 +1,74 @@
+html,
+body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    cursor: -webkit-image-set(url("./../cur.png") 1x, url("./../cur@32x32.png") 2x) 7 9, crosshair;
+    height: 100%;
+    width: 100%;
+}
+
+.circle{
+    position: relative;
+    margin: 5px;
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #fff;
+    box-shadow: 0 0 5px rgba(0,0,0,0.4);
+}
+
+.circle .inner-shadow{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    border-radius: 50%;
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+}
+
+.selected-color{
+    position: absolute;
+    top: calc(50% - 45px);
+    left: calc(50% - 50px);
+    z-index: 2;
+    border-radius: 4px;
+    background: rgba(20,20,20,1);
+    color: #fff;
+    text-align: center;
+    letter-spacing: 1px;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 25px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.6);
+    width: 100px;
+}
+
+table{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: -1px 0 0 -1px;
+    padding: 0;
+}
+
+table tr td{
+    padding: 0;
+    margin: 0;
+    height: 13px;
+    width: 15px;
+    border-top: 1px solid rgba(100,100,100,0.4);
+    border-left: 1px solid rgba(100,100,100,0.4);
+}
+
+table tr td.center{
+    box-shadow: inset 1px 0 0 rgba(255,255,255,0.7), inset 0 1px 0 rgba(255,255,255,0.7), inset -1px 0 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(255,255,255,0.7);
+    border: 1px solid rgba(60,60,60);
+}

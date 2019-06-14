@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Drop History</title>
+    <link href="css/history.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <div class="main-frame">
+        <div class="titlebar">
+
+        </div>
+        <div class="selection">
+            <div class="icon"></div>
+            <div class="select-box" id="select">
+                <div class="icon"></div>
+                <div class="name">CSS Hex</div>
+            </div>
+        </div>
+        <div class="title">History</div>
+        <div class="history">
+            <ul id="history-list">
+                <li class="empty"></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        // You can also require other files to run in this process
+        require('./renderer.js')
+        const {ipcRenderer, remote} = require('electron');
+
+        let colorTypesWindow = new remote.BrowserWindow({
+            parent: remote.getCurrentWindow(),
+            show: false,
+            resizable: false,
+            frame: false,
+            transparent: true,
+            alwaysOnTop: true,
+            webPreferences: {
+                nodeIntegration: true
+            }
+        });
+
+        colorTypesWindow.loadURL('file://' + __dirname + '/color_types.html');
+
+        colorTypesWindow.on('blur', () => {
+            colorTypesWindow.hide();
+        });
+
+        ipcRenderer.on("color_history", function(event, color){
+            let elHistoryList = document.getElementById("history-list");
+            let elColorHistory = document.createElement("li");
+            elColorHistory.setAttribute("style","background: "+color+";");
+            elColorHistory.addEventListener("click", function(e){
+                ipcRenderer.send("clicked", color.replace("#",""));
+                elHistoryList.removeChild(elColorHistory);
+            });
+            elHistoryList.childNodes[1].after(elColorHistory);
+        });
+
+        ipcRenderer.on("color-type-change", (e, arg) => {
+            document.querySelector("#select .name").innerHTML = arg.name;
+            document.querySelector("#select .icon").className = "icon "+arg.icon
+        });
+
+        document.getElementById("select").addEventListener("click", function(e){
+            if(!colorTypesWindow.isVisible()){
+                let windowBounds = remote.getCurrentWindow().getBounds()
+
+                let windowY = windowBounds.y + 60;
+                let windowScreen = remote.screen.getDisplayNearestPoint({
+                    x: windowBounds.x,
+                    y: windowBounds.y
+                })
+                if(windowY + 220 >= windowScreen.bounds.height){
+                    windowY = windowY - 220 - 14;
+                }
+
+                colorTypesWindow.setBounds({
+                    width: 340,
+                    height: 220,
+                    x: windowBounds.x + 40,
+                    y: windowY
+                },false);
+                colorTypesWindow.show();
+            }
+            else{
+                colorTypesWindow.hide();
+            }
+        });
+    </script>
+  </body>
+</html>

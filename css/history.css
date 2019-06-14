@@ -1,0 +1,138 @@
+*{
+    box-sizing: border-box;
+}
+
+html,
+body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.main-frame{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    width: auto;
+    height: auto;
+    background: rgba(15,15,15,1);
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(100,100,100,0.1);
+    border: 0.5px solid rgba(0,0,0,0.1);
+}
+
+.main-frame .titlebar{
+    width: 100%;
+    height: 25px;
+    background: rgba(100,100,100,0.1);
+    -webkit-app-region: drag;
+}
+
+.main-frame .selection{
+    width: 100%;
+    height: 40px;
+    background: rgba(100,100,100,0.1);
+    line-height: 40px;
+    border-bottom: 1px solid rgba(80,80,80,0.1);
+}
+
+.main-frame .selection .icon{
+    float: left;
+    margin: 10px;
+    width: 15px;
+    height: 15px;
+    background: url(./../cur@32x32.png) no-repeat center;
+    background-size: cover;
+    opacity: 0.6;
+}
+
+.main-frame .selection .select-box{
+    float: left;
+    margin: 4px;
+    width: calc(100% - 50px);
+    background: rgba(200,200,200,0.1);
+    background-color: #292929;
+    border-radius: 4px;
+    color: rgba(255,255,255,0.8);
+    border: 0.5px solid #333;
+    line-height: 28px;
+    height: 28px;
+    padding: 0 8px;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 12px;
+    cursor: default;
+}
+
+.main-frame .selection .select-box:hover{
+    border: 0.5px solid #444;
+}
+
+.main-frame .selection .select-box .icon{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 6px 0 0 0;
+    background: url(./../css.png) no-repeat;
+    background-size: cover;
+    opacity: 1;
+}
+
+.main-frame .selection .select-box .icon.css_2{
+    background: url(./../css_2.png) no-repeat;
+    background-size: cover;
+}
+
+.main-frame .selection .select-box .name{
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.main-frame .title{
+    padding: 10px;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+}
+
+.main-frame .history{
+    width: calc(100% - 20px);
+    height: 80px;
+    padding: 0 10px;
+    line-height: 60px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.main-frame .history ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-frame .history ul li{
+    display: inline-block;
+    margin-left: 0.55em;
+    border-radius: 5px;
+    box-shadow: inset 0 0 1px rgba(0,0,0,0.7);
+    width: 30px;
+    height: 30px;
+}
+
+.main-frame .history ul li:hover{
+    opacity: 0.7;
+}
+
+.main-frame .history ul li:first-child{
+    margin-left: 0;
+}
+
+.main-frame .history ul li.empty{
+    background: transparent;
+    background: rgba(0,0,0,0.9);
+    width: 30px;
+    height: 30px;
+    border: 1.5px dashed rgba(200,200,200,0.2);
+}
