@@ -14,6 +14,9 @@
             <div class="select-box" id="select">
                 <div class="icon"></div>
                 <div class="name">CSS Hex</div>
+                <div class="arrows">
+                    <img src="./arrows.png">
+                </div>
             </div>
             <div class="titlebar">
 
@@ -22,17 +25,35 @@
                 &times;
             </div>
         </div>
-        <div class="title">History</div>
+        <div class="title">Color History</div>
         <div class="history">
             <ul id="history-list">
-                <li class="empty"></li>
             </ul>
+        </div>
+        <div class="footer">
+            
         </div>
     </div>
     <script>
         // You can also require other files to run in this process
         require('./renderer.js')
         const {ipcRenderer, remote} = require('electron');
+
+        ipcRenderer.on("get-history-response", function(event, color_history) {
+            let elHistoryList = document.getElementById("history-list");
+            for(let i=0;i<color_history.length;i++){
+                const color = color_history[i];
+                let elColorHistory = document.createElement("li");
+                elColorHistory.setAttribute("style","background: #"+color+";");
+                elColorHistory.addEventListener("click", function(e){
+                    ipcRenderer.send("clicked", color);
+                    elHistoryList.removeChild(elColorHistory);
+                });
+                elHistoryList.childNodes[0].after(elColorHistory);
+            }
+        })
+
+        ipcRenderer.send("get-history");
 
         let colorTypesWindow = new remote.BrowserWindow({
             parent: remote.getCurrentWindow(),
@@ -60,7 +81,7 @@
                 ipcRenderer.send("clicked", color.replace("#",""));
                 elHistoryList.removeChild(elColorHistory);
             });
-            elHistoryList.childNodes[1].after(elColorHistory);
+            elHistoryList.childNodes[0].after(elColorHistory);
         });
 
         ipcRenderer.on("color-type-change", (e, arg) => {

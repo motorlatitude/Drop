@@ -17,7 +17,7 @@ body{
     bottom: 10px;
     width: auto;
     height: auto;
-    background: rgba(15,15,15,1);
+    background: #1F1F1F;
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 0 0 6px rgba(0,0,0,0.5);
@@ -33,7 +33,7 @@ body{
 .main-frame .selection{
     width: 100%;
     height: 40px;
-    background: rgba(100,100,100,0.1);
+    background: #323539;
     line-height: 40px;
 }
 
@@ -70,36 +70,38 @@ body{
 }
 
 .main-frame .selection .window-options:hover{
-    background: rgba(150,150,150,0.1);
+    background: #3B3F42;
 }
 
 .main-frame .selection .picker-button:hover{
-    background: rgba(150,150,150,0.1);
+    background: #3B3F42;
 }
 
 .main-frame .selection .select-box{
+    position: relative;
+    top: 0;
+    right: 0;
     float: left;
-    margin: 6px;
+    margin: 0 6px;
     width: 120px;
-    border-radius: 4px;
     color: rgba(255,255,255,0.8);
-    line-height: 28px;
-    height: 28px;
+    line-height: 40px;
+    height: 40px;
     padding: 0 8px;
     font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
     font-size: 13px;
-    cursor: default;
+    cursor: pointer;
 }
 
 .main-frame .selection .select-box:hover{
-    background-color: #292929;
+    background-color: #3B3F42;
 }
 
 .main-frame .selection .select-box .icon{
     float: left;
     width: 16px;
     height: 16px;
-    margin: 6px 0 0 0;
+    margin: 12px 0 0 0;
     background: url(./../css.png) no-repeat;
     background-size: cover;
     opacity: 1;
@@ -115,17 +117,30 @@ body{
     margin-left: 8px;
 }
 
+.main-frame .selection .select-box .arrows {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+}
+
+.main-frame .selection .select-box .arrows img{
+    height: 10px;
+    opacity: 0.3;
+}
+
 .main-frame .title{
-    padding: 10px;
+    padding: 15px;
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
-    font-size: 13px;
-    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    color: #fff;
+    cursor: default;
 }
 
 .main-frame .history{
-    width: calc(100% - 20px);
-    height: 80px;
-    padding: 0 10px;
+    width: 100%;
+    height: 60px;
+    padding: 0 15px;
     line-height: 60px;
     overflow: hidden;
     white-space: nowrap;
@@ -137,17 +152,39 @@ body{
     padding: 0;
 }
 
-.main-frame .history ul li{
-    display: inline-block;
-    margin-left: 0.55em;
-    border-radius: 5px;
-    box-shadow: inset 0 0 1px rgba(0,0,0,0.7);
-    width: 30px;
-    height: 30px;
+.main-frame .history #history-list {
+    width: 100%;
+    height: 40px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: hidden;
 }
 
+.main-frame .history ul li{
+    display: inline-block;
+    height: 40px;
+    flex-grow: 1;
+    flex-shrink: 0;
+    transition: flex-grow 0.3s ease-in-out;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.main-frame .history ul li:first-child{
+    border-left: 1px solid rgba(255,255,255,0.1);
+}
+
+.main-frame .history ul li:last-child{
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+
 .main-frame .history ul li:hover{
-    opacity: 0.7;
+    flex-grow: 2;
 }
 
 .main-frame .history ul li:first-child{
@@ -155,9 +192,17 @@ body{
 }
 
 .main-frame .history ul li.empty{
+    display: none;
     background: transparent;
     background: rgba(0,0,0,0.9);
     width: 30px;
     height: 30px;
     border: 1.5px dashed rgba(200,200,200,0.2);
+}
+
+.main-frame .footer{
+    width: 100%;
+    height: 30px;
+    background: #323539;
+    line-height: 30px;
 }

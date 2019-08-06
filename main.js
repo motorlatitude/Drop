@@ -4,6 +4,9 @@ const {app, BrowserWindow, ipcMain, clipboard, globalShortcut, Tray, Menu} = ele
 const robot = require('./robotjs/index')
 const fs = require('fs');
 
+const Store = require('electron-store');
+const store = new Store();
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -140,7 +143,21 @@ function createWindow () {
     }
   }, 0);
 
+  ipcMain.on("get-history", function() {
+    console.log("Fetching History;");
+    let historyStore = store.get("history", []);
+    console.log(historyStore);
+    historyWindow.webContents.send("get-history-response", historyStore)
+  })
+
   ipcMain.on("clicked", function(event, arg){
+    let historyStore = store.get("history", []);
+    if(historyStore.length > 30){
+      historyStore.shift();
+    }
+    historyStore.push(arg.toUpperCase());
+    store.set('history', historyStore);
+
     if(color_format == "css_hex"){
       console.log("Selected Color: #"+arg.toUpperCase());
       clipboard.writeText('#'+arg.toUpperCase());
@@ -350,9 +367,9 @@ function createWindow () {
   // Create the browser window.
   historyWindow = new BrowserWindow({
     x: electron.screen.getPrimaryDisplay().workAreaSize.width - 400,
-    y: electron.screen.getPrimaryDisplay().workAreaSize.height - 170,
+    y: electron.screen.getPrimaryDisplay().workAreaSize.height - 200,
     width: 390,
-    height: 160,
+    height: 200,
     resizable: false,
     frame: false,
     transparent: true,
