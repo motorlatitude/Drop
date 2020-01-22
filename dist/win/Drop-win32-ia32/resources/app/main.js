@@ -1,8 +1,9 @@
 // Modules to control application life and create native browser window
 const electron = require('electron');
-const {app, BrowserWindow, ipcMain, clipboard, globalShortcut, Tray, Menu} = electron
+const {app, BrowserWindow, ipcMain, clipboard, globalShortcut, Tray, Menu, nativeImage} = electron;
 const robot = require('./robotjs/index')
 const fs = require('fs');
+const svg2png = require("svg2png");
 
 const Store = require('electron-store');
 const store = new Store();
@@ -18,7 +19,7 @@ let zoom_factor = 1;
 let tray = null;
 
 function createWindow () {
-  tray = new Tray(__dirname + './icon.png')
+  tray = new Tray(__dirname + './taskbar_icon.png');
 
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Picker', type: 'normal', click: function() {
@@ -148,15 +149,21 @@ function createWindow () {
     let historyStore = store.get("history", []);
     console.log(historyStore);
     historyWindow.webContents.send("get-history-response", historyStore)
-  })
+  });
 
-  ipcMain.on("clicked", function(event, arg){
+  ipcMain.on("clicked", async function(event, arg){
     let historyStore = store.get("history", []);
     if(historyStore.length > 30){
       historyStore.shift();
     }
     historyStore.push(arg.toUpperCase());
     store.set('history', historyStore);
+    const icon_SVG = '<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 726.58 877"><defs><style>.cls-1{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:30px;}.cls-2{fill:#'+arg.toUpperCase()+';}</style></defs><title>taskbar_icon</title><path class="cls-1" d="M1194,341.71q3.73,3.65,7.38,7.38a348.29,348.29,0,1,1-499.88,0c2.42-2.49,4.89-4.95,7.38-7.38" transform="translate(-588.1 -77.94)"/><polyline class="cls-1" points="113.35 271.15 120.72 263.78 363.29 21.21 605.85 263.78 613.23 271.15"/><path class="cls-2" d="M674.58,582.8c72.54-48.36,90.37-59,146.36-52,64.49,8.06,120.91,120.91,241.82,120.91,119,0,146.36-60.82,162.48-76.94h0C1225.24,727.5,1102.66,855,949.9,855S674.58,735.56,674.58,582.8Z" transform="translate(-588.1 -77.94)"/></svg>';
+    svg2png(Buffer.from(icon_SVG), {width: 512}).then((image) => {
+      tray.setImage(nativeImage.createFromBuffer(image));
+    }).catch((err) => {
+      console.error(err);
+    });
 
     if(color_format == "css_hex"){
       console.log("Selected Color: #"+arg.toUpperCase());
@@ -219,7 +226,7 @@ function createWindow () {
         }
         hue = Math.ceil(temp_h);
       }
-      let color = "hsl("+hue+","+saturation+","+luminesence+")";
+      let color = "hsl("+hue+","+saturation+"%,"+luminesence+"%)";
       console.log("Selected Color: "+color);
       clipboard.writeText(color);
       historyWindow.webContents.send("color_history", '#'+arg.toUpperCase())
@@ -261,7 +268,7 @@ function createWindow () {
         }
         hue = Math.ceil(temp_h);
       }
-      let color = "hsla("+hue+","+saturation+","+luminesence+",1)";
+      let color = "hsla("+hue+","+saturation+"%,"+luminesence+"%,1)";
       console.log("Selected Color: "+color);
       clipboard.writeText(color);
       historyWindow.webContents.send("color_history", '#'+arg.toUpperCase())
@@ -274,7 +281,7 @@ function createWindow () {
     setTimeout(function(){
       mainWindow.hide();
     }, 250);
-  }); 
+  });
 
   ipcMain.on("esc", function(event, arg){
     console.log("User Escaped");

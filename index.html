@@ -8,7 +8,9 @@
   <body>
     <div class="circle">
         <div class="inner-shadow"></div>
-        <div class="selected-color" id="a"></div>
+        <div class="selected-color">
+          <div class="value" id="a"></div>
+        </div>
         <table id="colorsquares">
         </table>
     </div>
@@ -16,6 +18,7 @@
       // You can also require other files to run in this process
       require('./renderer.js')
       const {ipcRenderer} = require('electron');
+      const namer = require('color-namer');
       let active_color = undefined;
 
       ipcRenderer.on("color", (event, arg) => {
@@ -33,7 +36,8 @@
             if(middle == index && middle == o){
               td.classList.add("center");
               active_color = color_row[k].color;
-              document.getElementById("a").innerHTML = "#"+active_color.toUpperCase();
+              const hexColor = "#"+active_color.toUpperCase();
+              document.getElementById("a").innerHTML = namer(hexColor, { pick: ['pantone'] }).pantone[0].name+": "+hexColor ;
             }
             tr.appendChild(td);
             o++;
