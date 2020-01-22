@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "pack:win32": "electron-packager . Drop --out=dist/win --platform=win32 --arch=ia32 app-version=1.0 --icon=icon.ico",
+    "pack:win32": "electron-packager . Drop --out=dist/win --platform=win32 --arch=ia32 app-version=1.0 --icon=assets/img/icon.ico",
     "build": "npm run pack:win32"
   },
   "author": "Lennart",

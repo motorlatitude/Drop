@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Drop History</title>
-    <link href="css/history.css" rel="stylesheet"/>
+    <link href="assets/css/history.css" rel="stylesheet"/>
   </head>
   <body>
     <div class="main-frame">
@@ -12,10 +12,12 @@
                 <div class="icon"></div>
             </div>
             <div class="select-box" id="select">
-                <div class="icon"></div>
+                <div class="icon">
+                    <div class="icon-img"></div>
+                </div>
                 <div class="name">CSS Hex</div>
                 <div class="arrows">
-                    <img src="./arrows.png">
+                    <img src="./assets/img/arrows.png">
                 </div>
             </div>
             <div class="titlebar">
@@ -36,7 +38,6 @@
     </div>
     <script>
         // You can also require other files to run in this process
-        require('./renderer.js')
         const {ipcRenderer, remote} = require('electron');
 
         ipcRenderer.on("get-history-response", function(event, color_history) {

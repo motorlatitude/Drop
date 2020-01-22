@@ -19,7 +19,7 @@ let zoom_factor = 1;
 let tray = null;
 
 function createWindow () {
-  tray = new Tray(__dirname + './taskbar_icon.png');
+  tray = new Tray(__dirname + './assets/img/taskbar_icon.png');
 
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Picker', type: 'normal', click: function() {
@@ -66,7 +66,7 @@ function createWindow () {
     transparent: true,
     alwaysOnTop: true,
     show: false,
-    icon: __dirname + './icon.png',
+    icon: __dirname + './assets/img/icon.png',
     webPreferences: {
       nodeIntegration: true
     }
@@ -151,7 +151,7 @@ function createWindow () {
     historyWindow.webContents.send("get-history-response", historyStore)
   });
 
-  ipcMain.on("clicked", async function(event, arg){
+  ipcMain.on("clicked", function(event, arg){
     let historyStore = store.get("history", []);
     if(historyStore.length > 30){
       historyStore.shift();
@@ -382,7 +382,7 @@ function createWindow () {
     transparent: true,
     alwaysOnTop: true,
     show: false,
-    icon: __dirname + './icon.png',
+    icon: __dirname + './assets/img/icon.png',
     webPreferences: {
       nodeIntegration: true
     }

@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <link href="css/color_types.css" rel="stylesheet"/>
+    <link href="assets/css/color_types.css" rel="stylesheet"/>
   </head>
   <body>
     <div class="main-frame">
@@ -23,7 +23,7 @@
             <li data-type="css_hsla" data-icon="css_2">
                 <div class="icon css_2"></div>
                 <div class="name">CSS HSLA</div>
-                <div class="format">hsl(hue, sat%, light%, alpha)</div>
+                <div class="format">hsla(hue, sat%, light%, alpha)</div>
             </li>
             <li data-type="css_rgb" data-icon="css_2">
                 <div class="icon css_2"></div>
@@ -33,13 +33,12 @@
             <li data-type="css_rgba" data-icon="css_2">
                 <div class="icon css_2"></div>
                 <div class="name">CSS RGBA</div>
-                <div class="format">rgb(rrr,ggg,bbb,alpha)</div>
+                <div class="format">rgba(rrr,ggg,bbb,alpha)</div>
             </li>
         </ul>
     </div>
     <script>
         // You can also require other files to run in this process
-        require('./renderer.js')
         const {ipcRenderer, remote} = require('electron');
 
         let elColorTypeList = document.querySelectorAll(".color-type-list li");
