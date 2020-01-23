@@ -63,6 +63,13 @@
                 elColorHistory.addEventListener("dragstart", function(e) {
                     console.log("Starting Drag");
                     e.target.classList.add("dragging");
+                    var elem = document.createElement("div");
+                    elem.id = "drag-ghost";
+                    elem.style.position = "absolute";
+                    elem.style.top = "-1000px";
+                    elem.style.backgroundColor = "#"+color;
+                    document.body.appendChild(elem);
+                    e.dataTransfer.setDragImage(elem, 0, 0);
                 }, false);
                 elColorHistory.addEventListener("dragend", function(e) {
                     console.log("Ending Drag");

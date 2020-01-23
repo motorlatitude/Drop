@@ -222,10 +222,7 @@ body{
 }
 
 .main-frame .history ul li.dragging{
-    border-radius: 5px;
-    width: 60px;
-    border: 1px solid hsla(228,16%,98%,0.1);
-    overflow: hidden;
+
 }
 
 .main-frame .history ul li:hover{
@@ -275,4 +272,13 @@ body{
 .main-frame .footer .settings-cog svg:hover,
 .main-frame .footer .quit svg:hover {
     fill: hsla(120,2%,51%,1);
+}
+
+#drag-ghost {
+    width: 27px;
+    height: 14px;
+    background: red;
+    border-radius: 3px;
+    border: 1px solid hsla(228,16%,98%,0.1);
+    opacity: 1;
 }
