@@ -54,7 +54,7 @@ body{
     float: right;
     height: 40px;
     line-height: 40px;
-    color: #aaa;
+    color: hsla(120,2%,71%,1);
     font-size: 22px;
     cursor: default;
     transition: 0.3s;
@@ -66,7 +66,7 @@ body{
     float: left;
     height: 40px;
     line-height: 40px;
-    color: #aaa;
+    color: hsla(120,2%,71%,1);
     font-size: 22px;
     cursor: default;
     transition: 0.3s;
@@ -87,7 +87,7 @@ body{
     float: left;
     margin: 0 6px;
     width: 120px;
-    color: rgba(255,255,255,0.8);
+    color: hsla(120,2%,81%,1);
     line-height: 40px;
     height: 40px;
     padding: 0 8px;
@@ -98,15 +98,23 @@ body{
 }
 
 .main-frame .selection .select-box:hover{
+    color: hsla(120,2%,91%,1);
     background-color: hsla(120,2%,26%,1);
 }
+
+.main-frame .selection .select-box:active,
+.main-frame .selection .select-box.active {
+    background: hsla(60,2%,17%,1);
+    color: hsla(120,2%,91%,1);
+}
+
 
 .main-frame .selection .select-box .icon{
     float: left;
     width: 20px;
     height: 20px;
     margin: 10px 0 0 0;
-    border-radius: 50%;
+    border-radius: 4px;
     background-color: hsla(157,73%,54%,0.3);
     opacity: 1;
 }
@@ -135,6 +143,8 @@ body{
 .main-frame .selection .select-box .name{
     float: left;
     margin-left: 8px;
+    font-weight: 400;
+    letter-spacing: 1px;
 }
 
 .main-frame .title{
@@ -251,12 +261,18 @@ body{
     width: 20px;
     float: right;
     text-align: center;
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 .main-frame .footer .settings-cog svg,
 .main-frame .footer .quit svg {
     margin-top: 8px;
     height: 14px;
-    fill: #aaa;
+    fill: hsla(120,2%,71%,1);
+    transition: fill 0.15s ease-in-out;
+}
+
+.main-frame .footer .settings-cog svg:hover,
+.main-frame .footer .quit svg:hover {
+    fill: hsla(120,2%,51%,1);
 }

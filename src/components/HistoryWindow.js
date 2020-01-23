@@ -39,6 +39,17 @@ class HistoryWindow {
       // when you should delete the corresponding element.
       this.window = null;
     });
+
+    // fix for flashing on windows 10: electron issue #12130
+    this.window.on('show', () => {
+      setTimeout(() => {
+        this.window.setOpacity(1);
+      }, 200);
+    });
+
+    this.window.on('hide', () => {
+      this.window.setOpacity(0);
+    });
   }
 
 }

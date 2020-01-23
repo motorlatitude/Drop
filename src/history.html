@@ -86,10 +86,25 @@
             }
         });
         colorTypesWindow.setAlwaysOnTop(true);
+
+        // fix for flashing on windows 10: electron issue #12130
+        colorTypesWindow.on('show', () => {
+            setTimeout(() => {
+                colorTypesWindow.setOpacity(1);
+            }, 200);
+        });
+
+        colorTypesWindow.on('hide', () => {
+            colorTypesWindow.setOpacity(0);
+            colorTypeWindowVisibleState = false;
+            document.getElementById("select").classList.remove("active");
+        });
+
         colorTypesWindow.loadURL('file://' + __dirname + '/color_types.html');
 
         colorTypesWindow.on('blur', () => {
             colorTypesWindow.hide();
+            document.getElementById("select").classList.remove("active");
             setTimeout(() => {
                 colorTypeWindowVisibleState = false;
             },200);
@@ -121,7 +136,6 @@
         })
 
         document.getElementById("select").addEventListener("click", function(e){
-            console.log(colorTypeWindowVisibleState);
             if(!colorTypeWindowVisibleState){
                 let windowBounds = remote.getCurrentWindow().getBounds()
 
@@ -141,11 +155,13 @@
                     y: windowY
                 },false);
                 colorTypeWindowVisibleState = true;
+                document.getElementById("select").classList.add("active");
                 colorTypesWindow.show();
             }
             else{
                 colorTypesWindow.hide();
                 colorTypeWindowVisibleState = false;
+                document.getElementById("select").classList.remove("active");
             }
         });
     </script>
