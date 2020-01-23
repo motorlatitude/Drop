@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Drop History</title>
+    <link href="assets/css/history.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <div class="main-frame">
+        <div class="selection">
+            <div class="picker-button">
+                <div class="icon"></div>
+            </div>
+            <div class="select-box" id="select">
+                <div class="icon">
+                    <div class="icon-img"></div>
+                </div>
+                <div class="name">CSS Hex</div>
+            </div>
+            <div class="titlebar">
+
+            </div>
+            <div class="window-options">
+                &times;
+            </div>
+        </div>
+        <div class="title">
+            <div class="name">Color History</div>
+            <div class="options">
+                <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="ellipsis-v" class="svg-inline--fa fa-ellipsis-v fa-w-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 512"><path d="M32 224c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zM0 136c0 17.7 14.3 32 32 32s32-14.3 32-32-14.3-32-32-32-32 14.3-32 32zm0 240c0 17.7 14.3 32 32 32s32-14.3 32-32-14.3-32-32-32-32 14.3-32 32z"></path></svg>
+            </div>
+        </div>
+        <div class="history">
+            <ul id="history-list">
+            </ul>
+        </div>
+        <div class="footer">
+            <div class="quit">
+                <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="portal-exit" class="svg-inline--fa fa-portal-exit fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M460,216H445.46875l-9.03125-27.125c-8.125-24.3125-24.1875-44-44.5-58.03125C411,117.90625,424,96.73438,424,72a72,72,0,0,0-144,0,71.00848,71.00848,0,0,0,4.1875,23.71875A112.98758,112.98758,0,0,0,199.4375,108.5L153.25,132.5625a51.63613,51.63613,0,0,0-15.418,14.24414C129.09766,71.17773,109.79688,0,72,0,15.15625,0,0,160.92188,0,256S15.15625,512,72,512c22.94727,0,38.99023-26.44922,50.082-64h56.82422A83.90044,83.90044,0,0,0,256.125,397.07812l19.3125-39.73437,43.6875,19.625L299.5,445.70312A52.05212,52.05212,0,0,0,335.1875,510,52.892,52.892,0,0,0,349.5,512a52.24717,52.24717,0,0,0,50-37.6875l24.375-85.40625a84.15978,84.15978,0,0,0-12-71.10937A85.07673,85.07673,0,0,0,431.09375,320H460a52,52,0,0,0,0-104ZM352,32a40,40,0,1,1-40,40A39.997,39.997,0,0,1,352,32ZM72.65625,480.09375C58.46875,474.60938,32,392.79688,32,256,32,121.32812,57.65625,39.95312,72,32.21875,86.34375,39.95312,112,121.32812,112,256c0,16.86133-.418,32.84961-1.14648,48h31.9082C143.582,287.01562,144,270.67969,144,256c0-13.10352-.32422-27.51758-.96875-42.5293a51.69161,51.69161,0,0,0,62.65625,8.91992l18.9375-9.84374L165.75,344H116a51.81787,51.81787,0,0,0-24.86914,97.377C84.47656,464.63086,77.57812,477.99805,72.65625,480.09375ZM226.6875,384.48438C219.25,401.875,197.875,416,178.9375,416H116a20,20,0,0,1,0-40h62.90625a11.9977,11.9977,0,0,0,11.03125-7.28125l26.71875-56.875A83.10126,83.10126,0,0,0,246.625,343.26562ZM460,288H431.03125c-20.6875,0-42.78125-15.92188-49.3125-35.54688L368.125,211.65625a43.28905,43.28905,0,0,0-15-20.67187l-41.46875,103.6875,52.78125,23.71874A52.3082,52.3082,0,0,1,393.125,380.125L368.71875,465.5A19.97861,19.97861,0,0,1,349.5,480a20.38928,20.38928,0,0,1-5.5-.76562A20.014,20.014,0,0,1,330.25,454.5l24.40625-85.375a12.07948,12.07948,0,0,0-6.625-14.25s-85.8125-39.04688-88.71875-41.17188a52.12113,52.12113,0,0,1-18.5-57.875l37.75-87.5625s-16.90625-3.78124-20.5-3.78124a43.34675,43.34675,0,0,0-22.5,6.3125l-45.25,23.51562a23.5854,23.5854,0,0,1-10.28125,2.84375,19.9989,19.9989,0,0,1-10.3125-37.14063l45.25-23.53124A83.78091,83.78091,0,0,1,258.09375,124.5a85.03559,85.03559,0,0,1,20.5,2.53125l68.1875,17.04687A83.59571,83.59571,0,0,1,406.09375,199l13.59375,40.79688A11.979,11.979,0,0,0,431.0625,248H460a20,20,0,0,1,0,40Z"></path></svg>
+            </div>
+            <div class="settings-cog">
+                <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="cog" class="svg-inline--fa fa-cog fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M482.696 299.276l-32.61-18.827a195.168 195.168 0 0 0 0-48.899l32.61-18.827c9.576-5.528 14.195-16.902 11.046-27.501-11.214-37.749-31.175-71.728-57.535-99.595-7.634-8.07-19.817-9.836-29.437-4.282l-32.562 18.798a194.125 194.125 0 0 0-42.339-24.48V38.049c0-11.13-7.652-20.804-18.484-23.367-37.644-8.909-77.118-8.91-114.77 0-10.831 2.563-18.484 12.236-18.484 23.367v37.614a194.101 194.101 0 0 0-42.339 24.48L105.23 81.345c-9.621-5.554-21.804-3.788-29.437 4.282-26.36 27.867-46.321 61.847-57.535 99.595-3.149 10.599 1.47 21.972 11.046 27.501l32.61 18.827a195.168 195.168 0 0 0 0 48.899l-32.61 18.827c-9.576 5.528-14.195 16.902-11.046 27.501 11.214 37.748 31.175 71.728 57.535 99.595 7.634 8.07 19.817 9.836 29.437 4.283l32.562-18.798a194.08 194.08 0 0 0 42.339 24.479v37.614c0 11.13 7.652 20.804 18.484 23.367 37.645 8.909 77.118 8.91 114.77 0 10.831-2.563 18.484-12.236 18.484-23.367v-37.614a194.138 194.138 0 0 0 42.339-24.479l32.562 18.798c9.62 5.554 21.803 3.788 29.437-4.283 26.36-27.867 46.321-61.847 57.535-99.595 3.149-10.599-1.47-21.972-11.046-27.501zm-65.479 100.461l-46.309-26.74c-26.988 23.071-36.559 28.876-71.039 41.059v53.479a217.145 217.145 0 0 1-87.738 0v-53.479c-33.621-11.879-43.355-17.395-71.039-41.059l-46.309 26.74c-19.71-22.09-34.689-47.989-43.929-75.958l46.329-26.74c-6.535-35.417-6.538-46.644 0-82.079l-46.329-26.74c9.24-27.969 24.22-53.869 43.929-75.969l46.309 26.76c27.377-23.434 37.063-29.065 71.039-41.069V44.464a216.79 216.79 0 0 1 87.738 0v53.479c33.978 12.005 43.665 17.637 71.039 41.069l46.309-26.76c19.709 22.099 34.689 47.999 43.929 75.969l-46.329 26.74c6.536 35.426 6.538 46.644 0 82.079l46.329 26.74c-9.24 27.968-24.219 53.868-43.929 75.957zM256 160c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64z"></path></svg>
+            </div>
+        </div>
+    </div>
+    <script>
+        // You can also require other files to run in this process
+        const {ipcRenderer, remote} = require('electron');
+
+        let colorTypeWindowVisibleState = false;
+
+        ipcRenderer.on("get-history-response", function(event, color_history) {
+            let elHistoryList = document.getElementById("history-list");
+            for(let i=0;i<color_history.length;i++){
+                const color = color_history[i];
+                let elColorHistory = document.createElement("li");
+                elColorHistory.setAttribute("style","background: #"+color+";");
+                elColorHistory.setAttribute("draggable","true");
+                elColorHistory.addEventListener("click", function(e){
+                    ipcRenderer.send("clicked", color);
+                    elHistoryList.removeChild(elColorHistory);
+                });
+                elColorHistory.addEventListener("dragstart", function(e) {
+                    console.log("Starting Drag");
+                    e.target.classList.add("dragging");
+                }, false);
+                elColorHistory.addEventListener("dragend", function(e) {
+                    console.log("Ending Drag");
+                    e.target.classList.remove("dragging");
+                }, false);
+                elHistoryList.childNodes[0].after(elColorHistory);
+            }
+        })
+
+        ipcRenderer.send("get-history");
+
+        let colorTypesWindow = new remote.BrowserWindow({
+            parent: remote.getCurrentWindow(),
+            show: false,
+            resizable: false,
+            frame: false,
+            transparent: true,
+            alwaysOnTop: true,
+            webPreferences: {
+                nodeIntegration: true
+            }
+        });
+        colorTypesWindow.setAlwaysOnTop(true);
+        colorTypesWindow.loadURL('file://' + __dirname + '/color_types.html');
+
+        colorTypesWindow.on('blur', () => {
+            colorTypesWindow.hide();
+            setTimeout(() => {
+                colorTypeWindowVisibleState = false;
+            },200);
+        });
+
+        ipcRenderer.on("color_history", function(event, color){
+            let elHistoryList = document.getElementById("history-list");
+            let elColorHistory = document.createElement("li");
+            elColorHistory.setAttribute("style","background: "+color+";");
+            elColorHistory.addEventListener("click", function(e){
+                ipcRenderer.send("clicked", color.replace("#",""));
+                elHistoryList.removeChild(elColorHistory);
+            });
+            elHistoryList.childNodes[0].after(elColorHistory);
+        });
+
+        ipcRenderer.on("color-type-change", (e, arg) => {
+            document.querySelector("#select .name").innerHTML = arg.name;
+            document.querySelector("#select .icon").className = "icon "+arg.icon
+        });
+
+        document.querySelector(".picker-button").addEventListener("click", function() {
+            ipcRenderer.send("show-loop");
+        })
+
+        document.querySelector(".window-options").addEventListener("click", function(){
+            var window = remote.getCurrentWindow();
+            window.hide();
+        })
+
+        document.getElementById("select").addEventListener("click", function(e){
+            console.log(colorTypeWindowVisibleState);
+            if(!colorTypeWindowVisibleState){
+                let windowBounds = remote.getCurrentWindow().getBounds()
+
+                let windowY = windowBounds.y + 60;
+                let windowScreen = remote.screen.getDisplayNearestPoint({
+                    x: windowBounds.x,
+                    y: windowBounds.y
+                })
+                if(windowY + 260 >= windowScreen.bounds.height){
+                    windowY = windowY - 260 - 45;
+                }
+
+                colorTypesWindow.setBounds({
+                    width: 340,
+                    height: 260,
+                    x: windowBounds.x,
+                    y: windowY
+                },false);
+                colorTypeWindowVisibleState = true;
+                colorTypesWindow.show();
+            }
+            else{
+                colorTypesWindow.hide();
+                colorTypeWindowVisibleState = false;
+            }
+        });
+    </script>
+  </body>
+</html>

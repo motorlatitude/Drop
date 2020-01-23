@@ -18,7 +18,7 @@ body{
     bottom: 10px;
     width: auto;
     height: auto;
-    background: #1F1F1F;
+    background: #242423;
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 0 0 6px rgba(0,0,0,0.5);
@@ -34,7 +34,7 @@ body{
 .main-frame .selection{
     width: 100%;
     height: 40px;
-    background: #323539;
+    background: #333533;
     line-height: 40px;
 }
 
@@ -56,7 +56,8 @@ body{
     line-height: 40px;
     color: #aaa;
     font-size: 22px;
-    cursor: pointer;
+    cursor: default;
+    transition: 0.3s;
 }
 
 .main-frame .selection .picker-button{
@@ -67,15 +68,16 @@ body{
     line-height: 40px;
     color: #aaa;
     font-size: 22px;
-    cursor: pointer;
+    cursor: default;
+    transition: 0.3s;
 }
 
 .main-frame .selection .window-options:hover{
-    background: #3B3F42;
+    background: hsla(120,2%,26%,1);
 }
 
 .main-frame .selection .picker-button:hover{
-    background: #3B3F42;
+    background: hsla(120,2%,26%,1);
 }
 
 .main-frame .selection .select-box{
@@ -91,11 +93,12 @@ body{
     padding: 0 8px;
     font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
     font-size: 13px;
-    cursor: pointer;
+    cursor: default;
+    transition: 0.3s;
 }
 
 .main-frame .selection .select-box:hover{
-    background-color: #3B3F42;
+    background-color: hsla(120,2%,26%,1);
 }
 
 .main-frame .selection .select-box .icon{
@@ -134,24 +137,29 @@ body{
     margin-left: 8px;
 }
 
-.main-frame .selection .select-box .arrows {
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: none;
-}
-
-.main-frame .selection .select-box .arrows img{
-    height: 10px;
-    opacity: 0.3;
-}
-
 .main-frame .title{
-    padding: 15px;
+    padding: 20px 20px 35px 20px;
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
     font-size: 14px;
     color: #fff;
     cursor: default;
+}
+
+.main-frame .title .name{
+    float: left;
+}
+
+.main-frame .title .options {
+    float: right;
+}
+
+.main-frame .title .options svg {
+    height: 18px;
+    opacity: 0.5;
+}
+
+.main-frame .title .options svg path {
+    fill: #fff;
 }
 
 .main-frame .history{
@@ -172,7 +180,7 @@ body{
 .main-frame .history #history-list {
     width: 100%;
     height: 40px;
-    border-radius: 4px;
+    border-radius: 5px;
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
     background: rgba(0,0,0,0.2);
     display: flex;
@@ -187,18 +195,28 @@ body{
     flex-grow: 1;
     flex-shrink: 0;
     transition: flex-grow 0.2s ease-in-out;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-top: 0.5px solid hsla(228,16%,98%,0.1);
+    border-bottom: 0.5px solid hsla(228,16%,98%,0.1);
 }
 
 .main-frame .history ul li:first-child{
-    border-left: 1px solid rgba(255,255,255,0.1);
+    border-left: 0.5px solid hsla(228,16%,98%,0.1);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .main-frame .history ul li:last-child{
-    border-right: 1px solid rgba(255,255,255,0.1);
+    border-right: 0.5px solid hsla(228,16%,98%,0.1);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
+.main-frame .history ul li.dragging{
+    border-radius: 5px;
+    width: 60px;
+    border: 1px solid hsla(228,16%,98%,0.1);
+    overflow: hidden;
+}
 
 .main-frame .history ul li:hover{
     flex-grow: 2;
@@ -217,9 +235,28 @@ body{
     border: 1.5px dashed rgba(200,200,200,0.2);
 }
 
-.main-frame .footer{
+.main-frame .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     width: 100%;
-    height: 30px;
-    background: #323539;
-    line-height: 30px;
+    height: 31px;
+    background: #333533;
+    line-height: 31px;
+}
+
+.main-frame .footer .settings-cog,
+.main-frame .footer .quit {
+    width: 20px;
+    float: right;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.main-frame .footer .settings-cog svg,
+.main-frame .footer .quit svg {
+    margin-top: 8px;
+    height: 14px;
+    fill: #aaa;
 }

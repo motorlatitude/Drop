@@ -1,17 +1,18 @@
 // Modules to control application life and create native browser window
 const electron = require('electron');
-const {app, BrowserWindow, ipcMain, clipboard, globalShortcut, Tray, Menu, nativeImage} = electron;
-const robot = require('./robotjs/index')
-const fs = require('fs');
+const {app, BrowserWindow, ipcMain, clipboard, globalShortcut, Menu, nativeImage} = electron;
+const robot = require('../robotjs/index');
 const svg2png = require("svg2png");
+
+const DropTray = require("./components/DropTray");
+const HistoryWindow = require("./components/HistoryWindow");
 
 const Store = require('electron-store');
 const store = new Store();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
-let historyWindow
+let mainWindow, historyWindow;
 let color_format = "css_hex";
 let picker_size = 17;
 let zoom_factor = 1;
@@ -19,44 +20,6 @@ let zoom_factor = 1;
 let tray = null;
 
 function createWindow () {
-  tray = new Tray(__dirname + './assets/img/taskbar_icon.png');
-
-  const contextMenu = Menu.buildFromTemplate([
-    { label: 'Picker', type: 'normal', click: function() {
-      if(mainWindow){
-        if(mainWindow.isVisible()){
-          mainWindow.hide();
-        }else{
-          mainWindow.show();
-        }
-      }
-    } },
-    { label: 'History', type: 'normal', click: function() {
-      if(historyWindow){
-        if(historyWindow.isVisible()){
-          historyWindow.hide();
-        }else{
-          historyWindow.show();
-        }
-      }
-    } },
-    { type: 'separator'},
-    { label: 'Settings', type: 'normal' },
-    { type: 'separator'},
-    { label: 'Quit', type: 'normal', role: 'quit'}
-  ])
-  tray.setToolTip('Drop')
-  tray.setContextMenu(contextMenu)
-
-  tray.on("click", function() {
-    if(historyWindow){
-      if(historyWindow.isVisible()){
-        historyWindow.hide();
-      }else{
-        historyWindow.show();
-      }
-    }
-  })
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -72,7 +35,7 @@ function createWindow () {
     }
   })
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile(__dirname + './index.html')
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools({detached: true})
@@ -95,7 +58,7 @@ function createWindow () {
         mainWindow.show();
       }
     }
-  })
+  });
 
   if (!ret) {
     console.log('registration failed')
@@ -148,7 +111,7 @@ function createWindow () {
     console.log("Fetching History;");
     let historyStore = store.get("history", []);
     console.log(historyStore);
-    historyWindow.webContents.send("get-history-response", historyStore)
+    historyWindow.window.webContents.send("get-history-response", historyStore)
   });
 
   ipcMain.on("clicked", function(event, arg){
@@ -160,7 +123,7 @@ function createWindow () {
     store.set('history', historyStore);
     const icon_SVG = '<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 726.58 877"><defs><style>.cls-1{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:30px;}.cls-2{fill:#'+arg.toUpperCase()+';}</style></defs><title>taskbar_icon</title><path class="cls-1" d="M1194,341.71q3.73,3.65,7.38,7.38a348.29,348.29,0,1,1-499.88,0c2.42-2.49,4.89-4.95,7.38-7.38" transform="translate(-588.1 -77.94)"/><polyline class="cls-1" points="113.35 271.15 120.72 263.78 363.29 21.21 605.85 263.78 613.23 271.15"/><path class="cls-2" d="M674.58,582.8c72.54-48.36,90.37-59,146.36-52,64.49,8.06,120.91,120.91,241.82,120.91,119,0,146.36-60.82,162.48-76.94h0C1225.24,727.5,1102.66,855,949.9,855S674.58,735.56,674.58,582.8Z" transform="translate(-588.1 -77.94)"/></svg>';
     svg2png(Buffer.from(icon_SVG), {width: 512}).then((image) => {
-      tray.setImage(nativeImage.createFromBuffer(image));
+      tray.setTrayImage(nativeImage.createFromBuffer(image));
     }).catch((err) => {
       console.error(err);
     });
@@ -168,7 +131,7 @@ function createWindow () {
     if(color_format == "css_hex"){
       console.log("Selected Color: #"+arg.toUpperCase());
       clipboard.writeText('#'+arg.toUpperCase());
-      historyWindow.webContents.send("color_history", '#'+arg.toUpperCase())
+      historyWindow.window.webContents.send("color_history", '#'+arg.toUpperCase())
     }
     else if(color_format == "css_rgba"){
       let r = parseInt("0x"+arg.substring(0,2));
@@ -177,7 +140,7 @@ function createWindow () {
       let color = "rgba("+r+","+g+","+b+",1)";
       console.log("Selected Color: "+color);
       clipboard.writeText(color);
-      historyWindow.webContents.send("color_history", '#'+arg.toUpperCase())
+      historyWindow.window.webContents.send("color_history", '#'+arg.toUpperCase())
     }
     else if(color_format == "css_rgb"){
       let r = parseInt("0x"+arg.substring(0,2));
@@ -186,7 +149,7 @@ function createWindow () {
       let color = "rgb("+r+","+g+","+b+")";
       console.log("Selected Color: "+color);
       clipboard.writeText(color);
-      historyWindow.webContents.send("color_history", '#'+arg.toUpperCase())
+      historyWindow.window.webContents.send("color_history", '#'+arg.toUpperCase())
     }
     else if(color_format == "css_hsl"){
       let r = parseInt("0x"+arg.substring(0,2));
@@ -229,7 +192,7 @@ function createWindow () {
       let color = "hsl("+hue+","+saturation+"%,"+luminesence+"%)";
       console.log("Selected Color: "+color);
       clipboard.writeText(color);
-      historyWindow.webContents.send("color_history", '#'+arg.toUpperCase())
+      historyWindow.window.webContents.send("color_history", '#'+arg.toUpperCase())
     }
     else if(color_format == "css_hsla"){
       let r = parseInt("0x"+arg.substring(0,2));
@@ -271,12 +234,12 @@ function createWindow () {
       let color = "hsla("+hue+","+saturation+"%,"+luminesence+"%,1)";
       console.log("Selected Color: "+color);
       clipboard.writeText(color);
-      historyWindow.webContents.send("color_history", '#'+arg.toUpperCase())
+      historyWindow.window.webContents.send("color_history", '#'+arg.toUpperCase())
     }
     else{
       console.log("Selected Color: #"+arg.toUpperCase());
       clipboard.writeText('#'+arg.toUpperCase());
-      historyWindow.webContents.send("color_history", '#'+arg.toUpperCase())
+      historyWindow.window.webContents.send("color_history", '#'+arg.toUpperCase())
     }
     setTimeout(function(){
       mainWindow.hide();
@@ -292,7 +255,7 @@ function createWindow () {
     //color format type changed
     console.log("color-type-change: ", arg);
     color_format = arg.type
-    historyWindow.webContents.send("color-type-change", arg)
+    historyWindow.window.webContents.send("color-type-change", arg)
   });
 
   //move cursor
@@ -371,35 +334,9 @@ function createWindow () {
     }
   })
 
-  // Create the browser window.
-  historyWindow = new BrowserWindow({
-    x: electron.screen.getPrimaryDisplay().workAreaSize.width - 400,
-    y: electron.screen.getPrimaryDisplay().workAreaSize.height - 200,
-    width: 390,
-    height: 200,
-    resizable: false,
-    frame: false,
-    transparent: true,
-    alwaysOnTop: true,
-    show: false,
-    icon: __dirname + './assets/img/icon.png',
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
-  // and load the index.html of the app.
-  historyWindow.loadFile('history.html')
+  historyWindow = new HistoryWindow();
 
-  // Open the DevTools.
-  //historyWindow.webContents.openDevTools({detached: true})
-
-  // Emitted when the window is closed.
-  historyWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    historyWindow = null
-  })
+  tray = new DropTray(mainWindow, historyWindow.window);
 
 }
 
@@ -413,7 +350,7 @@ app.setLoginItemSettings({
 app.on('ready', createWindow)
 
 app.on('will-quit', () => {
-  globalShortcut.unregisterAll()
+  globalShortcut.unregisterAll();
 });
 
 // Quit when all windows are closed.
