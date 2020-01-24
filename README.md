@@ -1,6 +1,6 @@
 # Drop
 
-[![Logo](https://github.com/motorlatitude/Drop/blob/master/src/assets/img/Drop%20Logo.png?raw=true)]()
+<img src="https://raw.githubusercontent.com/motorlatitude/Drop/blob/master/src/assets/img/Drop%20Logo.png" alt="Drop Logo" width="30%">
 
 Drop is a color-picker designed for windows using electron. It's designed as a way to gather, tweak and share colors than
 existing tools, featuring a rich UI to support it along the way.
