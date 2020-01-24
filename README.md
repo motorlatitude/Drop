@@ -1,5 +1,15 @@
 # Drop
 
-A color picker for windows based on electron.
+[![Logo](https://github.com/motorlatitude/Drop/blob/master/src/assets/img/Drop%20Logo.png?raw=true)]()
 
-[![Thumbnail](https://github.com/motorlatitude/Drop/blob/master/thumbnail.png?raw=true)]()
+Drop is a color-picker designed for windows using electron. It's designed as a way to gather, tweak and share colors than
+existing tools, featuring a rich UI to support it along the way.
+
+Features:
+
+ - Multi-level Magnification
+ - Customizable Shortcuts
+ - Different color formats that it can output (CSS RGB, RGBA, HSL, HSLA and Hex with more coming soon!!!)
+ - Create palettes to keep your different projects organized
+ - With more features on the way...
+

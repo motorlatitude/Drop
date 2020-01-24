@@ -147,32 +147,97 @@ body{
     letter-spacing: 1px;
 }
 
-.main-frame .title{
-    padding: 20px 20px 35px 20px;
+.main-frame #palettes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.main-frame #palettes li {
+    width: 100%;
+    border-bottom: 1px solid hsla(60,2%,18%,1);
+}
+
+.main-frame #palettes li:last-child {
+    border-bottom: 0 solid transparent;
+}
+
+.main-frame #palettes li .title{
+    padding: 20px 10px 35px 20px;
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
     font-size: 14px;
     color: #fff;
     cursor: default;
 }
 
-.main-frame .title .name{
+.main-frame #palettes li .title .name{
     float: left;
 }
 
-.main-frame .title .options {
+.main-frame #palettes li .title .options {
     float: right;
+    text-align: right;
+    width: 50%;
+    padding-right: 10px;
 }
 
-.main-frame .title .options svg {
+.main-frame #palettes li .title .options>svg {
     height: 18px;
+    float: right;
     opacity: 0.5;
 }
 
-.main-frame .title .options svg path {
+.main-frame #palettes li .title .options svg path {
     fill: #fff;
 }
 
-.main-frame .history{
+.main-frame #palettes li .title .options .expanded-options {
+    float: right;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.15s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.main-frame #palettes li .title .options .expanded-options.display {
+    opacity: 1;
+    transform: translateX(0px);
+}
+
+.main-frame #palettes li .title .options .expanded-options ul {
+    list-style: none;
+    margin: 0 10px 0 0;
+    padding: 0;
+}
+
+.main-frame #palettes li .title .options .expanded-options ul li {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    margin: 0 5px;
+    padding: 0;
+    transition: 0.2s ease-in-out;
+}
+
+.main-frame #palettes li .title .options .expanded-options ul li:hover {
+    opacity: 0.5;
+}
+
+.main-frame #palettes li .title .options .expanded-options ul li.disabled:hover {
+    opacity: 1;
+}
+
+.main-frame #palettes li .title .options .expanded-options svg {
+    height: 14px;
+    opacity: 0.4;
+}
+
+.main-frame #palettes li .title .options .expanded-options ul li.disabled svg {
+    opacity: 0.2;
+}
+
+.main-frame #palettes li .history{
     width: 100%;
     height: 60px;
     padding: 0 15px;
@@ -181,13 +246,13 @@ body{
     white-space: nowrap;
 }
 
-.main-frame .history ul{
+.main-frame #palettes li .history ul{
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.main-frame .history #history-list {
+.main-frame #palettes li .history ul {
     width: 100%;
     height: 40px;
     border-radius: 5px;
@@ -199,41 +264,40 @@ body{
     overflow: hidden;
 }
 
-.main-frame .history ul li{
+.main-frame #palettes li .history ul li{
     display: inline-block;
     height: 40px;
-    flex-grow: 1;
-    flex-shrink: 0;
-    transition: flex-grow 0.2s ease-in-out;
+    flex: 1 0;
+    transition: 0.2s ease-in-out;
     border-top: 0.5px solid hsla(228,16%,98%,0.1);
     border-bottom: 0.5px solid hsla(228,16%,98%,0.1);
 }
 
-.main-frame .history ul li:first-child{
+.main-frame #palettes li .history ul li:first-child{
     border-left: 0.5px solid hsla(228,16%,98%,0.1);
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 
-.main-frame .history ul li:last-child{
+.main-frame #palettes li .history ul li:last-child{
     border-right: 0.5px solid hsla(228,16%,98%,0.1);
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
 
-.main-frame .history ul li.dragging{
-
+.main-frame #palettes li .history ul li.dragging{
+    opacity: 0.4;
 }
 
-.main-frame .history ul li:hover{
-    flex-grow: 2;
+.main-frame #palettes li .history ul li:hover{
+    flex: 2 0;
 }
 
-.main-frame .history ul li:first-child{
+.main-frame #palettes li .history ul li:first-child{
     margin-left: 0;
 }
 
-.main-frame .history ul li.empty{
+.main-frame #palettes li .history ul li.empty{
     display: none;
     background: transparent;
     background: rgba(0,0,0,0.9);
