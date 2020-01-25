@@ -1,5 +1,5 @@
 {
-  "name": "Drop",
+  "name": "drop",
   "version": "1.1.0",
   "description": "Windows Colour Picker",
   "main": "src/main.js",
