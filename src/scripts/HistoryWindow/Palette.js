@@ -1,5 +1,9 @@
 const { remote, ipcRenderer } =  require('electron');
 
+/**
+ * Palette Class
+ * Corresponds to an individual palette in the History Window
+ */
 class Palette {
 
   /**
@@ -14,7 +18,7 @@ class Palette {
 
   /**
    * Create the palette element and generate eventListeners, should be followed by an
-   * this.AppendNewPalette() method.
+   * Palette.AppendNewPalette() method.
    */
   CreateElement() {
     let elColorList;
@@ -34,7 +38,7 @@ class Palette {
         e.preventDefault();
         const color = e.dataTransfer.getData('text');
         this._Colors.push(color);
-        ipcRenderer.send("save-palette", this.Resolve());
+        ipcRenderer.send("save-palette", this.Serialize());
         this.AppendNewColorItem(templatePalette.querySelector(".history>ul"), color);
       });
 
@@ -160,7 +164,7 @@ class Palette {
       e.target.classList.remove("dragging");
       if (temporaryPaletteElement && temporaryPaletteElement.querySelectorAll(".history>ul>li").length > 0) {
         // save palette
-        ipcRenderer.send("save-palette", temporaryPalette.Resolve());
+        ipcRenderer.send("save-palette", temporaryPalette.Serialize());
         [temporaryPalette, temporaryPaletteElement] = [undefined, undefined];
       } else {
         const currentWindowBounds = remote.getCurrentWindow().getBounds();
@@ -194,14 +198,14 @@ class Palette {
   }
 
   /**
-   * Resolve Palette back to object for storage
+   * Serialize Palette back to object for storage purposes
    */
-  Resolve() {
+  Serialize() {
     return {
       name: this._Name,
       colors: this._Colors,
       id: this._ID
-    }
+    };
   }
 
 }

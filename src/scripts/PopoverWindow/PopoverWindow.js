@@ -1,41 +1,50 @@
 const { remote, ipcRenderer } = require('electron');
 
+/**
+ * Popover Window Class
+ * In charge of handling popover renderer processes
+ */
 class PopoverWindow {
 
+  /**
+   * Initiate a new popover window
+   */
   constructor() {
+    /** The popover's window ID */
     this._ID = null;
     this._ConfigureEventListeners();
   }
 
   /**
-   * Setup IPC listener
+   * Setup IPC listeners
    */
   _ConfigureEventListeners() {
-    console.log("Setup IPC Listening, waiting on messages...")
+    // options listener, listens for when the parent window sends the select
+    // options for this popover window
     ipcRenderer.on("options", (event, opts) => {
-      console.log("Received Options Event",opts);
       this._ID = opts.id;
       const optionsListEl = document.getElementById("option-list");
-      opts.options.forEach((option, index) => {
-        console.log(option);
+      opts.options.forEach((option) => {
+        // Create a new select option, li element
         const optItem = document.createElement("li");
         optItem.setAttribute("data-type", option.value);
         optItem.setAttribute("data-icon", option.icon);
+        // Check if separator or a select option
         if (option.isSeparator === true) {
           optItem.classList.add("separator");
         } else {
           optItem.innerHTML = '<div class="icon"></div>'+
                               '<div class="name">'+option.title+'</div>'+
                               '<div class="format">'+option.sub_title+'</div>';
+          // Add click event listener to the select option
+          optItem.addEventListener("click", () => {
+            const ipcChannelName = "options-"+this._ID+"-click-"+option._id;
+            ipcRenderer.sendTo(opts.originatingWebContentId, ipcChannelName, option.value);
+            remote.getCurrentWindow().hide();
+          }, false);
         }
-        optItem.addEventListener("click", (e) => {
-          console.log("Sending to channel; ","options-"+this._ID+"-click-"+option._id);
-          ipcRenderer.sendTo(opts.originatingWebContentId, "options-"+this._ID+"-click-"+option._id, option.value);
-          remote.getCurrentWindow().hide();
-        }, false);
         optionsListEl.appendChild(optItem);
       });
-
     });
   }
 

@@ -6,7 +6,8 @@
  <img src="https://img.shields.io/github/package-json/v/motorlatitude/drop" alt="Drop Version">
 </p>
 
-## 💧 Introduction
+
+
 
 🏗️ **Development Stage**: Alpha
 
@@ -14,7 +15,7 @@
 Drop is a color-picker designed for windows using electron. It's designed as a way to gather, tweak and share colors than
 existing tools, featuring a rich UI to support it along the way.
 
-## ✨ Features
+### ✨ Features
 
  - Multi-level Magnification
  - Customizable Shortcuts
@@ -23,11 +24,11 @@ existing tools, featuring a rich UI to support it along the way.
  - Automatically puts the clicked colour into your clipboard
  - With more features on the way...
 
-## 🐾 Getting Started
+### 🐾 Getting Started
 
 Still Todo
 
 
-## 📷 Preview
+### 📷 Preview
 
 <img src="https://raw.githubusercontent.com/motorlatitude/Drop/master/src/assets/img/thumbnail.png" alt="Drop Preview - Showing the history window" width="30%">

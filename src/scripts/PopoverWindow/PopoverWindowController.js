@@ -45,7 +45,7 @@ class PopoverWindowController {
         originatingWebContentId: remote.getCurrentWindow().webContents.id,
         options: opts
       });
-    })
+    });
     this.WindowBox.loadURL('file://' + __dirname + '/../../views/popover.html');
   }
 

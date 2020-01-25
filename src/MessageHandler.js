@@ -1,11 +1,18 @@
 const electron = require('electron');
-const {app, ipcMain, nativeImage} = electron;
+const {ipcMain, nativeImage} = electron;
 const svg2png = require('svg2png');
+
 /**
  * Handles IPC communication with render process
  */
 class MessageHandler {
 
+  /**
+   * Initiates new main process IPC Message Handler
+   * @param {[BrowserWindow]} w an array of all the different windows
+   * @param {*} s the electron-store
+   * @param {*} t the electron tray
+   */
   constructor(w, s, t) {
     this.windows = w;
     this.store = s;
@@ -16,8 +23,6 @@ class MessageHandler {
    * Setup listeners for expected incoming IPC messages
    */
   setupListeners() {
-    console.log("Setting Up IPC Communication With Renderer");
-    // request to send stored palettes to render process
     let self = this;
 
     // History Window IPCs
@@ -33,7 +38,6 @@ class MessageHandler {
    * Fetch Palettes From Storage
    */
   fetchPalettes() {
-    console.log("Fetching Palettes");
     let paletteStore = this.store.get("palettes", {"HISTORY": {colors:[], name: "Color History", id: "HISTORY"}});
     console.log(paletteStore);
     if (this.windows.history) {
@@ -44,8 +48,9 @@ class MessageHandler {
   }
 
   /**
-   * Store a new palette
-   * @param {*} palette - the palette to store
+   * Store a new palette in the electron-store
+   * @param {Event} evt IPC on event object
+   * @param {{colors: [string], name: string, id: string}} palette the new palette to be saved
    */
   savePalette(evt, palette) {
     let paletteStore = this.store.get("palettes", {"HISTORY": {colors:[], name: "Color History", id: "HISTORY"}});
@@ -55,19 +60,19 @@ class MessageHandler {
 
   /**
    * Delete a palette from store
-   * @param {event} evt
-   * @param {string} paletteId
+   * @param {Event} evt IPC on event object
+   * @param {string} paletteId the id of the palette to delete
    */
   deletePalette(evt, paletteId) {
     let paletteStore = this.store.get("palettes", {"HISTORY": {colors:[], name: "Color History", id: "HISTORY"}});
-    delete paletteStore[paletteId]
+    delete paletteStore[paletteId];
     this.store.set('palettes', paletteStore);
   }
 
   /**
    * A new color has been  picked by the user from the screen
-   * @param {event} evt
-   * @param {string} color
+   * @param {Event} evt IPC on event object
+   * @param {string} color the hex color string of the picked color without the hashtag
    */
   newColorPick(evt, color) {
     const paletteStore = this.store.get("palettes", {"HISTORY": {colors:[], name: "Color History", id: "HISTORY"}});
