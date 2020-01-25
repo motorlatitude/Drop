@@ -2,8 +2,8 @@
  <br/>
  <img src="https://raw.githubusercontent.com/motorlatitude/Drop/master/src/assets/img/Drop%20Logo.png" alt="Drop Logo" width="50%">
  <br/>
- [![Dependency Status](https://david-dm.org/motorlatitude/drop.svg)](https://david-dm.org/motorlatitude/drop)
- [![Drop Version](https://img.shields.io/github/package-json/v/motorlatitude/drop)](https://github.com/motorlatitude/Drop)
+ <img src="https://david-dm.org/motorlatitude/drop.svg" alt="Dependency Version">
+ <img src="https://img.shields.io/github/package-json/v/motorlatitude/drop" alt="Drop Version">
 </p>
 
 
