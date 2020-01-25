@@ -22,12 +22,13 @@ class HistoryWindow {
       show: false,
       icon: __dirname + './../assets/img/icon.png',
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: true,
+        experimentalFeatures: true
       }
     });
     this.window = historyWindow;
     // and load the index.html of the app.
-    this.window.loadFile(__dirname + './../history.html');
+    this.window.loadFile(__dirname + './../views/history.html');
 
     // Open the DevTools.
     //historyWindow.webContents.openDevTools({detached: true})

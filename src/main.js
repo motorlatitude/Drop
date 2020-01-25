@@ -1,11 +1,12 @@
-// Modules to control application life and create native browser window
 const electron = require('electron');
-const {app, BrowserWindow, ipcMain, clipboard, globalShortcut, Menu, nativeImage} = electron;
-const robot = require('../robotjs/index');
+const {app, BrowserWindow, ipcMain, clipboard, globalShortcut, nativeImage} = electron;
+const robot = require('robotjs'); // => /!\ when installing robotjs add --target={electron version} flag
 const svg2png = require("svg2png");
 
 const DropTray = require("./components/DropTray");
 const HistoryWindow = require("./components/HistoryWindow");
+
+const MessageHandler = require('./MessageHandler');
 
 const Store = require('electron-store');
 const store = new Store();
@@ -13,6 +14,10 @@ const store = new Store();
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, historyWindow;
+let windows = {
+  main: null,
+  history: null
+}
 let color_format = "css_hex";
 let picker_size = 17;
 let zoom_factor = 1;
@@ -35,7 +40,7 @@ function createWindow () {
     }
   })
   // and load the index.html of the app.
-  mainWindow.loadFile(__dirname + './index.html')
+  mainWindow.loadFile(__dirname + './views/index.html')
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools({detached: true})
@@ -335,8 +340,11 @@ function createWindow () {
   })
 
   historyWindow = new HistoryWindow();
-
+  windows.history = historyWindow;
   tray = new DropTray(mainWindow, historyWindow.window);
+
+  let messageHandler = new MessageHandler(windows, store, tray);
+  messageHandler.setupListeners();
 
 }
 
@@ -347,7 +355,7 @@ app.setLoginItemSettings({
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 app.on('will-quit', () => {
   globalShortcut.unregisterAll();
