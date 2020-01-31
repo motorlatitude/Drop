@@ -40,7 +40,7 @@ class PopoverWindow {
           optItem.addEventListener("click", () => {
             const ipcChannelName = "options-"+this._ID+"-click-"+option._id;
             ipcRenderer.send(ipcChannelName, option.value);
-            ipcRenderer.send("hide-window", "popover");
+            ipcRenderer.invoke("WINDOW", {type: "HIDE", windowName: "popover"});
           }, false);
         }
         optionsListEl.appendChild(optItem);

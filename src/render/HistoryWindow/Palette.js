@@ -40,7 +40,7 @@ class Palette {
         e.preventDefault();
         const color = e.dataTransfer.getData('text');
         this._Colors.push(color);
-        ipcRenderer.send("save-palette", this.Serialize());
+        ipcRenderer.invoke("PALETTE", {type:'SAVE', args: this.Serialize()});
         this.AppendNewColorItem(colorPaletteListEl, color);
       });
 
@@ -67,16 +67,17 @@ class Palette {
     elColorListDeleteOption.addEventListener("click", async (e) => {
       // clicked trash, delete palette
       if (!elColorListDeleteOption.classList.contains("disabled")) {
-        ipcRenderer.send("delete-palette", this._ID);
+        ipcRenderer.invoke("PALETTE", {type:'DELETE', args: this._ID});
         this.RemovePalette(elColorList);
-        const windowBounds = await ipcRenderer.invoke("get-bounds", {windowName: "history"});
-        ipcRenderer.send("modify-bounds", {
+        const windowBounds = await ipcRenderer.invoke("WINDOW", {type: "GET_BOUNDS", windowName: "history"});
+        ipcRenderer.invoke("WINDOW", {
+          type: "SET_BOUNDS",
           windowName: "history",
-          bounds: {
+          args: {
             height: windowBounds.height - 110,
-            y: windowBounds.y + 110
-          },
-          animate: true
+            y: windowBounds.y + 110,
+            animate: true
+          }
         });
       }
     });
@@ -156,14 +157,15 @@ class Palette {
       e.dataTransfer.dropEffect = "copy";
 
       // Increase size of window to accommodate
-      const windowBounds = await ipcRenderer.invoke("get-bounds", {windowName: "history"});
-      ipcRenderer.send("modify-bounds", {
+      const windowBounds = await ipcRenderer.invoke("WINDOW", {type: "GET_BOUNDS", windowName: "history"});
+      ipcRenderer.invoke("WINDOW", {
+        type: "SET_BOUNDS",
         windowName: "history",
-        bounds: {
+        args: {
           height: windowBounds.height + 110,
-          y: windowBounds.y - 110
-        },
-        animate: true
+          y: windowBounds.y - 110,
+          animate: true
+        }
       });
       [temporaryPalette, temporaryPaletteElement] = this.GenerateTemporaryPalette();
 
@@ -175,17 +177,18 @@ class Palette {
       e.target.classList.remove("dragging");
       if (temporaryPaletteElement && temporaryPaletteElement.querySelectorAll(".history>ul>li").length > 0) {
         // save palette
-        ipcRenderer.send("save-palette", temporaryPalette.Serialize());
+        ipcRenderer.invoke("PALETTE", {type:'SAVE', args: temporaryPalette.Serialize()});
         [temporaryPalette, temporaryPaletteElement] = [undefined, undefined];
       } else {
-        const windowBounds = await ipcRenderer.invoke("get-bounds", {windowName: "history"});
-        ipcRenderer.send("modify-bounds", {
+        const windowBounds = await ipcRenderer.invoke("WINDOW", {type: "GET_BOUNDS", windowName: "history"});
+        ipcRenderer.invoke("WINDOW", {
+          type: "SET_BOUNDS",
           windowName: "history",
-          bounds: {
+          args: {
             height: windowBounds.height - 110,
-            y: windowBounds.y + 110
-          },
-          animate: true
+            y: windowBounds.y + 110,
+            animate: true
+          }
         });
         // remove temp palette
         temporaryPalette.RemovePalette(temporaryPaletteElement);

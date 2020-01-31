@@ -4,6 +4,9 @@ const svg2png = require('svg2png');
 const SettingsWindowController = require('../windows/SettingsWindowController');
 const PopoverWindowController = require('../windows/PopoverWindowController');
 
+const PaletteChannel = require('./channel_types/PaletteChannel');
+const WindowChannel = require('./channel_types/WindowChannel');
+
 /**
  * MessageHandler Class
  *
@@ -14,14 +17,16 @@ class MessageHandler {
   /**
    * Initiates new main process IPC Message Handler
    * @param {[BrowserWindow]} w an array of all the different windows
-   * @param {*} s the electron-store
-   * @param {*} t the electron tray
+   * @param {Store} s the electron-store
+   * @param {Tray} t the electron tray
+   * @param {ColorFormats} cf color format instance
    */
-  constructor(wm, s, t) {
+  constructor(wm, s, t, cf) {
     this.windowManager = wm;
     this.windows = this.windowManager.windows;
     this.store = s;
     this.tray = t;
+    this.colorFormats = cf;
   }
 
   /**
@@ -30,161 +35,28 @@ class MessageHandler {
   setupListeners() {
     let self = this;
 
+    const channelProps = {
+      windowManager: this.windowManager,
+      store: this.store,
+      tray: this.tray,
+      colorFormats: this.colorFormats
+    };
+
+    ipcMain.handle("PALETTE", (e, a) => (new PaletteChannel(channelProps, e, a)));
+    ipcMain.handle("WINDOW",  (e, a) => (new WindowChannel(channelProps, e, a)));
+
     // History Window IPCs
-    ipcMain.handle("get-palettes", this.fetchPalettes.bind(self));
-    ipcMain.on("save-palette", this.savePalette.bind(self));
-    ipcMain.on("delete-palette", this.deletePalette.bind(self));
-    ipcMain.on("modify-bounds", this.modifyWindowBounds.bind(self));
-
-    ipcMain.handle("get-bounds", this.getWindowBounds.bind(self));
     ipcMain.handle("get-primary-screen-size", this.getScreenSize.bind(self));
-
-    ipcMain.on("show-formats", this.openFormatsPopover.bind(self));
-    ipcMain.handle("get-formats-state", this.stateFormatsPopover.bind(self));
-
-    ipcMain.on("show-settings", this.openSettings.bind(self));
     ipcMain.on("quit-app", this.quitApp.bind(self));
-    ipcMain.on("hide-window", this.hideWindow.bind(self));
     // Magnifier Window IPCs
     ipcMain.on("clicked", this.newColorPick.bind(self));
   }
 
   /**
-   *
-   * @param {event} evt IPC event object
-   * @param {string} windowName name of window to hide
+   * QUIT
    */
-  hideWindow(evt, windowName) {
-    this.windowManager.windows[windowName].hide();
-  }
-
-  /**
-   * Is color format dropdown visible
-   */
-  stateFormatsPopover() {
-    if (this.windowManager.popover) {
-      return this.windowManager.popover.isVisible();
-    } else {
-      return false;
-    }
-  }
-
-  /**
-   * Shows dropdown menu for other colour formats
-   */
-  openFormatsPopover() {
-    if (this.windowManager.windows.popover) {
-      this.windowManager.windows.popover.show();
-    } else {
-      const colorFormats = [{
-        clickHandler: (colorType) => {
-          let ct = {
-              type: colorType,
-              name: "CSS Hex",
-              icon: "css"
-          };
-          this.windowManager.windows.history.webContents.send("color-type-change", ct);
-        },
-        title: "CSS Hex",
-        sub_title: "#rrggbb",
-        icon: "css",
-        isSeparator: false,
-        value: "css_hex"
-      }, {
-        isSeparator: true
-      }, {
-        clickHandler: (colorType) => {
-          let ct = {
-              type: colorType,
-              name: "CSS HSL",
-              icon: "css_2"
-          };
-          this.windowManager.windows.history.webContents.send("color-type-change", ct);
-        },
-        title: "CSS HSL",
-        sub_title: "hsl(hue, sat%, light%)",
-        icon: "css_2",
-        isSeparator: false,
-        value: "css_hsl"
-      }, {
-        clickHandler: (colorType) => {
-          let ct = {
-              type: colorType,
-              name: "CSS HSLA",
-              icon: "css_2"
-          };
-          this.windowManager.windows.history.webContents.send("color-type-change", ct);
-        },
-        title: "CSS HSLA",
-        sub_title: "hsl(hue, sat%, light%, alpha)",
-        icon: "css_2",
-        isSeparator: false,
-        value: "css_hsla"
-      }, {
-        clickHandler: (colorType) => {
-          let ct = {
-              type: colorType,
-              name: "CSS RGB",
-              icon: "css_2"
-          };
-          this.windowManager.windows.history.webContents.send("color-type-change", ct);
-        },
-        title: "CSS RGB",
-        sub_title: "rgb(rrr,ggg,bbb)",
-        icon: "css_2",
-        isSeparator: false,
-        value: "css_rgb"
-      }, {
-        clickHandler: (colorType) => {
-          let ct = {
-              type: colorType,
-              name: "CSS RGBA",
-              icon: "css_2"
-          };
-          this.windowManager.windows.history.webContents.send("color-type-change", ct);
-        },
-        title: "CSS RGBA",
-        sub_title: "rgba(rrr,ggg,bbb)",
-        icon: "css_2",
-        isSeparator: false,
-        value: "css_rgba"
-      }];
-
-      const windowBounds = this.windowManager.windows.history.getBounds();
-
-      let windowY = windowBounds.y + 50;
-      let windowScreen = screen.getDisplayNearestPoint({
-        x: windowBounds.x,
-        y: windowBounds.y
-      });
-      if(windowY + 260 >= windowScreen.bounds.height){
-        windowY = windowY - 260 - 40;
-      }
-      const w = new PopoverWindowController(this.windowManager, colorFormats, {
-        x: windowBounds.x + 30,
-        y: windowY});
-
-      w.window.on("ready-to-show", () => {
-        w.window.show();
-      });
-    }
-  }
-
-/**
- * QUIT
- */
   quitApp() {
     app.quit();
-  }
-
-  /**
-   * Opens the Settings Window
-   */
-  openSettings() {
-    const w = new SettingsWindowController(this.windowManager);
-    w.window.on("ready-to-show", () => {
-      w.window.show();
-    });
   }
 
   /**
@@ -192,80 +64,6 @@ class MessageHandler {
    */
   getScreenSize() {
     return screen.getPrimaryDisplay().workAreaSize;
-  }
-
-  /**
-   * Get the bounds of a specific window
-   * @param {event} evt IPC event object
-   * @param {{windowName: string}} opts supplied options containing the window name
-   */
-  getWindowBounds(evt, opts) {
-    if(this.windows[opts.windowName]) {
-      const b = this.windows[opts.windowName].getBounds();
-      return {
-        x: b.x,
-        y: b.y,
-        width: b.width,
-        height: b.height
-      };
-    }
-    return undefined;
-  }
-
-  /**
-   * Set the bounds for a specific window
-   * @param {event} evt IPC event object
-   * @param {{windowName: string, animate: boolean, bounds: {x?: number, y?: number, width?: number, height?: number}}} bounds supplied options containing the window name, the new bounds and if changing the bounds should be animated
-   */
-  modifyWindowBounds(evt, bounds) {
-    console.log("Modify Window Bounds")
-    if (this.windows[bounds.windowName]) {
-      const currentBounds = this.windows[bounds.windowName].getBounds();
-      const newBounds = {
-        width: bounds.bounds.width ? bounds.bounds.width : currentBounds.width,
-        height: bounds.bounds.height ? bounds.bounds.height : currentBounds.height,
-        x: bounds.bounds.x ? bounds.bounds.x : currentBounds.x,
-        y: bounds.bounds.y ? bounds.bounds.y : currentBounds.y
-      };
-      this.windows[bounds.windowName].setBounds(newBounds, bounds.animate === true ? bounds.animate : false);
-    } else {
-      console.error("Couldn't find window", bounds.windowName);
-    }
-  }
-
-  /**
-   * Fetch Palettes From Storage
-   */
-  fetchPalettes() {
-    let paletteStore = this.store.get("palettes", {"HISTORY": {colors:[], name: "Color History", id: "HISTORY"}});
-    console.log(paletteStore);
-    if (this.windows.history) {
-      return paletteStore;
-    } else {
-      console.error("Request for palettes sent from a window that doesn't exist");
-    }
-  }
-
-  /**
-   * Store a new palette in the electron-store
-   * @param {Event} evt IPC event object
-   * @param {{colors: [string], name: string, id: string}} palette the new palette to be saved
-   */
-  savePalette(evt, palette) {
-    let paletteStore = this.store.get("palettes", {"HISTORY": {colors:[], name: "Color History", id: "HISTORY"}});
-    paletteStore[palette.id] = { colors: palette.colors, name: palette.name, id: palette.id};
-    this.store.set('palettes', paletteStore);
-  }
-
-  /**
-   * Delete a palette from store
-   * @param {Event} evt IPC event object
-   * @param {string} paletteId the id of the palette to delete
-   */
-  deletePalette(evt, paletteId) {
-    let paletteStore = this.store.get("palettes", {"HISTORY": {colors:[], name: "Color History", id: "HISTORY"}});
-    delete paletteStore[paletteId];
-    this.store.set('palettes', paletteStore);
   }
 
   /**

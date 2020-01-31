@@ -37,6 +37,7 @@ class WindowManager {
       case 'popover':
         baseWindowOptions.width = 340;
         baseWindowOptions.height = 260;
+        baseWindowOptions.backgroundColor = "#00000000";
         baseWindowOptions.parentWindow = this.windows.history;
         break;
       case 'settings':

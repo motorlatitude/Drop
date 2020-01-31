@@ -7,8 +7,8 @@ const DropTray = require("./DropTray");
 const HistoryWindowController = require("./windows/HistoryWindowController");
 
 const WindowManager = require('./windows/WindowManager');
-
 const MessageHandler = require('./ipc/MessageHandler');
+const ColorFormats = require('./resources/ColorFormats');
 
 const Store = require('electron-store');
 const store = new Store();
@@ -21,6 +21,8 @@ let picker_size = 17;
 let zoom_factor = 1;
 
 let tray = null;
+
+let colorFormats = new ColorFormats();
 
 function createWindow () {
   windowBoss = new WindowManager();
@@ -94,7 +96,7 @@ function createWindow () {
               x: 6 + k,
               y: 6 + l,
               color: hex
-            })
+            });
           }
         }
         mainWindow.webContents.send("color", JSON.stringify(colors))
@@ -111,6 +113,8 @@ function createWindow () {
 
   ipcMain.on("clicked", function(event, arg){
     let historyStore = store.get("history", []);
+    color_format = colorFormats.selectedFormat;
+    console.log(color_format);
     if(historyStore.length > 30){
       historyStore.shift();
     }
@@ -332,7 +336,7 @@ function createWindow () {
   historyWindow = new HistoryWindowController(windowBoss);
   tray = new DropTray(mainWindow, historyWindow.window);
 
-  let messageHandler = new MessageHandler(windowBoss, store, tray);
+  let messageHandler = new MessageHandler(windowBoss, store, tray, colorFormats);
   messageHandler.setupListeners();
 
 }

@@ -10,6 +10,7 @@ class PopoverWindowController {
   constructor(wm, options, position) {
     this._windowId = Math.random().toString(36).substr(2, 9);
     this.window = null;
+    this.windowManager = wm;
     this.createWindow(wm, options, position);
   }
 
@@ -79,10 +80,7 @@ class PopoverWindowController {
 
     this.window.on('hide', () => {
       this.window.setOpacity(0);
-      setTimeout(() => {
-        console.log("window isVisible = false");
-        this.isVisible = false;
-      },200);
+      this.windowManager.windows.history.send("popover-hidden");
     });
 
     this.window.on('blur', () => {
