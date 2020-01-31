@@ -3,21 +3,19 @@ const {app, BrowserWindow, ipcMain, clipboard, globalShortcut, nativeImage} = el
 const robot = require('robotjs'); // => /!\ when installing robotjs add --target={electron version} flag
 const svg2png = require("svg2png");
 
-const DropTray = require("./components/DropTray");
-const HistoryWindow = require("./components/HistoryWindow");
+const DropTray = require("./DropTray");
+const HistoryWindowController = require("./windows/HistoryWindowController");
 
-const MessageHandler = require('./MessageHandler');
+const WindowManager = require('./windows/WindowManager');
+
+const MessageHandler = require('./ipc/MessageHandler');
 
 const Store = require('electron-store');
 const store = new Store();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, historyWindow;
-let windows = {
-  main: null,
-  history: null
-}
+let windowBoss, mainWindow, historyWindow;
 let color_format = "css_hex";
 let picker_size = 17;
 let zoom_factor = 1;
@@ -25,22 +23,14 @@ let zoom_factor = 1;
 let tray = null;
 
 function createWindow () {
-
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
+  windowBoss = new WindowManager();
+  mainWindow = windowBoss.createNewWindow("picker");
+  mainWindow.setBounds({
     width: picker_size*15,
     height: picker_size*15,
-    frame: false,
-    transparent: true,
-    alwaysOnTop: true,
-    show: false,
-    icon: __dirname + './assets/img/icon.png',
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
+  });
   // and load the index.html of the app.
-  mainWindow.loadFile(__dirname + './views/index.html')
+  mainWindow.loadFile(__dirname + './../views/index.html');
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools({detached: true})
@@ -51,7 +41,7 @@ function createWindow () {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null
-  })
+  });
 
   // Register a 'CommandOrControl+X' shortcut listener.
   const ret = globalShortcut.register('CommandOrControl+I', () => {
@@ -339,11 +329,10 @@ function createWindow () {
     }
   })
 
-  historyWindow = new HistoryWindow();
-  windows.history = historyWindow;
+  historyWindow = new HistoryWindowController(windowBoss);
   tray = new DropTray(mainWindow, historyWindow.window);
 
-  let messageHandler = new MessageHandler(windows, store, tray);
+  let messageHandler = new MessageHandler(windowBoss, store, tray);
   messageHandler.setupListeners();
 
 }

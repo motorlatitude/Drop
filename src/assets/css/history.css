@@ -172,7 +172,7 @@ body{
     cursor: default;
 }
 
-.main-frame #palettes li .title .name{
+.main-frame #palettes li .title .palette-name{
     float: left;
 }
 
@@ -323,6 +323,12 @@ body{
     float: right;
     text-align: center;
     margin-right: 10px;
+    line-height: 31px;
+}
+
+.main-frame .footer .settings-cog {
+    float: left;
+    margin-left: 10px
 }
 
 .main-frame .footer .settings-cog svg,
