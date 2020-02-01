@@ -45,6 +45,7 @@ class WindowManager {
         baseWindowOptions.y = electron.screen.getPrimaryDisplay().workAreaSize.height/2 - 250;
         baseWindowOptions.width = 700;
         baseWindowOptions.height = 500;
+        baseWindowOptions.alwaysOnTop = false;
         break;
       case 'picker':
         break;

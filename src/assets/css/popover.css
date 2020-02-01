@@ -21,7 +21,7 @@ body{
     background: hsla(60,2%,14%,0.98);
     border-radius: 5px;
     overflow: hidden;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.4), 0 0 10px rgba(0,0,0,0.2);
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.2), 0 0 10px rgba(0,0,0,0.1);
 }
 
 .main-frame ul{

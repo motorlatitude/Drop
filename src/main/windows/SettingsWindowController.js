@@ -18,11 +18,16 @@ class SettingsWindowController {
     //historyWindow.webContents.openDevTools({detached: true})
 
     // Emitted when the window is closed.
-    this.window.on('closed', function () {
+    this.window.on('closed', (e) => {
       // Dereference the window object, usually you would store windows
       // in an array if your app supports multi windows, this is the time
       // when you should delete the corresponding element.
       this.window = null;
+    });
+
+    this.window.on('close', (e) => {
+      e.preventDefault();
+      this.window.hide();
     });
 
     // fix for flashing on windows 10: electron issue #12130

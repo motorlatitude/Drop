@@ -83,6 +83,11 @@ class PopoverWindowController {
       this.windowManager.windows.history.send("popover-hidden");
     });
 
+    this.window.on('close', (e) => {
+      e.preventDefault();
+      this.window.hide();
+    });
+
     this.window.on('blur', () => {
       this.window.hide();
     });

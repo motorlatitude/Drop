@@ -319,29 +319,39 @@ body{
 
 .main-frame .footer .settings-cog,
 .main-frame .footer .quit {
-    width: 20px;
+    width: auto;
     float: right;
     text-align: center;
-    margin-right: 10px;
+    padding: 0 10px;
     line-height: 31px;
+    transition: 0.15s ease-in-out;
 }
 
 .main-frame .footer .settings-cog {
     float: left;
-    margin-left: 10px
 }
 
 .main-frame .footer .settings-cog svg,
 .main-frame .footer .quit svg {
     margin-top: 8px;
     height: 14px;
-    fill: hsla(120,2%,71%,1);
+    fill: hsla(120,2%,51%,1);
     transition: fill 0.15s ease-in-out;
 }
 
-.main-frame .footer .settings-cog svg:hover,
-.main-frame .footer .quit svg:hover {
-    fill: hsla(120,2%,51%,1);
+.main-frame .footer .settings-cog:hover,
+.main-frame .footer .quit:hover {
+    background: hsla(120,2%,26%,1);
+}
+
+.main-frame .footer .settings-cog:active,
+.main-frame .footer .quit:active {
+    background: hsla(120,2%,17%,1);
+}
+
+.main-frame .footer .settings-cog:hover svg,
+.main-frame .footer .quit:hover  svg {
+    fill: hsla(120,2%,81%,1);
 }
 
 #drag-ghost {

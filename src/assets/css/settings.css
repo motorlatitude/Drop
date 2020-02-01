@@ -18,16 +18,107 @@ body {
     bottom: 10px;
     width: auto;
     height: auto;
-    background: #242423;
-    border-radius: 5px;
+    background: hsla(60,2%,14%,1);
+    border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 0 6px rgba(0,0,0,0.5);
+    box-shadow: 0 0 6px rgba(0,0,0,0.2), 2px 2px 6px rgba(0,0,0,0.1);
 }
 
 .main-frame .titlebar {
+    position: relative;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100px;
-    background: #333533;
+    height: 110px;
+    background: linear-gradient(to bottom, hsla(120,2%,21%,1) 0%, hsla(120,2%,19%,1) 100%);
     line-height: 40px;
     -webkit-app-region: drag;
+    box-shadow: 0 1px 2px hsla(60,2%,13%,1);
+}
+
+.main-frame .titlebar .window-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: auto;
+    height: auto;
+    padding: 0 15px;
+    line-height: 32px;
+    color: hsla(120,2%,61%,1);
+    font-size: 22px;
+    cursor: default;
+    border-bottom-left-radius: 4px;
+    -webkit-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-app-region: no-drag;
+}
+
+.main-frame .titlebar .window-close-button:hover {
+    background: hsla(120,2%,25%,1);
+}
+
+.main-frame .titlebar .navbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.main-frame .titlebar .navbar ul {
+    list-style: none;
+    margin: 0 10px;
+    padding: 0;
+}
+
+.main-frame .titlebar .navbar ul li {
+    width: 80px;
+    height: 85px;
+    padding: 18px 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.main-frame .titlebar .navbar ul li.active {
+    background: hsla(60,2%,7%,0.22);
+}
+
+.main-frame .titlebar .navbar ul li .icon {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.main-frame .titlebar .navbar ul li .icon .icon-box {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    text-align: center;
+    border-radius: 5px;
+    background: #fff;
+    padding: 1px 0;
+    border: 0.5px solid rgb(204, 204, 204);
+    box-shadow: 0 0 3px hsla(60,2%,8%,0.2), 1px 1px 3px hsla(60,2%,8%,0.1);
+}
+
+.main-frame .titlebar .navbar ul li .icon .icon-box.general {
+    background: linear-gradient(to bottom, hsla(0,0%,100%,1) 0%, hsla(0,0%,95%,1) 100%);
+}
+
+.main-frame .titlebar .navbar ul li .title {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 25px;
+    color: rgb(236, 226, 212);
+}
+
+.main-frame .titlebar .navbar ul li svg {
+    display: inline-block;
+    height: 18px;
+    fill: rgb(15, 93, 238);
 }
