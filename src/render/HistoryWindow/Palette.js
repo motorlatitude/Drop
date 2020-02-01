@@ -116,11 +116,7 @@ class Palette {
     elColorItem.setAttribute("style","background: #"+color+";");
     elColorItem.setAttribute("draggable","true");
     this.GenerateEventListeners(elColorItem, color);
-    if(elColorList.childNodes[0]) {
-      elColorList.childNodes[0].after(elColorItem);
-    } else {
-      elColorList.appendChild(elColorItem);
-    }
+    elColorList.prepend(elColorItem);
   }
 
   /**
