@@ -351,6 +351,7 @@ app.setLoginItemSettings({
 app.on('ready', createWindow);
 
 app.on('will-quit', () => {
+  windowBoss.isQuitting = true;
   globalShortcut.unregisterAll();
 });
 

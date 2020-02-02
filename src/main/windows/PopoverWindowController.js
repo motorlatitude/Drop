@@ -84,8 +84,10 @@ class PopoverWindowController {
     });
 
     this.window.on('close', (e) => {
-      e.preventDefault();
-      this.window.hide();
+      if (!this.windowManager.isQuitting) {
+        e.preventDefault();
+        this.window.hide();
+      }
     });
 
     this.window.on('blur', () => {

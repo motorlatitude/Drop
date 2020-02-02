@@ -11,6 +11,7 @@ class HistoryWindowController {
    */
   constructor(wm) {
     this.window = null;
+    this._windowManager = wm;
     this.createWindow(wm);
   }
 
@@ -33,8 +34,10 @@ class HistoryWindowController {
     });
 
     this.window.on('close', (e) => {
-      e.preventDefault();
-      this.window.hide();
+      if (!this._windowManager.isQuitting) {
+        e.preventDefault();
+        this.window.hide();
+      }
     });
 
     // fix for flashing on windows 10: electron issue #12130

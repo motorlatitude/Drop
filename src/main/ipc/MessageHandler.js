@@ -1,8 +1,6 @@
 const electron = require('electron');
 const {ipcMain, nativeImage, screen, app} = electron;
 const svg2png = require('svg2png');
-const SettingsWindowController = require('../windows/SettingsWindowController');
-const PopoverWindowController = require('../windows/PopoverWindowController');
 
 const PaletteChannel = require('./channel_types/PaletteChannel');
 const WindowChannel = require('./channel_types/WindowChannel');
@@ -56,6 +54,7 @@ class MessageHandler {
    * QUIT
    */
   quitApp() {
+    this.windowManager.isQuitting = true;
     app.quit();
   }
 

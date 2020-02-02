@@ -12,6 +12,9 @@ class WindowManager {
   constructor() {
     /** Object containing all windows using the window name as the key */
     this.windows = {};
+
+    /** Property states if app is quitting or not */
+    this.isQuitting = false;
   }
 
   createNewWindow(windowName) {
