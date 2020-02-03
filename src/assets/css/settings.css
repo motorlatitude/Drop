@@ -8,6 +8,9 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    color: rgb(236, 226, 212);
+    font-size: 14px;
 }
 
 .main-frame {
@@ -29,11 +32,25 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 110px;
+    height: 105px;
     background: linear-gradient(to bottom, hsla(120,2%,21%,1) 0%, hsla(120,2%,19%,1) 100%);
     line-height: 40px;
     -webkit-app-region: drag;
     box-shadow: 0 1px 2px hsla(60,2%,13%,1);
+}
+
+.main-frame .window-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 32px;
+    text-align: center;
+    font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 32px;
+    color: rgb(236, 226, 212);
 }
 
 .main-frame .titlebar .window-close-button {
@@ -63,6 +80,9 @@ body {
     left: 0;
     width: 100%;
     overflow: hidden;
+    -webkit-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-app-region: no-drag;
 }
 
 .main-frame .titlebar .navbar ul {
@@ -72,21 +92,26 @@ body {
 }
 
 .main-frame .titlebar .navbar ul li {
-    width: 80px;
-    height: 85px;
-    padding: 18px 10px;
+    width: 70px;
+    height: 70px;
+    padding: 10px 0;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    float: left;
+}
+
+.main-frame .titlebar .navbar ul li.right {
+    float: right;
 }
 
 .main-frame .titlebar .navbar ul li.active {
-    background: hsla(60,2%,7%,0.22);
+    background: hsla(60,2%,7%,0.28);
 }
 
 .main-frame .titlebar .navbar ul li .icon {
     width: 100%;
-    height: 40px;
-    line-height: 40px;
+    height: 35px;
+    line-height: 35px;
     text-align: center;
 }
 
@@ -97,7 +122,7 @@ body {
     text-align: center;
     border-radius: 5px;
     background: #fff;
-    padding: 1px 0;
+    padding: 4px 0;
     border: 0.5px solid rgb(204, 204, 204);
     box-shadow: 0 0 3px hsla(60,2%,8%,0.2), 1px 1px 3px hsla(60,2%,8%,0.1);
 }
@@ -111,14 +136,94 @@ body {
     height: 30px;
     text-align: center;
     font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 400;
     line-height: 25px;
     color: rgb(236, 226, 212);
 }
 
-.main-frame .titlebar .navbar ul li svg {
+.main-frame .titlebar .navbar ul li.active .title {
+    color: rgb(266, 266, 242);
+}
+
+.main-frame .titlebar .navbar ul li .icon .icon-box.general svg {
     display: inline-block;
     height: 18px;
     fill: rgb(15, 93, 238);
+}
+
+.main-frame .titlebar .navbar ul li .icon .icon-box.picker  svg {
+    display: inline-block;
+    height: 18px;
+    fill: rgb(238, 15, 52);
+}
+
+.main-frame .titlebar .navbar ul li .icon .icon-box.formats  svg {
+    display: inline-block;
+    height: 18px;
+    fill: #14C45E;
+}
+
+.main-frame .titlebar .navbar ul li .icon .icon-box.shortcuts svg {
+    display: inline-block;
+    height: 18px;
+    fill: rgb(221, 121, 54);
+}
+
+.main-frame .titlebar .navbar ul li .icon .icon-box.about svg {
+    display: inline-block;
+    height: 18px;
+}
+
+
+.settings-frame {
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    padding: 20px;
+    display: none;
+}
+
+.settings-frame.visible {
+    display: block;
+}
+
+.settings-frame ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.settings-frame ul li {
+    display: inline-block;
+    width: 100%;
+    line-height: 50px;
+}
+
+.settings-frame .icon {
+    float: left;
+    width: calc(25% - 20px);
+    margin: 20px 0 20px 20px;
+}
+
+.settings-frame .icon img {
+    height: 100px;
+}
+
+
+.settings-frame .drop-version {
+    float: left;
+    width: calc(75% - 20px);
+    height: 100px;
+    font-size: 35px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 30px;
+    margin: 40px 20px 20px 0;
+}
+
+.settings-frame .drop-version span {
+    color: #aaa;
+    font-size: 10px;
+    font-weight: normal;
+    -webkit-user-select: text;
 }

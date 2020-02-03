@@ -29,9 +29,7 @@ class HistoryWindow {
 
     // Generate Palette objects for stored palettes
     Object.keys(palettes).forEach((paletteId) => {
-      console.log(palettes)
       const p = new Palette(palettes[paletteId]);
-      console.log(p)
       if (paletteId == "HISTORY") {
         ipcRenderer.on("color-history-update", (evt, newColor) => {
           p.AppendNewColorItem(document.getElementById("history-list"), newColor);

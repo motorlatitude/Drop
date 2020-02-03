@@ -22,6 +22,8 @@ let zoom_factor = 1;
 
 let tray = null;
 
+app.commandLine.appendSwitch('force-color-profile', 'srgb'); //TODO: further research into this for selecting color profile for app, possible option in settings for different types
+
 let colorFormats = new ColorFormats();
 
 function createWindow () {
@@ -31,6 +33,9 @@ function createWindow () {
     width: picker_size*15,
     height: picker_size*15,
   });
+  mainWindow.setAlwaysOnTop(true, "floating");
+  mainWindow.setVisibleOnAllWorkspaces(true);
+  mainWindow.setFullScreenable(false);
   // and load the index.html of the app.
   mainWindow.loadFile(__dirname + './../views/index.html');
 
