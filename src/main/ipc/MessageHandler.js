@@ -4,6 +4,7 @@ const svg2png = require('svg2png');
 
 const PaletteChannel = require('./channel_types/PaletteChannel');
 const WindowChannel = require('./channel_types/WindowChannel');
+const SettingChannel = require('./channel_types/SettingChannel');
 
 /**
  * MessageHandler Class
@@ -19,12 +20,13 @@ class MessageHandler {
    * @param {Tray} t the electron tray
    * @param {ColorFormats} cf color format instance
    */
-  constructor(wm, s, t, cf) {
+  constructor(wm, s, t, cf, au) {
     this.windowManager = wm;
     this.windows = this.windowManager.windows;
     this.store = s;
     this.tray = t;
     this.colorFormats = cf;
+    this.autoUpdater = au;
   }
 
   /**
@@ -39,9 +41,11 @@ class MessageHandler {
       tray: this.tray,
       colorFormats: this.colorFormats
     };
+    const au = this.autoUpdater;
 
     ipcMain.handle("PALETTE", (e, a) => (new PaletteChannel(channelProps, e, a)));
     ipcMain.handle("WINDOW",  (e, a) => (new WindowChannel(channelProps, e, a)));
+    ipcMain.handle("SETTING", (e, a) => (new SettingChannel(channelProps, e, a, au)));
 
     // History Window IPCs
     ipcMain.handle("get-primary-screen-size", this.getScreenSize.bind(self));

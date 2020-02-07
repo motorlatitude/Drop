@@ -72,8 +72,10 @@
       <div class="settings-frame general visible" data-view="general">
         <ul>
           <li>
-            <input id="general-launch" type="checkbox" checked>
-            <label for="general-launch">Start on login</label>
+            <label for="general-launch" class="settings-checkbox">Launch on startup
+              <input id="general-launch" type="checkbox" checked>
+              <span class="checkmark"></span>
+            </label>
           </li>
         </ul>
       </div>
@@ -91,6 +93,21 @@
           <img src="../assets/img/icon.png" />
         </div>
         <div class="drop-version" id="drop-version"></div>
+        <div class="drop-updater">
+          <input type="Button" value="Check For Updates" id="drop-btn-check-update"/>
+          <label for="drop-btn-check-update"><span id="update-status">Up To Date</span><br/><span id="last-update-check">Last checked 25s ago</span></label>
+          <br/>
+          <br/>
+          <label for="drop-autodownloadupdate" class="settings-checkbox">Automatically check & download updates
+            <input id="drop-autodownloadupdate" type="checkbox" checked>
+            <span class="checkmark"></span>
+          </label>
+          <br/>
+          <label for="drop-autoupdate" class="settings-checkbox">Automatically install updates
+            <input id="drop-autoupdate" type="checkbox" checked>
+            <span class="checkmark"></span>
+          </label>
+        </div>
       </div>
     </div>
     <script>

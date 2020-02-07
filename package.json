@@ -5,19 +5,36 @@
   "main": "src/main/main.js",
   "scripts": {
     "start": "./node_modules/.bin/electron .",
-    "pack:win32": "electron-packager . Drop --overwrite --out=./../Drop-Builds/win --icon=src/assets/img/icon.ico",
-    "build": "npm run pack:win32"
+    "build": "electron-builder build"
+  },
+  "build": {
+    "appId": "com.electron.drop",
+    "productName": "Drop",
+    "copyright": "Copyright © 2020 Lennart Hase",
+    "win": {
+      "icon": "./src/assets/img/icon.ico",
+      "publish": [
+        "github"
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/motorlatitude/Drop.git"
   },
   "author": "Lennart Hase",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^7.1.11",
-    "electron-packager": "^14.2.0",
+    "electron-builder": "^22.3.2",
     "electron-rebuild": "^1.10.0"
   },
   "dependencies": {
     "color-namer": "^1.4.0",
+    "electron-log": "^4.0.6",
     "electron-store": "^4.0.0",
+    "electron-updater": "^4.2.0",
+    "moment": "^2.24.0",
     "robotjs": "^0.6.0",
     "svg2png": "^4.1.1"
   }

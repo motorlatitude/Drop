@@ -177,7 +177,7 @@ body {
 
 
 .settings-frame {
-    width: calc(100% - 40px);
+    width: 100%;
     height: calc(100% - 40px);
     padding: 20px;
     display: none;
@@ -196,7 +196,6 @@ body {
 .settings-frame ul li {
     display: inline-block;
     width: 100%;
-    line-height: 50px;
 }
 
 .settings-frame .icon {
@@ -206,9 +205,8 @@ body {
 }
 
 .settings-frame .icon img {
-    height: 100px;
+    height: 120px;
 }
-
 
 .settings-frame .drop-version {
     float: left;
@@ -217,8 +215,18 @@ body {
     font-size: 35px;
     font-weight: bold;
     color: #fff;
+    line-height: 50px;
+    margin: 20px 20px 20px 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid hsla(60,2%,18%,1);
+}
+
+.settings-frame .drop-version .version {
+    color: hsla(60,2%,44%,1);
+    border-radius: 40px;
+    font-size: 13px;
     line-height: 30px;
-    margin: 40px 20px 20px 0;
+    font-weight: 400;
 }
 
 .settings-frame .drop-version span {
@@ -226,4 +234,138 @@ body {
     font-size: 10px;
     font-weight: normal;
     -webkit-user-select: text;
+}
+
+.settings-frame .drop-updater {
+    float: left;
+    width: calc(75% - 20px);
+    margin-left: 25%;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.settings-frame .drop-updater input[type="button"] {
+    line-height: 35px;
+    padding: 0 15px;
+    border: 0 solid transparent;
+    background: hsla(272,100%,42%,1);
+    border-radius: 3px;
+    color: hsla(259,74%,95%,1);
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0;
+    box-shadow: 1px 1px 4px hsla(60,2%,8%,0.3), 0 0 6px hsla(60,2%,8%,0.1);
+    transition: 0.1s ease-in-out;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.settings-frame .drop-updater input[type="button"]:disabled {
+    background: hsla(272,100%,46%,1);
+    color: hsla(259,74%,98%,1);
+    opacity: 0.6;
+}
+
+.settings-frame .drop-updater input[type="button"]:hover {
+    background: hsla(272,100%,46%,1);
+    color: hsla(259,74%,98%,1);
+}
+
+.settings-frame .drop-updater input[type="button"]:focus {
+    outline: none;
+}
+
+.settings-frame .drop-updater input[type="button"]:active {
+    background: hsla(272,100%,38%,1);
+    color: hsla(259,74%,98%,1);
+    box-shadow: inset 1px 1px 4px hsla(60,2%,8%,0.3), inset 0 0 6px hsla(60,2%,8%,0.1);
+    outline: none;
+}
+
+.settings-frame .drop-updater label {
+    margin-left: 20px;
+    color: hsla(60,2%,74%,1);
+}
+
+.settings-frame .drop-updater label[for="drop-btn-check-update"] {
+    position: absolute;
+    left: 140px;
+    top: -2px;
+}
+
+.settings-frame .drop-updater label[for="drop-btn-check-update"] span#last-update-check{
+    font-size: 10px;
+}
+
+
+/* CHECKBOX STYLING */
+
+.settings-frame .settings-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 15px;
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    user-select: none;
+}
+/* Hide the browser's default checkbox */
+.settings-frame .settings-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.settings-frame .settings-checkbox .checkmark {
+    position: absolute;
+    top: 0;
+    left: -20px;
+    height: 18px;
+    width: 18px;
+    border: 1.5px solid hsla(60,2%,24%,1);
+    border-radius: 3px;
+    transition: 0.1s ease-in-out;
+}
+
+
+/* On mouse-over, add a grey background color */
+.settings-frame .settings-checkbox:hover input ~ .checkmark {
+    border-color: hsla(60,2%,28%,1);
+}
+
+/* When the checkbox is checked, add a blue background */
+.settings-frame .settings-checkbox input:checked ~ .checkmark {
+    background-color: hsla(272,100%,42%,1);
+    border-color: hsla(272,100%,42%,1);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.settings-frame .settings-checkbox .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.settings-frame .settings-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.settings-frame .settings-checkbox .checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 1.5px 1.5px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    transition: 0.2s 0.05s ease-in-out;
 }

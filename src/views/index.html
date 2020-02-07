@@ -22,6 +22,14 @@
       const namer = require('color-namer');
       let active_color = undefined;
 
+      ipcRenderer.on("HIDE", (e) => {
+        document.getElementById("colorsquares").style.opacity = 0;
+      })
+
+      ipcRenderer.on("SHOW", (e) => {
+        document.getElementById("colorsquares").style.opacity = 1;
+      })
+
       ipcRenderer.on("color", (event, arg) => {
         arg = JSON.parse(arg);
         let elColorSquares = document.getElementById("colorsquares");
@@ -54,6 +62,7 @@
       });
 
       window.addEventListener("keyup", function(event) {
+        console.log(event.key);
         if(event.key === "Escape" || event.key === "Esc" || event.keyCode === 27){
           ipcRenderer.send("esc");
         }
@@ -93,13 +102,18 @@
             ipcRenderer.send("move-down");
           }
         }
-        if (['-', 'Minus'].includes(event.code)) {
+        if (['-', 'Minus'].includes(event.key)) {
           //minus decreases loop size
+          console.log("Decrease Loop Size")
           ipcRenderer.send("loop-size", "picker-decrease");
+          document.body.style.zoom = 1.0;
+          event.preventDefault();
         }
         if (event.key == "+") {
           //plus Increase loop size
           ipcRenderer.send("loop-size", "picker-increase");
+          document.body.style.zoom = 1.0;
+          event.preventDefault();
         }
       });
 

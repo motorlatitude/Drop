@@ -51,6 +51,7 @@ class WindowManager {
         baseWindowOptions.alwaysOnTop = false;
         break;
       case 'picker':
+        baseWindowOptions.type = "toolbar";
         break;
       default:
         console.warn("Un-handle Window Name", windowName);

@@ -2,9 +2,14 @@ const electron = require('electron');
 const {app, BrowserWindow, ipcMain, clipboard, globalShortcut, nativeImage} = electron;
 const robot = require('robotjs'); // => /!\ when installing robotjs add --target={electron version} flag
 const svg2png = require("svg2png");
+const log = require('electron-log');
+
+const { autoUpdater } = require("electron-updater");
+autoUpdater.autoDownload = false;
 
 const DropTray = require("./DropTray");
 const HistoryWindowController = require("./windows/HistoryWindowController");
+const PickerWindowController = require("./windows/PickerWindowController");
 
 const WindowManager = require('./windows/WindowManager');
 const MessageHandler = require('./ipc/MessageHandler');
@@ -16,6 +21,7 @@ const store = new Store();
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let windowBoss, mainWindow, historyWindow;
+let mouseInterval;
 let color_format = "css_hex";
 let picker_size = 17;
 let zoom_factor = 1;
@@ -28,27 +34,8 @@ let colorFormats = new ColorFormats();
 
 function createWindow () {
   windowBoss = new WindowManager();
-  mainWindow = windowBoss.createNewWindow("picker");
-  mainWindow.setBounds({
-    width: picker_size*15,
-    height: picker_size*15,
-  });
-  mainWindow.setAlwaysOnTop(true, "floating");
-  mainWindow.setVisibleOnAllWorkspaces(true);
-  mainWindow.setFullScreenable(false);
-  // and load the index.html of the app.
-  mainWindow.loadFile(__dirname + './../views/index.html');
-
-  // Open the DevTools.
-  //mainWindow.webContents.openDevTools({detached: true})
-
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null
-  });
+  const p = new PickerWindowController(windowBoss);
+  mainWindow = windowBoss.windows.picker;
 
   // Register a 'CommandOrControl+X' shortcut listener.
   const ret = globalShortcut.register('CommandOrControl+I', () => {
@@ -58,6 +45,7 @@ function createWindow () {
         mainWindow.hide();
       }else{
         mainWindow.show();
+        mainWindow.webContents.zoomFactor = 1;
       }
     }
   });
@@ -67,12 +55,12 @@ function createWindow () {
   }
 
   // Check whether a shortcut is registered.
-  console.log(globalShortcut.isRegistered('CommandOrControl+I'))
+  console.log(globalShortcut.isRegistered('CommandOrControl+I'));
 
-  let previous_mouse_position = {x: 0, y: 0}
+  let previous_mouse_position = {x: 0, y: 0};
   // Get mouse position.
-  setInterval(() => {
-    if(mainWindow && mainWindow.isVisible()){
+  mouseInterval = setInterval(() => {
+    if(windowBoss.windows.picker && windowBoss.windows.picker.isVisible()){
       var mouse = robot.getMousePos();
       if(previous_mouse_position.x != mouse.x || previous_mouse_position.y != mouse.y){
         previous_mouse_position.x = mouse.x;
@@ -80,16 +68,16 @@ function createWindow () {
         let size = picker_size;
         var img = robot.screen.capture(Math.ceil(mouse.x - (size/2)), Math.ceil(mouse.y - (size/2)), size, size);
         let multi = img.width / size;
-        let currentScreen = electron.screen.getDisplayNearestPoint({x: mouse.x, y: mouse.y})
+        let currentScreen = electron.screen.getDisplayNearestPoint({x: mouse.x, y: mouse.y});
         let factor = currentScreen.scaleFactor;
         let workAreaSize = currentScreen.workArea;
         let windowX = Math.floor(mouse.x / factor) - 20;
         let windowY = Math.floor(mouse.y / factor) - 20;
         if(workAreaSize.width < ((mouse.x / factor) - workAreaSize.x + (picker_size*15))){
-          windowX = Math.floor(mouse.x / factor) - ((picker_size*15) - 20)
+          windowX = Math.floor(mouse.x / factor) - ((picker_size*15) - 20);
         }
         if(workAreaSize.height < ((mouse.y / factor) - workAreaSize.y + ((picker_size*15) - 90))){
-          windowY = Math.floor(mouse.y / factor) - ((picker_size*15) - 20)
+          windowY = Math.floor(mouse.y / factor) - ((picker_size*15) - 20);
         }
         mainWindow.setBounds({x: windowX, y: windowY, width: (picker_size*15), height: (picker_size*15)}, false);
         let colors = {};
@@ -104,10 +92,10 @@ function createWindow () {
             });
           }
         }
-        mainWindow.webContents.send("color", JSON.stringify(colors))
+        mainWindow.webContents.send("color", JSON.stringify(colors));
       }
     }
-  }, 0);
+  },16);
 
   ipcMain.on("get-history", function() {
     console.log("Fetching History;");
@@ -341,7 +329,7 @@ function createWindow () {
   historyWindow = new HistoryWindowController(windowBoss);
   tray = new DropTray(mainWindow, historyWindow.window);
 
-  let messageHandler = new MessageHandler(windowBoss, store, tray, colorFormats);
+  let messageHandler = new MessageHandler(windowBoss, store, tray, colorFormats, autoUpdater);
   messageHandler.setupListeners();
 
 }
@@ -356,7 +344,9 @@ app.setLoginItemSettings({
 app.on('ready', createWindow);
 
 app.on('will-quit', () => {
+  clearInterval(mouseInterval);
   windowBoss.isQuitting = true;
+  mainWindow = null;
   globalShortcut.unregisterAll();
 });
 
@@ -364,13 +354,13 @@ app.on('will-quit', () => {
 app.on('window-all-closed', function () {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') app.quit()
+  if (process.platform !== 'darwin') app.quit();
 })
 
 app.on('activate', function () {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) createWindow()
+  if (mainWindow === null) createWindow();
 })
 
 // In this file you can include the rest of your app's specific main process
