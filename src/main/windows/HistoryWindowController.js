@@ -37,6 +37,8 @@ class HistoryWindowController {
       if (!this._windowManager.isQuitting) {
         e.preventDefault();
         this.window.hide();
+      } else {
+        this.window = null;
       }
     });
 

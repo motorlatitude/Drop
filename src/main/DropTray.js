@@ -1,4 +1,4 @@
-const { Menu, Tray } = require('electron');
+const { Menu, Tray, app } = require('electron');
 
 /**
  * DropTray Class
@@ -42,7 +42,10 @@ class DropTray {
       { type: 'separator'},
       { label: 'Settings', type: 'normal' },
       { type: 'separator'},
-      { label: 'Quit', type: 'normal', role: 'quit'}
+      { label: 'Quit', type: 'normal', click: () => {
+        console.log("Quitting");
+        app.quit();
+      }}
     ]);
     this.tray.setToolTip('Drop');
     this.tray.setContextMenu(contextMenu);

@@ -78,7 +78,7 @@ class SettingsWindow {
         ipcRenderer.invoke("SETTING", {type: "MODIFY_SETTING", args: {key: "lastUpdateCheck", value: new Date().getTime()}});
         document.getElementById("last-update-check").innerHTML = "Last checked "+(moment(new Date().getTime()).fromNow());
         document.getElementById("update-status").innerHTML = "Checking For Updates";
-        ipcRenderer.invoke("SETTING", {type: "CHECK_UPDATE"}).then((ev, data) => {
+        ipcRenderer.invoke("SETTING", {type: "CHECK_UPDATE"}).then((data) => {
           console.log(data);
           document.getElementById("update-status").innerHTML = "Up To Date";
           updateButtonEl.removeAttribute("disabled");

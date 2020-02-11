@@ -6,6 +6,8 @@ const log = require('electron-log');
 
 const { autoUpdater } = require("electron-updater");
 autoUpdater.autoDownload = false;
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = "info";
 
 const DropTray = require("./DropTray");
 const HistoryWindowController = require("./windows/HistoryWindowController");
@@ -20,7 +22,7 @@ const store = new Store();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let windowBoss, mainWindow, historyWindow;
+let windowBoss, mainWindow, historyWindow, mainWindowController;
 let mouseInterval;
 let color_format = "css_hex";
 let picker_size = 17;
@@ -35,6 +37,7 @@ let colorFormats = new ColorFormats();
 function createWindow () {
   windowBoss = new WindowManager();
   const p = new PickerWindowController(windowBoss);
+  mainWindowController = p;
   mainWindow = windowBoss.windows.picker;
 
   // Register a 'CommandOrControl+X' shortcut listener.
@@ -60,7 +63,7 @@ function createWindow () {
   let previous_mouse_position = {x: 0, y: 0};
   // Get mouse position.
   mouseInterval = setInterval(() => {
-    if(windowBoss.windows.picker && windowBoss.windows.picker.isVisible()){
+    if(!windowBoss.isQuitting && windowBoss.windows.picker && mainWindowController.isVisible){
       var mouse = robot.getMousePos();
       if(previous_mouse_position.x != mouse.x || previous_mouse_position.y != mouse.y){
         previous_mouse_position.x = mouse.x;
@@ -344,10 +347,19 @@ app.setLoginItemSettings({
 app.on('ready', createWindow);
 
 app.on('will-quit', () => {
-  clearInterval(mouseInterval);
-  windowBoss.isQuitting = true;
   mainWindow = null;
   globalShortcut.unregisterAll();
+});
+
+app.on('before-quit', () => {
+  console.log("Cleanup Before Quitting");
+  clearInterval(mouseInterval);
+  windowBoss.isQuitting = true;
+  console.log("Removing Close Event Listeners From Windows");
+  Object.keys(windowBoss.windows).forEach((windowName, index) => {
+    windowBoss.windows[windowName].removeAllListeners('close');
+    windowBoss.windows[windowName].close();
+  });
 });
 
 // Quit when all windows are closed.

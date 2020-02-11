@@ -13,6 +13,7 @@ class PickerWindowController {
   constructor(wm) {
     this.window = null;
     this.createWindow(wm);
+    this.isVisible = false;
   }
 
   /**
@@ -26,7 +27,7 @@ class PickerWindowController {
       width: 255,
       height: 255,
     });
-    this.window.setAlwaysOnTop(true, "floating");
+    this.window.setAlwaysOnTop(true);
     this.window.setVisibleOnAllWorkspaces(true);
     this.window.setSkipTaskbar(true);
     this.window.loadFile(__dirname + './../../views/index.html');
@@ -52,24 +53,28 @@ class PickerWindowController {
 
     this.window.on('hide', () => {
       this.window.setOpacity(0);
+      this.isVisible = false;
     });
-/*
+
     this.window.on('close', (e) => {
       if (!this.windowManager.isQuitting) {
         e.preventDefault();
         this.window.hide();
+        this.isVisible = false;
       } else {
+        this.isVisible = false;
         this.window = null;
       }
     });
-*/
     this.window.on('closed', (e) => {
       this.window.destroy();
+      this.isVisible = false;
       this.window = null;
     });
 
     this.window.on('blur', () => {
       this.window.hide();
+      this.isVisible = false;
     });
   }
 

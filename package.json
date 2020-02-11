@@ -5,7 +5,8 @@
   "main": "src/main/main.js",
   "scripts": {
     "start": "./node_modules/.bin/electron .",
-    "build": "electron-builder build"
+    "build": "electron-builder build",
+    "release": "electron-builder --publish always build"
   },
   "build": {
     "appId": "com.electron.drop",

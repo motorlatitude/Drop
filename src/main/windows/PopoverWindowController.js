@@ -87,6 +87,8 @@ class PopoverWindowController {
       if (!this.windowManager.isQuitting) {
         e.preventDefault();
         this.window.hide();
+      } else {
+        this.window = null;
       }
     });
 
