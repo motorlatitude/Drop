@@ -12,9 +12,3 @@ branches:
 
 script:
   - npm run build
-
-deploy:
-  provider: script
-  script: .travis/release.sh
-  on:
-    branch: master
