@@ -1,14 +1,15 @@
-const electron = require('electron');
+const electron = require("electron");
 const { ipcMain } = electron;
 
 class PopoverWindowController {
-
   /**
    *
    * @param {WindowManager} wm The apps window manager
    */
   constructor(wm, options, position) {
-    this._windowId = Math.random().toString(36).substr(2, 9);
+    this._windowId = Math.random()
+      .toString(36)
+      .substr(2, 9);
     this.window = null;
     this.windowManager = wm;
     this.createWindow(wm, options, position);
@@ -26,13 +27,12 @@ class PopoverWindowController {
       this.setPosition(position);
     }
     if (options) {
-      this.window.webContents.on("did-finish-load", (evt) => {
+      this.window.webContents.on("did-finish-load", evt => {
         this.setOptions(options);
       });
     }
-    this.window.loadURL('file://' + __dirname + '/../../views/popover.html');
+    this.window.loadURL("file://" + __dirname + "/../../views/popover.html");
     this._ConfigureEventListeners();
-    console.log("Created New Popover and loaded URL");
   }
 
   /**
@@ -51,12 +51,17 @@ class PopoverWindowController {
    * @param {[{clickHandler: function, title: string, sub_title: string, icon: string, isSeparator: boolean, value: string}]} [options] popover window option items
    */
   setOptions(options) {
-    const opts = options.map((val) => {
-      val._id = Math.random().toString(36).substr(2, 15);
+    const opts = options.map(val => {
+      val._id = Math.random()
+        .toString(36)
+        .substr(2, 15);
       if (!val.isSeparator) {
-        ipcMain.on("options-"+this._windowId+"-click-"+val._id, (evt, args) => {
-          val.clickHandler(args);
-        });
+        ipcMain.on(
+          "options-" + this._windowId + "-click-" + val._id,
+          (evt, args) => {
+            val.clickHandler(args);
+          }
+        );
       }
       return val;
     });
@@ -71,19 +76,19 @@ class PopoverWindowController {
    */
   _ConfigureEventListeners() {
     // Fix for window flashing on windows 10: electron issue #12130
-    this.window.on('show', () => {
-        setTimeout(() => {
-          this.window.setOpacity(1);
-          this.isVisible = true;
-        }, 100);
+    this.window.on("show", () => {
+      setTimeout(() => {
+        this.window.setOpacity(1);
+        this.isVisible = true;
+      }, 100);
     });
 
-    this.window.on('hide', () => {
+    this.window.on("hide", () => {
       this.window.setOpacity(0);
       this.windowManager.windows.history.send("popover-hidden");
     });
 
-    this.window.on('close', (e) => {
+    this.window.on("close", e => {
       if (!this.windowManager.isQuitting) {
         e.preventDefault();
         this.window.hide();
@@ -92,7 +97,7 @@ class PopoverWindowController {
       }
     });
 
-    this.window.on('blur', () => {
+    this.window.on("blur", () => {
       this.window.hide();
     });
   }
