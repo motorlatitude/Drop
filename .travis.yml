@@ -6,6 +6,10 @@ install:
   - npm install robotjs --target=7.1.11
   - npm install
 
+branches:
+  only:
+    - master
+
 script:
   - npm run build
 
