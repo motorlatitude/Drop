@@ -1,0 +1,15 @@
+language: node_js
+node_js: "13.8.0"
+os: windows
+
+install:
+  - npm i
+
+script:
+  - npm run build
+
+deploy:
+  provider: script
+  script: .travis/release.sh
+  on:
+    branch: master
