@@ -13,12 +13,14 @@
     "productName": "Drop",
     "copyright": "Copyright © 2020 Lennart Hase",
     "win": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
       "icon": "./src/assets/img/icon.ico",
       "publish": [
         "github"
       ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     }
   },
   "repository": {
