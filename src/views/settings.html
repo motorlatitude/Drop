@@ -182,11 +182,38 @@
       <div class="settings-frame general visible" data-view="general">
         <ul>
           <li>
-            <label for="general-launch" class="settings-checkbox"
-              >Launch on startup
-              <input id="general-launch" type="checkbox" checked />
-              <span class="checkmark"></span>
-            </label>
+            <div class="col-left">Startup:</div>
+            <div class="col-right">
+              <label for="launchOnStartup" class="settings-checkbox"
+                >Launch Drop on startup
+                <input id="launchOnStartup" type="checkbox" checked />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </li>
+          <li>
+            <div class="col-left">Sounds:</div>
+            <div class="col-right">
+              <label for="playSound" class="settings-checkbox"
+                >Play sounds
+                <input id="playSound" type="checkbox" checked />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </li>
+          <li>
+            <div class="col-left">Color History:</div>
+            <div class="col-right">
+              <label for="isHistoryLimit" class="settings-checkbox"
+                >Limit number of colors in history palette
+                <input id="isHistoryLimit" type="checkbox" checked />
+                <span class="checkmark"></span>
+              </label>
+              <label for="historyLimit">
+                <input id="historyLimit" type="number" value="30" />
+                Max colors
+              </label>
+            </div>
           </li>
         </ul>
       </div>
@@ -207,21 +234,21 @@
         <div class="drop-updater">
           <input type="Button" value="Check For Updates" data-function="check" id="drop-btn-check-update" />
           <label for="drop-btn-check-update"
-            ><span id="update-status">Up To Date</span><br /><span id="last-update-check"
+            ><span id="update-status">Up To Date</span><br /><span id="lastUpdateCheck"
               >Last checked 25s ago</span
             ></label
           >
           <br />
           <br />
-          <label for="drop-autodownloadupdate" class="settings-checkbox"
+          <label for="autoCheckDownloadUpdates" class="settings-checkbox"
             >Automatically check & download updates
-            <input id="drop-autodownloadupdate" type="checkbox" checked />
+            <input id="autoCheckDownloadUpdates" type="checkbox" checked />
             <span class="checkmark"></span>
           </label>
           <br />
-          <label for="drop-autoupdate" class="settings-checkbox"
+          <label for="autoInstallUpdates" class="settings-checkbox"
             >Automatically install updates
-            <input id="drop-autoupdate" type="checkbox" checked />
+            <input id="autoInstallUpdates" type="checkbox" checked />
             <span class="checkmark"></span>
           </label>
         </div>

@@ -45,7 +45,7 @@ class SettingChannel extends Channel {
   getAllSettings() {
     const currentSettings = this.Store.get("settings", {}); //TODO: create default settings object
     log.log("GET_ALL", currentSettings);
-    return { response: currentSettings };
+    return currentSettings;
   }
 
   /**

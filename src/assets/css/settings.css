@@ -1,371 +1,380 @@
 * {
-    box-sizing: border-box;
-    user-select: none;
+  box-sizing: border-box;
+  user-select: none;
 }
 
 html,
 body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
-    color: rgb(236, 226, 212);
-    font-size: 14px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: Segoe UI, Roboto, Oxygen, Ubuntu, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  color: rgb(236, 226, 212);
+  font-size: 14px;
 }
 
 .main-frame {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    width: auto;
-    height: auto;
-    background: hsla(60,2%,14%,1);
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 0 6px rgba(0,0,0,0.2), 2px 2px 6px rgba(0,0,0,0.1);
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  width: auto;
+  height: auto;
+  background: hsla(60, 2%, 14%, 1);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2), 2px 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .main-frame .titlebar {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 105px;
-    background: linear-gradient(to bottom, hsla(120,2%,21%,1) 0%, hsla(120,2%,19%,1) 100%);
-    line-height: 40px;
-    -webkit-app-region: drag;
-    box-shadow: 0 1px 2px hsla(60,2%,13%,1);
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 105px;
+  background: linear-gradient(to bottom, hsla(120, 2%, 21%, 1) 0%, hsla(120, 2%, 19%, 1) 100%);
+  line-height: 40px;
+  -webkit-app-region: drag;
+  box-shadow: 0 1px 2px hsla(60, 2%, 13%, 1);
 }
 
 .main-frame .window-title {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 32px;
-    text-align: center;
-    font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 32px;
-    color: rgb(236, 226, 212);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 32px;
+  text-align: center;
+  font-family: Segoe UI, Roboto, Oxygen, Ubuntu, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 32px;
+  color: rgb(236, 226, 212);
 }
 
 .main-frame .titlebar .window-close-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: auto;
-    height: auto;
-    padding: 0 15px;
-    line-height: 32px;
-    color: hsla(120,2%,61%,1);
-    font-size: 22px;
-    cursor: default;
-    border-bottom-left-radius: 4px;
-    -webkit-user-select: none;
-	-webkit-user-drag: none;
-	-webkit-app-region: no-drag;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: auto;
+  height: auto;
+  padding: 0 15px;
+  line-height: 32px;
+  color: hsla(120, 2%, 61%, 1);
+  font-size: 22px;
+  cursor: default;
+  border-bottom-left-radius: 4px;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-app-region: no-drag;
 }
 
 .main-frame .titlebar .window-close-button:hover {
-    background: hsla(120,2%,25%,1);
+  background: hsla(120, 2%, 25%, 1);
 }
 
 .main-frame .titlebar .navbar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    -webkit-user-select: none;
-	-webkit-user-drag: none;
-	-webkit-app-region: no-drag;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-app-region: no-drag;
 }
 
 .main-frame .titlebar .navbar ul {
-    list-style: none;
-    margin: 0 10px;
-    padding: 0;
+  list-style: none;
+  margin: 0 10px;
+  padding: 0;
 }
 
 .main-frame .titlebar .navbar ul li {
-    width: 70px;
-    height: 70px;
-    padding: 10px 0;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    float: left;
+  width: 70px;
+  height: 70px;
+  padding: 10px 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  float: left;
 }
 
 .main-frame .titlebar .navbar ul li.right {
-    float: right;
+  float: right;
 }
 
 .main-frame .titlebar .navbar ul li.active {
-    background: hsla(60,2%,7%,0.28);
+  background: hsla(60, 2%, 7%, 0.28);
 }
 
 .main-frame .titlebar .navbar ul li .icon {
-    width: 100%;
-    height: 35px;
-    line-height: 35px;
-    text-align: center;
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
 }
 
 .main-frame .titlebar .navbar ul li .icon .icon-box {
-    display: inline-block;
-    width: 34px;
-    height: 34px;
-    text-align: center;
-    border-radius: 5px;
-    background: #fff;
-    padding: 4px 0;
-    border: 0.5px solid rgb(204, 204, 204);
-    box-shadow: 0 0 3px hsla(60,2%,8%,0.2), 1px 1px 3px hsla(60,2%,8%,0.1);
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  border-radius: 5px;
+  background: #fff;
+  padding: 4px 0;
+  border: 0.5px solid rgb(204, 204, 204);
+  box-shadow: 0 0 3px hsla(60, 2%, 8%, 0.2), 1px 1px 3px hsla(60, 2%, 8%, 0.1);
 }
 
 .main-frame .titlebar .navbar ul li .icon .icon-box.general {
-    background: linear-gradient(to bottom, hsla(0,0%,100%,1) 0%, hsla(0,0%,95%,1) 100%);
+  background: linear-gradient(to bottom, hsla(0, 0%, 100%, 1) 0%, hsla(0, 0%, 95%, 1) 100%);
 }
 
 .main-frame .titlebar .navbar ul li .title {
-    width: 100%;
-    height: 30px;
-    text-align: center;
-    font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    line-height: 25px;
-    color: rgb(236, 226, 212);
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  font-family: Segoe UI, Roboto, Oxygen, Ubuntu, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 25px;
+  color: rgb(236, 226, 212);
 }
 
 .main-frame .titlebar .navbar ul li.active .title {
-    color: rgb(266, 266, 242);
+  color: rgb(266, 266, 242);
 }
 
 .main-frame .titlebar .navbar ul li .icon .icon-box.general svg {
-    display: inline-block;
-    height: 18px;
-    fill: rgb(15, 93, 238);
+  display: inline-block;
+  height: 18px;
+  fill: rgb(15, 93, 238);
 }
 
-.main-frame .titlebar .navbar ul li .icon .icon-box.picker  svg {
-    display: inline-block;
-    height: 18px;
-    fill: rgb(238, 15, 52);
+.main-frame .titlebar .navbar ul li .icon .icon-box.picker svg {
+  display: inline-block;
+  height: 18px;
+  fill: rgb(238, 15, 52);
 }
 
-.main-frame .titlebar .navbar ul li .icon .icon-box.formats  svg {
-    display: inline-block;
-    height: 18px;
-    fill: #14C45E;
+.main-frame .titlebar .navbar ul li .icon .icon-box.formats svg {
+  display: inline-block;
+  height: 18px;
+  fill: #14c45e;
 }
 
 .main-frame .titlebar .navbar ul li .icon .icon-box.shortcuts svg {
-    display: inline-block;
-    height: 18px;
-    fill: rgb(221, 121, 54);
+  display: inline-block;
+  height: 18px;
+  fill: rgb(221, 121, 54);
 }
 
 .main-frame .titlebar .navbar ul li .icon .icon-box.about svg {
-    display: inline-block;
-    height: 18px;
+  display: inline-block;
+  height: 18px;
 }
 
-
 .settings-frame {
-    width: 100%;
-    height: calc(100% - 40px);
-    padding: 20px;
-    display: none;
+  width: 100%;
+  height: calc(100% - 40px);
+  padding: 20px;
+  display: none;
 }
 
 .settings-frame.visible {
-    display: block;
+  display: block;
 }
 
 .settings-frame ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .settings-frame ul li {
-    display: inline-block;
-    width: 100%;
+  margin-top: 16px;
+  width: 100%;
+  display: flex;
+}
+
+.settings-frame ul li > .col-left {
+  flex: 0 0 25%;
+  text-align: right;
+  padding: 0 20px;
+}
+
+.settings-frame ul li > .col-right {
+  flex: 0 0 75%;
+  text-align: left;
 }
 
 .settings-frame .icon {
-    float: left;
-    width: calc(25% - 20px);
-    margin: 20px 0 20px 20px;
+  float: left;
+  width: calc(25% - 20px);
+  margin: 20px 0 20px 20px;
 }
 
 .settings-frame .icon img {
-    height: 120px;
+  height: 120px;
 }
 
 .settings-frame .drop-version {
-    float: left;
-    width: calc(75% - 20px);
-    height: 100px;
-    font-size: 35px;
-    font-weight: bold;
-    color: #fff;
-    line-height: 50px;
-    margin: 20px 20px 20px 0;
-    padding-bottom: 20px;
-    border-bottom: 1px solid hsla(60,2%,18%,1);
+  float: left;
+  width: calc(75% - 20px);
+  height: 100px;
+  font-size: 35px;
+  font-weight: bold;
+  color: #fff;
+  line-height: 50px;
+  margin: 20px 20px 20px 0;
+  padding-bottom: 20px;
+  border-bottom: 1px solid hsla(60, 2%, 18%, 1);
 }
 
 .settings-frame .drop-version .version {
-    color: hsla(60,2%,44%,1);
-    border-radius: 40px;
-    font-size: 13px;
-    line-height: 30px;
-    font-weight: 400;
+  color: hsla(60, 2%, 44%, 1);
+  border-radius: 40px;
+  font-size: 13px;
+  line-height: 30px;
+  font-weight: 400;
 }
 
 .settings-frame .drop-version span {
-    color: #aaa;
-    font-size: 10px;
-    font-weight: normal;
-    -webkit-user-select: text;
+  color: #aaa;
+  font-size: 10px;
+  font-weight: normal;
+  -webkit-user-select: text;
 }
 
 .settings-frame .drop-updater {
-    float: left;
-    width: calc(75% - 20px);
-    margin-left: 25%;
-    position: relative;
-    top: 0;
-    left: 0;
+  float: left;
+  width: calc(75% - 20px);
+  margin-left: 25%;
+  position: relative;
+  top: 0;
+  left: 0;
 }
 
 .settings-frame .drop-updater input[type="button"] {
-    line-height: 35px;
-    padding: 0 15px;
-    border: 0 solid transparent;
-    background: hsla(272,100%,42%,1);
-    border-radius: 3px;
-    color: hsla(259,74%,95%,1);
-    font-size: 13px;
-    font-weight: 500;
-    margin: 0;
-    box-shadow: 1px 1px 4px hsla(60,2%,8%,0.3), 0 0 6px hsla(60,2%,8%,0.1);
-    transition: 0.1s ease-in-out;
-    position: relative;
-    top: 0;
-    left: 0;
+  line-height: 35px;
+  padding: 0 15px;
+  border: 0 solid transparent;
+  background: hsla(272, 100%, 42%, 1);
+  border-radius: 3px;
+  color: hsla(259, 74%, 95%, 1);
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0;
+  box-shadow: 1px 1px 4px hsla(60, 2%, 8%, 0.3), 0 0 6px hsla(60, 2%, 8%, 0.1);
+  transition: 0.1s ease-in-out;
+  position: relative;
+  top: 0;
+  left: 0;
 }
 
 .settings-frame .drop-updater input[type="button"]:disabled {
-    background: hsla(272,100%,46%,1);
-    color: hsla(259,74%,98%,1);
-    opacity: 0.6;
+  background: hsla(272, 100%, 46%, 1);
+  color: hsla(259, 74%, 98%, 1);
+  opacity: 0.6;
 }
 
 .settings-frame .drop-updater input[type="button"]:hover {
-    background: hsla(272,100%,46%,1);
-    color: hsla(259,74%,98%,1);
+  background: hsla(272, 100%, 46%, 1);
+  color: hsla(259, 74%, 98%, 1);
 }
 
 .settings-frame .drop-updater input[type="button"]:focus {
-    outline: none;
+  outline: none;
 }
 
 .settings-frame .drop-updater input[type="button"]:active {
-    background: hsla(272,100%,38%,1);
-    color: hsla(259,74%,98%,1);
-    box-shadow: inset 1px 1px 4px hsla(60,2%,8%,0.3), inset 0 0 6px hsla(60,2%,8%,0.1);
-    outline: none;
+  background: hsla(272, 100%, 38%, 1);
+  color: hsla(259, 74%, 98%, 1);
+  box-shadow: inset 1px 1px 4px hsla(60, 2%, 8%, 0.3), inset 0 0 6px hsla(60, 2%, 8%, 0.1);
+  outline: none;
 }
 
 .settings-frame .drop-updater label {
-    margin-left: 20px;
-    color: hsla(60,2%,74%,1);
+  margin-left: 20px;
+  color: hsla(60, 2%, 74%, 1);
 }
 
 .settings-frame .drop-updater label[for="drop-btn-check-update"] {
-    position: absolute;
-    left: 140px;
-    top: -2px;
+  position: absolute;
+  left: 140px;
+  top: -2px;
 }
 
-.settings-frame .drop-updater label[for="drop-btn-check-update"] span#last-update-check{
-    font-size: 10px;
+.settings-frame .drop-updater label[for="drop-btn-check-update"] span#lastUpdateCheck {
+  font-size: 10px;
 }
-
 
 /* CHECKBOX STYLING */
 
 .settings-frame .settings-checkbox {
-    display: block;
-    position: relative;
-    padding-left: 15px;
-    margin-left: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    user-select: none;
+  display: block;
+  position: relative;
+  padding-left: 10px;
+  margin-left: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
 }
 /* Hide the browser's default checkbox */
 .settings-frame .settings-checkbox input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
 /* Create a custom checkbox */
 .settings-frame .settings-checkbox .checkmark {
-    position: absolute;
-    top: 0;
-    left: -20px;
-    height: 18px;
-    width: 18px;
-    border: 1.5px solid hsla(60,2%,24%,1);
-    border-radius: 3px;
-    transition: 0.1s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: -20px;
+  height: 18px;
+  width: 18px;
+  border: 1.5px solid hsla(60, 2%, 24%, 1);
+  border-radius: 3px;
+  transition: 0.1s ease-in-out;
 }
-
 
 /* On mouse-over, add a grey background color */
 .settings-frame .settings-checkbox:hover input ~ .checkmark {
-    border-color: hsla(60,2%,28%,1);
+  border-color: hsla(60, 2%, 28%, 1);
 }
 
 /* When the checkbox is checked, add a blue background */
 .settings-frame .settings-checkbox input:checked ~ .checkmark {
-    background-color: hsla(272,100%,42%,1);
-    border-color: hsla(272,100%,42%,1);
+  background-color: hsla(272, 100%, 42%, 1);
+  border-color: hsla(272, 100%, 42%, 1);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .settings-frame .settings-checkbox .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
+  content: "";
+  position: absolute;
+  display: none;
 }
 
 /* Show the checkmark when checked */
 .settings-frame .settings-checkbox input:checked ~ .checkmark:after {
-    display: block;
+  display: block;
 }
 
 /* Style the checkmark/indicator */
 .settings-frame .settings-checkbox .checkmark:after {
-    left: 5px;
-    top: 2px;
-    width: 4px;
-    height: 8px;
-    border: solid white;
-    border-width: 0 1.5px 1.5px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    transition: 0.2s 0.05s ease-in-out;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 1.5px 1.5px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  transition: 0.2s 0.05s ease-in-out;
 }

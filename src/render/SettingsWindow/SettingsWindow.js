@@ -16,46 +16,38 @@ class SettingsWindow {
   }
 
   _setSettings() {
-    ipcRenderer.invoke("SETTING", {
-      type: "GET_ALL_SETTINGS"
-    });
+    ipcRenderer
+      .invoke("SETTING", {
+        type: "GET_ALL_SETTINGS"
+      })
+      .then(settings => {
+        // init some settings
+        document.getElementById("lastUpdateCheck").innerHTML = "";
 
-    ipcRenderer
-      .invoke("SETTING", {
-        type: "GET_SETTING",
-        args: { key: "lastUpdateCheck" }
-      })
-      .then(setting => {
-        if (setting.response) {
-          document.getElementById("last-update-check").innerHTML = "Last checked " + moment(setting.response).fromNow();
-        } else {
-          document.getElementById("last-update-check").innerHTML = "";
-        }
-      });
-    ipcRenderer
-      .invoke("SETTING", {
-        type: "GET_SETTING",
-        args: { key: "autoCheckDownloadUpdates" }
-      })
-      .then(setting => {
-        if (setting.response === true) {
-          document.getElementById("drop-autodownloadupdate").setAttribute("checked", "true");
-        } else {
-          document.getElementById("drop-autodownloadupdate").removeAttribute("checked");
-        }
-      });
+        // Checkboxes
+        const checkboxSettingKeys = ["launchOnStartup", "autoInstallUpdates", "autoCheckDownloadUpdates"];
+        const setCheckbox = (key, value) => {
+          console.log("setting", key);
+          if (value === true) {
+            document.getElementById(key).setAttribute("checked", "true");
+          } else {
+            document.getElementById(key).removeAttribute("checked");
+          }
+        };
 
-    ipcRenderer
-      .invoke("SETTING", {
-        type: "GET_SETTING",
-        args: { key: "autoInstallUpdates" }
-      })
-      .then(setting => {
-        if (setting.response === true) {
-          document.getElementById("drop-autoupdate").setAttribute("checked", "true");
-        } else {
-          document.getElementById("drop-autoupdate").removeAttribute("checked");
-        }
+        // loop over existing settings
+        Object.keys(settings).forEach((settingKey, index) => {
+          // Special Fields
+          switch (settingKey) {
+            case "lastUpdateCheck":
+              document.getElementById(settingKey).innerHTML = "Last checked " + moment(settings[settingKey]).fromNow();
+              break;
+          }
+          // If key is part of checkboxSettingKeys array then set checkbox according to store value
+          if (checkboxSettingKeys.indexOf(settingKey) > -1) {
+            setCheckbox(settingKey, settings[settingKey]);
+          }
+        });
       });
   }
 
@@ -95,6 +87,18 @@ class SettingsWindow {
       });
     });
 
+    /* GENERAL */
+    const launchOnStartupCheckboxEl = document.getElementById("launchOnStartup");
+    launchOnStartupCheckboxEl.addEventListener("change", e => {
+      ipcRenderer.invoke("SETTING", {
+        type: "MODIFY_SETTING",
+        args: {
+          key: "launchOnStartup",
+          value: launchOnStartupCheckboxEl.checked
+        }
+      });
+    });
+
     /* ABOUT */
 
     const updateButtonEl = document.getElementById("drop-btn-check-update");
@@ -106,7 +110,7 @@ class SettingsWindow {
             type: "MODIFY_SETTING",
             args: { key: "lastUpdateCheck", value: new Date().getTime() }
           });
-          document.getElementById("last-update-check").innerHTML =
+          document.getElementById("lastUpdateCheck").innerHTML =
             "Last checked " + moment(new Date().getTime()).fromNow();
           document.getElementById("update-status").innerHTML = "Checking For Updates";
           ipcRenderer
@@ -167,7 +171,7 @@ class SettingsWindow {
       updateButtonEl.removeAttribute("disabled");
     });
 
-    const autoDownloadUpdateCheckboxEl = document.getElementById("drop-autodownloadupdate");
+    const autoDownloadUpdateCheckboxEl = document.getElementById("autoCheckDownloadUpdates");
     autoDownloadUpdateCheckboxEl.addEventListener("change", e => {
       ipcRenderer.invoke("SETTING", {
         type: "MODIFY_SETTING",
@@ -178,7 +182,7 @@ class SettingsWindow {
       });
     });
 
-    const autoInstallUpdateCheckboxEl = document.getElementById("drop-autoupdate");
+    const autoInstallUpdateCheckboxEl = document.getElementById("autoInstallUpdates");
     autoInstallUpdateCheckboxEl.addEventListener("change", e => {
       ipcRenderer.invoke("SETTING", {
         type: "MODIFY_SETTING",
