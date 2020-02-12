@@ -1,40 +1,44 @@
 {
-    "name": "drop",
-    "version": "0.0.1-alpha.4",
-    "description": "Windows Colour Picker",
-    "main": "src/main/main.js",
-    "scripts": {
-        "start": "./node_modules/.bin/electron .",
-        "build": "electron-builder build",
-        "release": "electron-builder --publish always build"
-    },
-    "build": {
-        "appId": "com.electron.drop",
-        "productName": "Drop",
-        "copyright": "Copyright © 2020 Lennart Hase",
-        "win": {
-            "icon": "./src/assets/img/icon.ico",
-            "publish": ["github"]
-        }
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/motorlatitude/Drop.git"
-    },
-    "author": "Lennart Hase",
-    "license": "CC0-1.0",
-    "devDependencies": {
-        "electron": "^7.1.11",
-        "electron-builder": "^22.3.2",
-        "electron-rebuild": "^1.10.0"
-    },
-    "dependencies": {
-        "color-namer": "^1.4.0",
-        "electron-log": "^4.0.6",
-        "electron-store": "^4.0.0",
-        "electron-updater": "^4.2.0",
-        "moment": "^2.24.0",
-        "robotjs": "^0.6.0",
-        "svg2png": "^4.1.1"
+  "name": "drop",
+  "version": "0.0.1-alpha.4",
+  "description": "Windows Colour Picker",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "./node_modules/.bin/electron .",
+    "build": "electron-builder build",
+    "release": "electron-builder --publish always build"
+  },
+  "build": {
+    "appId": "com.electron.drop",
+    "productName": "Drop",
+    "copyright": "Copyright © 2020 Lennart Hase",
+    "win": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "icon": "./src/assets/img/icon.ico",
+      "publish": [
+        "github"
+      ]
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/motorlatitude/Drop.git"
+  },
+  "author": "Lennart Hase",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^7.1.11",
+    "electron-builder": "^22.3.2",
+    "electron-rebuild": "^1.10.0"
+  },
+  "dependencies": {
+    "color-namer": "^1.4.0",
+    "electron-log": "^4.0.6",
+    "electron-store": "^4.0.0",
+    "electron-updater": "^4.2.0",
+    "moment": "^2.24.0",
+    "robotjs": "^0.6.0",
+    "svg2png": "^4.1.1"
+  }
 }
