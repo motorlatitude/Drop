@@ -1,6 +1,8 @@
 {
   "cSpell.words": [
-    "autoupdate"
+    "autoupdate",
+    "focusable",
+    "robotjs"
   ],
   "jshint.options": {
     "esversion": 8

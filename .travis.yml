@@ -1,0 +1,20 @@
+language: node_js
+node_js: "13.8.0"
+os: windows
+
+install:
+  - npm install robotjs --target=7.1.11
+  - npm install
+
+branches:
+  only:
+    - master
+
+script:
+  - npm run build
+
+deploy:
+  provider: script
+  script: .travis/release.sh
+  on:
+    branch: master

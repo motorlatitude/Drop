@@ -1,26 +1,31 @@
-const log = require('electron-log');
+const log = require("electron-log");
 
-const Channel = require('./Channel');
+const Channel = require("./Channel");
 
 class SettingChannel extends Channel {
-
   /**
    * Creates an instance of SettingChannel.
    * @param {{windowManager: WindowManager, store: ElectronStore, tray: ElectronTray, colorFormats: ColorFormats}} channelProps
    * @param {event} ipcEventObject ipc event object
-   * @param {{type: 'CHECK_UPDATE' | 'MODIFY_SETTING' | 'GET_SETTING', args: *}} [ipcEventDataObject] the included data
+   * @param {{type: 'CHECK_UPDATE' | 'DOWNLOAD_UPDATE' | 'INSTALL_UPDATE' | 'MODIFY_SETTING' | 'GET_SETTING' | 'GET_ALL_SETTINGS', args: *}} [ipcEventDataObject] the included data
    * @param {electron-updater} autoUpdater electron autoUpdater instance
    * @memberof SettingChannel
    */
   constructor(channelProps, ipcEventObject, ipcEventDataObject, autoUpdater) {
     super(channelProps.windowManager, channelProps.store, channelProps.tray, channelProps.colorFormats);
     switch (ipcEventDataObject.type) {
-      case 'CHECK_UPDATE':
+      case "CHECK_UPDATE":
         return this.checkForUpdate(autoUpdater);
-      case 'MODIFY_SETTING':
+      case "DOWNLOAD_UPDATE":
+        return this.downloadUpdate(autoUpdater);
+      case "INSTALL_UPDATE":
+        return this.installUpdate(autoUpdater);
+      case "MODIFY_SETTING":
         return this.modifySetting(ipcEventDataObject.args);
-      case 'GET_SETTING':
+      case "GET_SETTING":
         return this.getSetting(ipcEventDataObject.args);
+      case "GET_ALL_SETTINGS":
+        return this.getAllSettings();
     }
   }
 
@@ -30,7 +35,17 @@ class SettingChannel extends Channel {
    */
   getSetting(args) {
     const currentSettings = this.Store.get("settings", {}); //TODO: create default settings object
-    return {response: currentSettings[args.key]};
+    log.log("GET", currentSettings[args.key]);
+    return { response: currentSettings[args.key] };
+  }
+
+  /**
+   * Get all setting properties and values
+   */
+  getAllSettings() {
+    const currentSettings = this.Store.get("settings", {}); //TODO: create default settings object
+    log.log("GET_ALL", currentSettings);
+    return { response: currentSettings };
   }
 
   /**
@@ -48,14 +63,39 @@ class SettingChannel extends Channel {
    * Check github releases if update available
    */
   async checkForUpdate(autoUpdater) {
-    return await autoUpdater.checkForUpdates().then((results) => {
-      log.info(results);
-      return results;
-    }).catch((err) => {
-      log.error(err);
+    const isUpdateAvailable = await autoUpdater.checkForUpdates().catch(err => {
+      return {
+        error: err
+      };
     });
+    return {
+      error: null
+    };
   }
 
+  /**
+   * Download latest github release update
+   */
+  async downloadUpdate(autoUpdater) {
+    const downloadedUpdatePath = await autoUpdater.downloadLatestUpdate().catch(err => {
+      return {
+        downloadedUpdatePath: false,
+        error: err
+      };
+    });
+    return {
+      downloadedUpdatePath,
+      error: null
+    };
+  }
+
+  /**
+   * Install update
+   * @param {Electron-Updater} autoUpdater the autoUpdater instance for the app
+   */
+  installUpdate(autoUpdater) {
+    autoUpdater.quitAndInstall(true, true);
+  }
 }
 
 module.exports = SettingChannel;
