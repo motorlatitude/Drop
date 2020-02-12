@@ -1,5 +1,8 @@
 {
   "cSpell.words": [
     "autoupdate"
-  ]
+  ],
+  "jshint.options": {
+    "esversion": 8
+  }
 }

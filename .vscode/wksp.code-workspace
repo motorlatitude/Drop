@@ -3,10 +3,5 @@
 		{
 			"path": "E:\\Developer\\Drop"
 		}
-	],
-	"settings": {
-		"jshint.options": {
-			"esversion": 8
-		}
-	}
+	]
 }
