@@ -30,17 +30,17 @@
   "author": "Lennart Hase",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^7.1.11",
+    "electron": "^7.1.12",
     "electron-builder": "^22.3.2",
     "electron-rebuild": "^1.10.0"
   },
   "dependencies": {
     "color-namer": "^1.4.0",
     "electron-log": "^4.0.6",
-    "electron-store": "^4.0.0",
     "electron-updater": "^4.2.0",
     "moment": "^2.24.0",
     "robotjs": "^0.6.0",
-    "svg2png": "^4.1.1"
+    "svg2png": "^4.1.1",
+    "electron-store": "^5.1.0"
   }
 }

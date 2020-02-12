@@ -3,7 +3,7 @@ node_js: "13.8.0"
 os: windows
 
 install:
-  - npm install robotjs --target=7.1.11
+  - npm install robotjs --target=7.1.12
   - npm install
 
 branches:
