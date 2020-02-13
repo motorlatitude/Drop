@@ -55,33 +55,18 @@ function createWindow() {
   }
 
   // Check whether a shortcut is registered.
-  log.info(
-    "Global shortcut is registered: ",
-    globalShortcut.isRegistered("CommandOrControl+I")
-  );
+  log.info("Global shortcut is registered: ", globalShortcut.isRegistered("CommandOrControl+I"));
 
   let previous_mouse_position = { x: 0, y: 0 };
   // Get mouse position.
   mouseInterval = setInterval(() => {
-    if (
-      !windowBoss.isQuitting &&
-      windowBoss.windows.picker &&
-      mainWindowController.isVisible
-    ) {
+    if (!windowBoss.isQuitting && windowBoss.windows.picker && mainWindowController.isVisible) {
       var mouse = robot.getMousePos();
-      if (
-        previous_mouse_position.x != mouse.x ||
-        previous_mouse_position.y != mouse.y
-      ) {
+      if (previous_mouse_position.x != mouse.x || previous_mouse_position.y != mouse.y) {
         previous_mouse_position.x = mouse.x;
         previous_mouse_position.y = mouse.y;
         let size = picker_size;
-        var img = robot.screen.capture(
-          Math.ceil(mouse.x - size / 2),
-          Math.ceil(mouse.y - size / 2),
-          size,
-          size
-        );
+        var img = robot.screen.capture(Math.ceil(mouse.x - size / 2), Math.ceil(mouse.y - size / 2), size, size);
         let multi = img.width / size;
         let currentScreen = electron.screen.getDisplayNearestPoint({
           x: mouse.x,
@@ -91,16 +76,10 @@ function createWindow() {
         let workAreaSize = currentScreen.workArea;
         let windowX = Math.floor(mouse.x / factor) - 20;
         let windowY = Math.floor(mouse.y / factor) - 20;
-        if (
-          workAreaSize.width <
-          mouse.x / factor - workAreaSize.x + picker_size * 15
-        ) {
+        if (workAreaSize.width < mouse.x / factor - workAreaSize.x + picker_size * 15) {
           windowX = Math.floor(mouse.x / factor) - (picker_size * 15 - 20);
         }
-        if (
-          workAreaSize.height <
-          mouse.y / factor - workAreaSize.y + (picker_size * 15 - 90)
-        ) {
+        if (workAreaSize.height < mouse.y / factor - workAreaSize.y + (picker_size * 15 - 90)) {
           windowY = Math.floor(mouse.y / factor) - (picker_size * 15 - 20);
         }
         mainWindow.setBounds(
@@ -153,10 +132,7 @@ function createWindow() {
     if (color_format == "css_hex") {
       log.log("Selected Color: #" + arg.toUpperCase());
       clipboard.writeText("#" + arg.toUpperCase());
-      historyWindow.window.webContents.send(
-        "color_history",
-        "#" + arg.toUpperCase()
-      );
+      historyWindow.window.webContents.send("color_history", "#" + arg.toUpperCase());
     } else if (color_format == "css_rgba") {
       let r = parseInt("0x" + arg.substring(0, 2));
       let g = parseInt("0x" + arg.substring(2, 4));
@@ -164,10 +140,7 @@ function createWindow() {
       let color = "rgba(" + r + "," + g + "," + b + ",1)";
       log.log("Selected Color: " + color);
       clipboard.writeText(color);
-      historyWindow.window.webContents.send(
-        "color_history",
-        "#" + arg.toUpperCase()
-      );
+      historyWindow.window.webContents.send("color_history", "#" + arg.toUpperCase());
     } else if (color_format == "css_rgb") {
       let r = parseInt("0x" + arg.substring(0, 2));
       let g = parseInt("0x" + arg.substring(2, 4));
@@ -175,10 +148,7 @@ function createWindow() {
       let color = "rgb(" + r + "," + g + "," + b + ")";
       log.log("Selected Color: " + color);
       clipboard.writeText(color);
-      historyWindow.window.webContents.send(
-        "color_history",
-        "#" + arg.toUpperCase()
-      );
+      historyWindow.window.webContents.send("color_history", "#" + arg.toUpperCase());
     } else if (color_format == "css_hsl") {
       let r = parseInt("0x" + arg.substring(0, 2));
       let g = parseInt("0x" + arg.substring(2, 4));
@@ -217,10 +187,7 @@ function createWindow() {
       let color = "hsl(" + hue + "," + saturation + "%," + luminesence + "%)";
       log.log("Selected Color: " + color);
       clipboard.writeText(color);
-      historyWindow.window.webContents.send(
-        "color_history",
-        "#" + arg.toUpperCase()
-      );
+      historyWindow.window.webContents.send("color_history", "#" + arg.toUpperCase());
     } else if (color_format == "css_hsla") {
       let r = parseInt("0x" + arg.substring(0, 2));
       let g = parseInt("0x" + arg.substring(2, 4));
@@ -255,21 +222,14 @@ function createWindow() {
         }
         hue = Math.ceil(temp_h);
       }
-      let color =
-        "hsla(" + hue + "," + saturation + "%," + luminesence + "%,1)";
+      let color = "hsla(" + hue + "," + saturation + "%," + luminesence + "%,1)";
       log.log("Selected Color: " + color);
       clipboard.writeText(color);
-      historyWindow.window.webContents.send(
-        "color_history",
-        "#" + arg.toUpperCase()
-      );
+      historyWindow.window.webContents.send("color_history", "#" + arg.toUpperCase());
     } else {
       log.log("Selected Color: #" + arg.toUpperCase());
       clipboard.writeText("#" + arg.toUpperCase());
-      historyWindow.window.webContents.send(
-        "color_history",
-        "#" + arg.toUpperCase()
-      );
+      historyWindow.window.webContents.send("color_history", "#" + arg.toUpperCase());
     }
     setTimeout(function() {
       mainWindow.hide();
@@ -330,19 +290,13 @@ function createWindow() {
       //enlarge picker size
       if (picker_size <= 27) {
         picker_size += 5;
-        mainWindow.setBounds(
-          { width: picker_size * 15, height: picker_size * 15 },
-          false
-        );
+        mainWindow.setBounds({ width: picker_size * 15, height: picker_size * 15 }, false);
       }
     } else if (arg == "picker-decrease") {
       //decrease picker size
       if (picker_size >= 12) {
         picker_size -= 5;
-        mainWindow.setBounds(
-          { width: picker_size * 15, height: picker_size * 15 },
-          false
-        );
+        mainWindow.setBounds({ width: picker_size * 15, height: picker_size * 15 }, false);
       }
     } else if (arg == "zoom-increase") {
       //increase zoom size
@@ -364,13 +318,7 @@ function createWindow() {
   historyWindow = new HistoryWindowController(windowBoss);
   tray = new DropTray(mainWindow, historyWindow.window);
 
-  let messageHandler = new MessageHandler(
-    windowBoss,
-    store,
-    tray,
-    colorFormats,
-    updater
-  );
+  let messageHandler = new MessageHandler(windowBoss, store, tray, colorFormats, updater);
   messageHandler.setupListeners();
 }
 

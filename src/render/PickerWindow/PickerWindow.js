@@ -6,6 +6,7 @@ class PickerWindow {
     this.activeColor = null;
     this._ConfigureWindowEventListeners();
     this._ConfigureIPCEvents();
+    this._Audio = new Audio("./../assets/audio/drop.wav");
   }
 
   /**
@@ -45,6 +46,7 @@ class PickerWindow {
   _ConfigureWindowEventListeners() {
     window.addEventListener("click", () => {
       document.getElementById("a").innerHTML = "Copied";
+      this._Audio.play();
       ipcRenderer.send("clicked", this.activeColor);
     });
 

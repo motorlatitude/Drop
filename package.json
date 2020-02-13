@@ -37,10 +37,10 @@
   "dependencies": {
     "color-namer": "^1.4.0",
     "electron-log": "^4.0.6",
+    "electron-store": "^5.1.0",
     "electron-updater": "^4.2.0",
     "moment": "^2.24.0",
     "robotjs": "^0.6.0",
-    "svg2png": "^4.1.1",
-    "electron-store": "^5.1.0"
+    "svg2png": "^4.1.1"
   }
 }
