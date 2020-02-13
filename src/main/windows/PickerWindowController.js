@@ -1,3 +1,4 @@
+const MouseCaptureHandler = require("../resources/MouseCaptureHandler");
 
 /**
  * PickerWindowController Class
@@ -5,13 +6,13 @@
  * Handles the magnification picker window
  */
 class PickerWindowController {
-
   /**
    * @constructor
    * @param {WindowManager} wm the WindowManager instance for the app
    */
   constructor(wm) {
     this.window = null;
+    this._MouseCaptureHandler = new MouseCaptureHandler(wm, this);
     this.createWindow(wm);
     this.isVisible = false;
   }
@@ -25,38 +26,47 @@ class PickerWindowController {
 
     this.window.setBounds({
       width: 255,
-      height: 255,
+      height: 255
     });
     this.window.setAlwaysOnTop(true);
     this.window.setVisibleOnAllWorkspaces(true);
     this.window.setSkipTaskbar(true);
-    this.window.loadFile(__dirname + './../../views/index.html');
+    this.window.loadFile(__dirname + "./../../views/index.html");
 
-    this.window.on('closed', () => {
+    this.window.on("closed", () => {
       this.window = null;
+      if (this._MouseCaptureHandler !== null) {
+        this._MouseCaptureHandler.stopPolling();
+      }
     });
 
     this._ConfigureEventListeners();
   }
 
-   /**
+  /**
    * Sets PickerWindow's event listeners
    */
   _ConfigureEventListeners() {
     // Fix for window flashing on windows 10: electron issue #12130
-    this.window.on('show', () => {
-        setTimeout(() => {
-          this.window.setOpacity(1);
-          this.isVisible = true;
-        }, 100);
+    this.window.on("show", () => {
+      setTimeout(() => {
+        this.window.setOpacity(1);
+        this.isVisible = true;
+      }, 100);
+      if (this._MouseCaptureHandler !== null) {
+        this._MouseCaptureHandler.startPolling();
+      }
     });
 
-    this.window.on('hide', () => {
+    this.window.on("hide", () => {
       this.window.setOpacity(0);
       this.isVisible = false;
+      if (this._MouseCaptureHandler !== null) {
+        this._MouseCaptureHandler.stopPolling();
+      }
     });
 
-    this.window.on('close', (e) => {
+    this.window.on("close", e => {
       if (!this.windowManager.isQuitting) {
         e.preventDefault();
         this.window.hide();
@@ -65,19 +75,27 @@ class PickerWindowController {
         this.isVisible = false;
         this.window = null;
       }
+      if (this._MouseCaptureHandler !== null) {
+        this._MouseCaptureHandler.stopPolling();
+      }
     });
-    this.window.on('closed', (e) => {
+    this.window.on("closed", e => {
+      if (this._MouseCaptureHandler !== null) {
+        this._MouseCaptureHandler.stopPolling();
+      }
       this.window.destroy();
       this.isVisible = false;
       this.window = null;
     });
 
-    this.window.on('blur', () => {
+    this.window.on("blur", () => {
       this.window.hide();
       this.isVisible = false;
+      if (this._MouseCaptureHandler !== null) {
+        this._MouseCaptureHandler.stopPolling();
+      }
     });
   }
-
 }
 
 module.exports = PickerWindowController;

@@ -41,7 +41,7 @@ class PickerWindow {
   }
 
   /**
-   * Setup Window Eventlisteners
+   * Setup Window EventListeners
    */
   _ConfigureWindowEventListeners() {
     window.addEventListener("click", () => {
@@ -53,7 +53,7 @@ class PickerWindow {
     window.addEventListener("keyup", event => {
       console.log(event.key);
       if (event.key === "Escape" || event.key === "Esc" || event.keyCode === 27) {
-        ipcRenderer.send("esc");
+        ipcRenderer.invoke("WINDOW", { type: "HIDE", windowName: "picker" });
       }
       if (event.keyCode === 39) {
         //right

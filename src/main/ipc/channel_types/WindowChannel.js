@@ -1,12 +1,11 @@
-const electron = require('electron');
+const electron = require("electron");
 const { screen } = electron;
 
-const Channel = require('./Channel');
-const SettingsWindowController = require('./../../windows/SettingsWindowController');
-const PopoverWindowController = require('./../../windows/PopoverWindowController');
+const Channel = require("./Channel");
+const SettingsWindowController = require("./../../windows/SettingsWindowController");
+const PopoverWindowController = require("./../../windows/PopoverWindowController");
 
-class WindowChannel extends Channel{
-
+class WindowChannel extends Channel {
   /**
    * Creates an instance of WindowChannel.
    * @param {{windowManager: WindowManager, store: ElectronStore, tray: ElectronTray, colorFormats: ColorFormats}} channelProps
@@ -17,15 +16,15 @@ class WindowChannel extends Channel{
   constructor(channelProps, ipcEventObject, ipcEventDataObject) {
     super(channelProps.windowManager, channelProps.store, channelProps.tray, channelProps.colorFormats);
     switch (ipcEventDataObject.type) {
-      case 'GET_BOUNDS':
+      case "GET_BOUNDS":
         return this.getBounds(ipcEventDataObject.windowName);
-      case 'SET_BOUNDS':
+      case "SET_BOUNDS":
         return this.setBounds(ipcEventDataObject.windowName, ipcEventDataObject.args);
-      case 'SHOW':
+      case "SHOW":
         return this.showWindow(ipcEventDataObject.windowName);
-      case 'HIDE':
+      case "HIDE":
         return this.hideWindow(ipcEventDataObject.windowName);
-      case 'IS_VISIBLE':
+      case "IS_VISIBLE":
         return this.isWindowVisible(ipcEventDataObject.windowName);
     }
   }
@@ -38,7 +37,7 @@ class WindowChannel extends Channel{
    * @memberof WindowChannel
    */
   getBounds(windowName) {
-    if(this.WindowManager.windows[windowName]) {
+    if (this.WindowManager.windows[windowName]) {
       const b = this.WindowManager.windows[windowName].getBounds();
       return {
         x: b.x,
@@ -47,7 +46,7 @@ class WindowChannel extends Channel{
         height: b.height
       };
     }
-    return new Error('Could not find window with the name', windowName);
+    return new Error("Could not find window with the name", windowName);
   }
 
   /**
@@ -63,15 +62,18 @@ class WindowChannel extends Channel{
     if (this.WindowManager.windows[windowName]) {
       const currentBounds = this.WindowManager.windows[windowName].getBounds();
       const newBounds = {
-        width: newWindowBounds.width ? newWindowBounds.width : currentBounds.width,
-        height: newWindowBounds.height ? newWindowBounds.height : currentBounds.height,
-        x: newWindowBounds.x ? newWindowBounds.x : currentBounds.x,
-        y: newWindowBounds.y ? newWindowBounds.y : currentBounds.y
+        width: newWindowBounds.width !== undefined ? newWindowBounds.width : currentBounds.width,
+        height: newWindowBounds.height !== undefined ? newWindowBounds.height : currentBounds.height,
+        x: newWindowBounds.x !== undefined ? newWindowBounds.x : currentBounds.x,
+        y: newWindowBounds.y !== undefined ? newWindowBounds.y : currentBounds.y
       };
-      this.WindowManager.windows[windowName].setBounds(newBounds, newWindowBounds.animate === true ? newWindowBounds.animate : false);
+      this.WindowManager.windows[windowName].setBounds(
+        newBounds,
+        newWindowBounds.animate === true ? newWindowBounds.animate : false
+      );
       return this.WindowManager.windows[windowName].getBounds();
     }
-    return new Error('Could not find window with the name', windowName);
+    return new Error("Could not find window with the name", windowName);
   }
 
   /**
@@ -94,9 +96,13 @@ class WindowChannel extends Channel{
     } else if (windowName === "popover") {
       console.log("Creating Popover Window");
 
-      const popoverItems = this.ColorFormats.formats.map((format) => {
+      const popoverItems = this.ColorFormats.formats.map(format => {
         format.clickHandler = () => {
-          this.WindowManager.windows.history.webContents.send("color-type-change", {type: format.value, name: format.title, icon: format.icon});
+          this.WindowManager.windows.history.webContents.send("color-type-change", {
+            type: format.value,
+            name: format.title,
+            icon: format.icon
+          });
           this.ColorFormats.selectedFormat = format.value;
         };
         return format;
@@ -109,7 +115,7 @@ class WindowChannel extends Channel{
         x: windowBounds.x,
         y: windowBounds.y
       });
-      if(windowY + 260 >= windowScreen.bounds.height){
+      if (windowY + 260 >= windowScreen.bounds.height) {
         windowY = windowY - 260 - 40;
       }
       const w = new PopoverWindowController(this.WindowManager, popoverItems, {
@@ -122,7 +128,7 @@ class WindowChannel extends Channel{
       });
       return undefined;
     }
-    return new Error('Could not find window with the name', windowName);
+    return new Error("Could not find window with the name", windowName);
   }
 
   /**
@@ -137,7 +143,7 @@ class WindowChannel extends Channel{
       this.WindowManager.windows[windowName].hide();
       return undefined;
     }
-    return new Error('Could not find window with the name', windowName);
+    return new Error("Could not find window with the name", windowName);
   }
 
   /**
@@ -149,11 +155,10 @@ class WindowChannel extends Channel{
    */
   isWindowVisible(windowName) {
     if (this.WindowManager.windows[windowName]) {
-      return {visible: this.WindowManager.windows[windowName].isVisible()};
+      return { visible: this.WindowManager.windows[windowName].isVisible() };
     }
-    return {visible: false};
+    return { visible: false };
   }
-
 }
 
 module.exports = WindowChannel;

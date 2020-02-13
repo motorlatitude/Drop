@@ -56,12 +56,9 @@ class PopoverWindowController {
         .toString(36)
         .substr(2, 15);
       if (!val.isSeparator) {
-        ipcMain.on(
-          "options-" + this._windowId + "-click-" + val._id,
-          (evt, args) => {
-            val.clickHandler(args);
-          }
-        );
+        ipcMain.on("options-" + this._windowId + "-click-" + val._id, (evt, args) => {
+          val.clickHandler(args);
+        });
       }
       return val;
     });
