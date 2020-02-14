@@ -58,45 +58,44 @@ class PickerWindow {
       if (event.keyCode === 39) {
         //right
         if (event.shiftKey) {
-          ipcRenderer.send("move-right", "shift");
+          ipcRenderer.invoke("MOUSE", { type: "MOVE", args: { direction: "RIGHT", shift: true } });
         } else {
-          ipcRenderer.send("move-right");
+          ipcRenderer.invoke("MOUSE", { type: "MOVE", args: { direction: "RIGHT", shift: false } });
         }
       }
       if (event.keyCode === 37) {
         //left
         if (event.shiftKey) {
-          ipcRenderer.send("move-left", "shift");
+          ipcRenderer.invoke("MOUSE", { type: "MOVE", args: { direction: "LEFT", shift: true } });
         } else {
-          ipcRenderer.send("move-left");
+          ipcRenderer.invoke("MOUSE", { type: "MOVE", args: { direction: "LEFT", shift: false } });
         }
       }
       if (event.keyCode === 38) {
         //up
         if (event.shiftKey) {
-          ipcRenderer.send("move-up", "shift");
+          ipcRenderer.invoke("MOUSE", { type: "MOVE", args: { direction: "UP", shift: true } });
         } else {
-          ipcRenderer.send("move-up");
+          ipcRenderer.invoke("MOUSE", { type: "MOVE", args: { direction: "UP", shift: false } });
         }
       }
       if (event.keyCode === 40) {
         //down
         if (event.shiftKey) {
-          ipcRenderer.send("move-down", "shift");
+          ipcRenderer.invoke("MOUSE", { type: "MOVE", args: { direction: "DOWN", shift: true } });
         } else {
-          ipcRenderer.send("move-down");
+          ipcRenderer.invoke("MOUSE", { type: "MOVE", args: { direction: "DOWN", shift: false } });
         }
       }
       if (["-", "Minus"].includes(event.key)) {
         //minus decreases loop size
-        console.log("Decrease Loop Size");
-        ipcRenderer.send("loop-size", "picker-decrease");
+        ipcRenderer.invoke("PICKER", { type: "MODIFY_SIZE", args: { zoomType: "decrease" } });
         document.body.style.zoom = 1.0;
         event.preventDefault();
       }
       if (event.key == "+") {
         //plus Increase loop size
-        ipcRenderer.send("loop-size", "picker-increase");
+        ipcRenderer.invoke("PICKER", { type: "MODIFY_SIZE", args: { zoomType: "increase" } });
         document.body.style.zoom = 1.0;
         event.preventDefault();
       }

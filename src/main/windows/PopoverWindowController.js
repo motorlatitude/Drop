@@ -22,7 +22,7 @@ class PopoverWindowController {
    * @param {{x: number, y: number}} [position] the position of the popover
    */
   createWindow(wm, options, position) {
-    this.window = wm.createNewWindow("popover");
+    this.window = wm.createNewWindow(this, "popover");
     if (position) {
       this.setPosition(position);
     }

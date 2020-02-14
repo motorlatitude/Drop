@@ -18,11 +18,28 @@ class PickerWindowController {
   }
 
   /**
+   * Get the picker size of the mouse capture handler
+   *
+   * @memberof PickerWindowController
+   */
+  get pickerSize() {
+    return this._MouseCaptureHandler._PickerSize;
+  }
+
+  set pickerSize(size) {
+    if (size <= 27 && size >= 12 && this.window !== null) {
+      this._MouseCaptureHandler._PickerSize = size;
+      this.window.setBounds({ width: size * 15, height: size * 15 }, false);
+      this._MouseCaptureHandler.forceCapture(); // force redraw of lens on picker size change
+    }
+  }
+
+  /**
    * Creates a new picker window
    * @param {WindowManager} wm the WindowManager instance for the app
    */
   createWindow(wm) {
-    this.window = wm.createNewWindow("picker");
+    this.window = wm.createNewWindow(this, "picker");
 
     this.window.setBounds({
       width: 255,

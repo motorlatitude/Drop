@@ -32,30 +32,43 @@ class MouseCaptureHandler {
   }
 
   /**
+   * Force a new mouse capture to occur
+   *
+   * @memberof MouseCaptureHandler
+   */
+  forceCapture() {
+    this._mouseCapture(true);
+  }
+
+  /**
    * Check if capturing should be taking place
    */
-  _shouldCapture() {
-    if (
-      !this._WindowManager.isQuitting &&
-      this._WindowManager.windows.picker &&
-      this._PickerWindowController.isVisible
-    ) {
-      const currentMousePosition = robot.getMousePos();
+  _shouldCapture(ignore = false) {
+    if (ignore) {
+      return true;
+    } else {
       if (
-        this._PreviousMousePosition.x !== currentMousePosition.x ||
-        this._PreviousMousePosition.y !== currentMousePosition.y
+        !this._WindowManager.isQuitting &&
+        this._WindowManager.windows.picker &&
+        this._PickerWindowController.isVisible
       ) {
-        this._PreviousMousePosition.x = currentMousePosition.x;
-        this._PreviousMousePosition.y = currentMousePosition.y;
-        return true;
+        const currentMousePosition = robot.getMousePos();
+        if (
+          this._PreviousMousePosition.x !== currentMousePosition.x ||
+          this._PreviousMousePosition.y !== currentMousePosition.y
+        ) {
+          this._PreviousMousePosition.x = currentMousePosition.x;
+          this._PreviousMousePosition.y = currentMousePosition.y;
+          return true;
+        }
+        return false;
       }
       return false;
     }
-    return false;
   }
 
-  _mouseCapture() {
-    if (this._shouldCapture()) {
+  _mouseCapture(ignoreChecks = false) {
+    if (this._shouldCapture(ignoreChecks)) {
       // capture small screenshot around mouse cursor position
       var img = robot.screen.capture(
         Math.ceil(this._PreviousMousePosition.x - this._PickerSize / 2),
