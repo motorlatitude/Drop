@@ -6,11 +6,13 @@
 
 # Drop - Color Picker Tool
 
-<img src="https://travis-ci.com/motorlatitude/Drop.svg?branch=master" alt="Build Status">
-<img src="https://david-dm.org/motorlatitude/drop.svg" alt="Dependency Version">
-<img src="https://img.shields.io/github/downloads/motorlatitude/Drop/total?color=green" alt="GitHub All Releases">
-<img src="https://img.shields.io/github/package-json/v/motorlatitude/drop" alt="Drop Version">
-<br/><br/>
+<p align="left">
+    <img src="https://travis-ci.com/motorlatitude/Drop.svg?branch=master" alt="Build Status">
+    <img src="https://david-dm.org/motorlatitude/drop.svg" alt="Dependency Version">
+    <img src="https://img.shields.io/github/downloads/motorlatitude/Drop/total?color=green" alt="GitHub All Releases">
+    <img src="https://img.shields.io/github/package-json/v/motorlatitude/drop" alt="Drop Version">
+    <br/><br/>
+</p>
 
 🏗️ **Development Stage**: Alpha
 
@@ -18,7 +20,7 @@ Drop is a color picker made for windows using electron. It's designed for develo
 tweak and share colors, featuring a rich UI to support it along the way.
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/motorlatitude/Drop/master/src/assets/img/thumbnail.png" alt="Drop Preview - Showing the history window" width="75%">
+    <img src="https://raw.githubusercontent.com/motorlatitude/Drop/alpha.5/src/assets/img/thumbnail.png" alt="Drop Preview - Showing the history window" width="75%">
 </p>
 
 ## 🧮 Installation
