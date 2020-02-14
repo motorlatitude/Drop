@@ -14,10 +14,10 @@
     <br/><br/>
 </p>
 
-🏗️ **Development Stage**: Alpha
-
 Drop is a color picker made for windows using electron. It's designed for developers and designers as a way to gather,
 tweak and share colors, featuring a rich UI to support it along the way.
+
+🏗️ **Development Stage**: Alpha
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/motorlatitude/Drop/alpha.5/src/assets/img/thumbnail.png" alt="Drop Preview - Showing the history window" width="75%">
