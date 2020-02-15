@@ -42,7 +42,7 @@ class AppController {
     const tray = new TrayController(pickerWindowController.window, historyWindowController.window);
 
     let colorFormats = new ColorFormats();
-    let messageHandler = new MessageHandler(this._WindowManager, this._Store, tray, colorFormats, this._Updater);
+    let messageHandler = new MessageHandler(this, this._WindowManager, this._Store, tray, colorFormats, this._Updater);
     messageHandler.setupListeners();
   }
 
@@ -57,7 +57,8 @@ class AppController {
    */
   _SetFlags() {
     this._App.commandLine.appendSwitch("force-color-profile", "srgb"); //TODO: further research into this for selecting color profile for app, possible option in settings for different types
-    this.setLoginItem(true);
+    const currentSettings = this._Store.get("settings", {}); //TODO: create default settings object
+    this.setLoginItem(currentSettings.launchOnStartup === undefined || currentSettings.launchOnStartup ? true : false);
   }
 
   /**

@@ -11,7 +11,7 @@ class SettingChannel extends Channel {
    * @param {electron-updater} autoUpdater electron autoUpdater instance
    * @memberof SettingChannel
    */
-  constructor(channelProps, ipcEventObject, ipcEventDataObject, autoUpdater) {
+  constructor(channelProps, ipcEventObject, ipcEventDataObject, autoUpdater, appController) {
     super(channelProps.windowManager, channelProps.store, channelProps.tray, channelProps.colorFormats);
     switch (ipcEventDataObject.type) {
       case "CHECK_UPDATE":
@@ -21,7 +21,7 @@ class SettingChannel extends Channel {
       case "INSTALL_UPDATE":
         return this.installUpdate(autoUpdater);
       case "MODIFY_SETTING":
-        return this.modifySetting(ipcEventDataObject.args);
+        return this.modifySetting(ipcEventDataObject.args, appController);
       case "GET_SETTING":
         return this.getSetting(ipcEventDataObject.args);
       case "GET_ALL_SETTINGS":
@@ -52,10 +52,21 @@ class SettingChannel extends Channel {
    * Set or update a setting property
    * @param {{key: string, value: *}} args setting arguments
    */
-  modifySetting(args) {
+  modifySetting(args, appController) {
     const currentSettings = this.Store.get("settings", {}); //TODO: create default settings object
     currentSettings[args.key] = args.value;
     this.Store.set("settings", currentSettings);
+
+    // Hot Swap Settings
+    switch (args.key) {
+      case "launchOnStartup":
+        appController.setLoginItem(args.value);
+        break;
+      default:
+        //log.log("Unhandled settings key", args.key);
+        break;
+    }
+
     return undefined;
   }
 
