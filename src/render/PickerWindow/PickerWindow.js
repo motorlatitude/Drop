@@ -47,7 +47,7 @@ class PickerWindow {
     window.addEventListener("click", () => {
       document.getElementById("a").innerHTML = "Copied";
       this._Audio.play();
-      ipcRenderer.send("clicked", this.activeColor);
+      ipcRenderer.invoke("PICKER", { type: "PICKED", args: { color: this.activeColor } });
     });
 
     window.addEventListener("keyup", event => {

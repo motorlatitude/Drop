@@ -58,7 +58,6 @@ class SettingsWindow {
 
     [...document.getElementsByClassName("navbar-item")].forEach((el, index) => {
       el.addEventListener("click", e => {
-        console.log("CLicked Settings View");
         const viewName = el.getAttribute("data-linked-view");
         const settingsFrame = document.querySelector(".settings-frame[data-view='" + viewName + "']");
         if (settingsFrame) {
