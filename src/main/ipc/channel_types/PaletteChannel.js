@@ -1,3 +1,5 @@
+const log = require("electron-log");
+
 const Channel = require("./Channel");
 
 /**
@@ -27,7 +29,7 @@ class PaletteChannel extends Channel {
       case "DELETE":
         return this.delete(ipcEventDataObject.args);
       default:
-        console.warn("UNKNOWN IPC TYPE FOR PALETTE CHANNEL");
+        log.warn("UNKNOWN IPC TYPE FOR PALETTE CHANNEL");
         break;
     }
   }
@@ -41,7 +43,7 @@ class PaletteChannel extends Channel {
    */
   get(paletteId) {
     let paletteStore = this.Store.get("palettes", { HISTORY: { colors: [], name: "Color History", id: "HISTORY" } });
-    console.log("GET", paletteStore[paletteId]);
+    log.debug("GET", paletteStore[paletteId]);
     return paletteStore[paletteId];
   }
 
@@ -53,7 +55,7 @@ class PaletteChannel extends Channel {
    */
   getAll() {
     let paletteStore = this.Store.get("palettes", { HISTORY: { colors: [], name: "Color History", id: "HISTORY" } });
-    console.log("GET_ALL", paletteStore);
+    log.debug("GET_ALL", paletteStore);
     return paletteStore;
   }
 

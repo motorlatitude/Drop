@@ -35,7 +35,7 @@ class SettingChannel extends Channel {
    */
   getSetting(args) {
     const currentSettings = this.Store.get("settings", {}); //TODO: create default settings object
-    log.log("GET", currentSettings[args.key]);
+    log.log("GET", args.key, currentSettings[args.key]);
     return { response: currentSettings[args.key] };
   }
 
@@ -67,6 +67,7 @@ class SettingChannel extends Channel {
         if (args.value) {
           autoUpdater.startCheckInterval();
         }
+        break;
       default:
         //log.log("Unhandled settings key", args.key);
         break;

@@ -1,5 +1,6 @@
 const electron = require("electron");
 const { screen } = electron;
+const log = require("electron-log");
 
 const Channel = require("./Channel");
 const SettingsWindowController = require("./../../windows/SettingsWindowController");
@@ -58,7 +59,7 @@ class WindowChannel extends Channel {
    * @memberof WindowChannel
    */
   setBounds(windowName, newWindowBounds) {
-    console.log("Modifying bounds for window with name '", windowName, "' to ", newWindowBounds);
+    log.debug("Modifying bounds for window with name '", windowName, "' to ", newWindowBounds);
     if (this.WindowManager.windows[windowName]) {
       const currentBounds = this.WindowManager.windows[windowName].getBounds();
       const newBounds = {
@@ -94,7 +95,7 @@ class WindowChannel extends Channel {
       });
       return undefined;
     } else if (windowName === "popover") {
-      console.log("Creating Popover Window");
+      log.debug("Creating Popover Window");
 
       const popoverItems = this.ColorFormats.formats.map(format => {
         format.clickHandler = () => {

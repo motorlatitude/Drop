@@ -1,4 +1,5 @@
 const { Menu, Tray, app } = require("electron");
+const log = require("electron-log");
 
 /**
  * TrayController Class
@@ -53,7 +54,7 @@ class TrayController {
         label: "Quit",
         type: "normal",
         click: () => {
-          console.log("Quitting");
+          log.info("Quitting");
           app.quit();
         }
       }

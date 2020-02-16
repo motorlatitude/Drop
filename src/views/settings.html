@@ -161,8 +161,8 @@
                         <div class="col-right">
                             <label for="colorProfile">
                                 <select id="colorProfile" aria-label="Color Profile">
-                                    <option>default</option>
-                                    <option>srgb</option>
+                                    <option value="default" selected>Default</option>
+                                    <option value="srgb">sRGB</option>
                                 </select>
                             </label>
                         </div>
@@ -181,6 +181,7 @@
             <div class="settings-frame about" data-view="about">
                 <div class="icon">
                     <img src="../assets/img/icon.png" alt="Drop Icon"/>
+                    <div id="drop-framework-versions"></div>
                 </div>
                 <div class="drop-version" id="drop-version"></div>
                 <div class="drop-updater">

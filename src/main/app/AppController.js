@@ -1,4 +1,5 @@
 const log = require("electron-log");
+
 const ShortcutController = require("./ShortcutController");
 const Updater = require("./../resources/Updater");
 const TrayController = require("./TrayController");
@@ -10,14 +11,22 @@ const PickerWindowController = require("./../windows/PickerWindowController");
 
 class AppController {
   constructor(app, store, wm) {
+    // setup logger
+    log.transports.file.level = "silly";
+
+    // setup private props
     this._App = app;
     this._Store = store;
     this._WindowManager = wm;
     this._ShortcutManager = new ShortcutController();
     this._Updater = new Updater(this._Store, this._WindowManager);
 
+    // call private methods
     this._SetFlags();
     this._SetEventListeners();
+
+    // log log path
+    log.info("Log Path", log.transports.file.getFile().path ? log.transports.file.getFile().path : "None");
   }
 
   /**
@@ -56,8 +65,12 @@ class AppController {
    * Set Apps CommandLine Flag Switches
    */
   _SetFlags() {
-    this._App.commandLine.appendSwitch("force-color-profile", "srgb"); //TODO: further research into this for selecting color profile for app, possible option in settings for different types
     const currentSettings = this._Store.get("settings", {}); //TODO: create default settings object
+    this._App.commandLine.appendSwitch(
+      "force-color-profile",
+      currentSettings.colorProfile === undefined ? "default" : currentSettings.colorProfile
+    ); //TODO: further research into this for selecting color profile for app, possible option in settings for different types
+
     this.setLoginItem(currentSettings.launchOnStartup === undefined || currentSettings.launchOnStartup ? true : false);
   }
 

@@ -222,7 +222,8 @@ body {
   margin-bottom: 16px;
 }
 
-.settings-frame ul li input[type="number"] {
+.settings-frame ul li input[type="number"],
+.settings-frame ul li select {
   width: 60px;
   border-radius: 4px;
   background: hsla(60, 2%, 10%, 0.5);
@@ -235,14 +236,23 @@ body {
   transition: 0.2s ease-in-out;
 }
 
+.settings-frame ul li select {
+  width: 160px;
+  height: 30px;
+  margin-left: 0;
+}
+
 .settings-frame ul li input[type="number"]:focus,
-.settings-frame ul li input[type="number"]:active {
+.settings-frame ul li input[type="number"]:active,
+.settings-frame ul li select:focus,
+.settings-frame ul li select:active {
   outline: none;
   border: 1px solid hsla(272, 100%, 42%, 1);
   box-shadow: -4px -4px 0 hsla(272, 50%, 22%, 1), 4px 4px 0 hsla(272, 50%, 22%, 1), -4px 4px 0 hsla(272, 50%, 22%, 1), 4px -4px 0 hsla(272, 50%, 22%, 1);
 }
 
-.settings-frame ul li input[type="number"]:disabled {
+.settings-frame ul li input[type="number"]:disabled,
+.settings-frame ul li select:disabled {
   opacity: 0.5;
 }
 
@@ -348,6 +358,23 @@ body {
 .settings-frame .drop-updater label[for="drop-btn-check-update"] span#lastUpdateCheck {
   font-size: 10px;
 }
+
+#drop-framework-versions {
+  position: absolute;
+  bottom: 82px;
+  left: 35px;
+  width: 100%;
+  line-height: 20px;
+  color: rgb(82, 82, 74);
+  font-size: 11px;
+  letter-spacing: 0.6px;
+}
+
+#drop-framework-versions svg {
+  display: inline-block;
+  height: 15px;
+  margin: 5px 10px 0 0;
+} 
 
 /* CHECKBOX STYLING */
 

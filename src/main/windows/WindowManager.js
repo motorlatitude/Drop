@@ -1,5 +1,6 @@
 const electron = require("electron");
 const { BrowserWindow } = electron;
+const log = require("electron-log");
 
 /**
  * Class WindowManager
@@ -52,7 +53,7 @@ class WindowManager {
       case "picker":
         break;
       default:
-        console.warn("Un-handle Window Name", windowName);
+        log.warn("Un-handle Window Name", windowName);
         break;
     }
 
