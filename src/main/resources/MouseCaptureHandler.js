@@ -32,7 +32,7 @@ class MouseCaptureHandler {
   }
 
   /**
-   * Force a new mouse capture to occur
+   * Force a new mouse capture to occur outside of polling. Essentially forces a redraw of the magnifier
    *
    * @memberof MouseCaptureHandler
    */
