@@ -23,12 +23,12 @@ class PickerWindowController {
    * @memberof PickerWindowController
    */
   get pickerSize() {
-    return this._MouseCaptureHandler._PickerSize;
+    return this._MouseCaptureHandler.PickerSize;
   }
 
   set pickerSize(size) {
     if (size <= 27 && size >= 12 && this.window !== null) {
-      this._MouseCaptureHandler._PickerSize = size;
+      this._MouseCaptureHandler.PickerSize = size;
       this.window.setBounds({ width: size * 15, height: size * 15 }, false);
       this._MouseCaptureHandler.forceCapture(); // force redraw of lens on picker size change
     }

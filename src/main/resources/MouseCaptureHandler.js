@@ -4,12 +4,13 @@ const log = require("electron-log");
 
 class MouseCaptureHandler {
   constructor(wm, pwc) {
+    this.PickerSize = 17;
+
     this._WindowManager = wm;
     this._PickerWindowController = pwc;
 
     this._PollingInterval = null;
     this._PreviousMousePosition = { x: 0, y: 0 };
-    this._PickerSize = 17;
   }
 
   /**
@@ -71,12 +72,12 @@ class MouseCaptureHandler {
     if (this._shouldCapture(ignoreChecks)) {
       // capture small screenshot around mouse cursor position
       var img = robot.screen.capture(
-        Math.ceil(this._PreviousMousePosition.x - this._PickerSize / 2),
-        Math.ceil(this._PreviousMousePosition.y - this._PickerSize / 2),
-        this._PickerSize,
-        this._PickerSize
+        Math.ceil(this._PreviousMousePosition.x - this.PickerSize / 2),
+        Math.ceil(this._PreviousMousePosition.y - this.PickerSize / 2),
+        this.PickerSize,
+        this.PickerSize
       );
-      let multi = img.width / this._PickerSize;
+      let multi = img.width / this.PickerSize;
       // get current screen
       let currentScreen = electron.screen.getDisplayNearestPoint({
         x: this._PreviousMousePosition.x,
@@ -87,28 +88,25 @@ class MouseCaptureHandler {
       // scale windows X and Y coords to display
       let windowX = Math.floor(this._PreviousMousePosition.x / factor) - 20;
       let windowY = Math.floor(this._PreviousMousePosition.y / factor) - 20;
-      if (workAreaSize.width < this._PreviousMousePosition.x / factor - workAreaSize.x + this._PickerSize * 15) {
-        windowX = Math.floor(this._PreviousMousePosition.x / factor) - (this._PickerSize * 15 - 20);
+      if (workAreaSize.width < this._PreviousMousePosition.x / factor - workAreaSize.x + this.PickerSize * 15) {
+        windowX = Math.floor(this._PreviousMousePosition.x / factor) - (this.PickerSize * 15 - 20);
       }
-      if (
-        workAreaSize.height <
-        this._PreviousMousePosition.y / factor - workAreaSize.y + (this._PickerSize * 15 - 90)
-      ) {
-        windowY = Math.floor(this._PreviousMousePosition.y / factor) - (this._PickerSize * 15 - 20);
+      if (workAreaSize.height < this._PreviousMousePosition.y / factor - workAreaSize.y + (this.PickerSize * 15 - 90)) {
+        windowY = Math.floor(this._PreviousMousePosition.y / factor) - (this.PickerSize * 15 - 20);
       }
       this._WindowManager.windows.picker.setBounds(
         {
           x: windowX,
           y: windowY,
-          width: this._PickerSize * 15,
-          height: this._PickerSize * 15
+          width: this.PickerSize * 15,
+          height: this.PickerSize * 15
         },
         false
       );
       let colors = {};
-      for (var k = 0; k < this._PickerSize; k++) {
+      for (var k = 0; k < this.PickerSize; k++) {
         colors[k] = [];
-        for (var l = 0; l < this._PickerSize; l++) {
+        for (var l = 0; l < this.PickerSize; l++) {
           var hex = img.colorAt(l * multi, k * multi);
           colors[k].push({
             x: 6 + k,
