@@ -12,7 +12,7 @@ class PaletteChannel extends Channel {
    * Creates an instance of PaletteChannel.
    * @param {{windowManager: WindowManager, store: ElectronStore, tray: ElectronTray, colorFormats: ColorFormats}} channelProps
    * @param {event} ipcEventObject ipc event object
-   * @param {{type: 'GET' | 'GET_ALL' | 'SAVE' | 'REMOVE_COLOR' | 'DELETE', args: *}} [ipcEventDataObject] the included data
+   * @param {{type: 'GET' | 'GET_ALL' | 'SAVE' | 'DELETE', args: *}} [ipcEventDataObject] the included data
    * @memberof PaletteChannel
    */
   constructor(channelProps, ipcEventObject, ipcEventDataObject) {

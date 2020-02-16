@@ -21,7 +21,7 @@ class SettingChannel extends Channel {
       case "INSTALL_UPDATE":
         return this.installUpdate(autoUpdater);
       case "MODIFY_SETTING":
-        return this.modifySetting(ipcEventDataObject.args, appController);
+        return this.modifySetting(ipcEventDataObject.args, autoUpdater, appController);
       case "GET_SETTING":
         return this.getSetting(ipcEventDataObject.args);
       case "GET_ALL_SETTINGS":
@@ -52,7 +52,7 @@ class SettingChannel extends Channel {
    * Set or update a setting property
    * @param {{key: string, value: *}} args setting arguments
    */
-  modifySetting(args, appController) {
+  modifySetting(args, autoUpdater, appController) {
     const currentSettings = this.Store.get("settings", {}); //TODO: create default settings object
     currentSettings[args.key] = args.value;
     this.Store.set("settings", currentSettings);
@@ -62,6 +62,11 @@ class SettingChannel extends Channel {
       case "launchOnStartup":
         appController.setLoginItem(args.value);
         break;
+      case "autoCheckDownloadUpdates":
+        autoUpdater.stopCheckInterval();
+        if (args.value) {
+          autoUpdater.startCheckInterval();
+        }
       default:
         //log.log("Unhandled settings key", args.key);
         break;

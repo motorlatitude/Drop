@@ -17,9 +17,53 @@ class Updater {
     this._Store = store;
     this._WindowManager = wm;
     this._configureEventListener();
+    this._AutoUpdaterInterval = null;
     autoUpdater.logger = log;
     autoUpdater.logger.transports.file.level = "info";
-    autoUpdater.autoDownload = false;
+    const settings = store.get("settings", {});
+    this._AutoCheck =
+      settings.autoCheckDownloadUpdates === undefined || settings.autoCheckDownloadUpdates === true ? true : false;
+    autoUpdater.autoDownload = this._AutoCheck;
+
+    // Attempt to start auto updating interval if settings permit
+    this.startCheckInterval();
+  }
+
+  /**
+   * Start the automatic update checking interval
+   *
+   * @memberof Updater
+   */
+  startCheckInterval() {
+    if (this._AutoCheck) {
+      log.info("Starting Automatic Update Checking Interval");
+      this._AutoUpdaterInterval = setInterval(() => {
+        const settings = this._Store.get("settings", {});
+        this._AutoCheck =
+          settings.autoCheckDownloadUpdates === undefined || settings.autoCheckDownloadUpdates === true ? true : false;
+        if (
+          this._AutoCheck &&
+          settings.lastUpdateCheck !== undefined &&
+          new Date().getTime() - settings.lastUpdateCheck >= 3600000
+        ) {
+          log.info("Auto Checking For Updates");
+          this.checkForUpdates();
+        }
+      }, 3600000);
+    }
+  }
+
+  /**
+   * Stop the automatic update checking interval
+   *
+   * @memberof Updater
+   */
+  stopCheckInterval() {
+    if (this._AutoUpdaterInterval !== null) {
+      log.info("Stopping Automatic Update Checking Interval");
+      clearInterval(this._AutoUpdaterInterval);
+      this._AutoUpdaterInterval = null;
+    }
   }
 
   /**
@@ -28,7 +72,6 @@ class Updater {
   async checkForUpdates() {
     return await autoUpdater.checkForUpdates().catch(err => {
       log.error(err);
-      reject(err);
     });
   }
 
