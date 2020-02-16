@@ -53,7 +53,7 @@ class MessageHandler {
     ipcMain.handle("MOUSE", (e, a) => new MouseChannel(channelProps, e, a));
     ipcMain.handle("PICKER", (e, a) => new PickerChannel(channelProps, e, a));
 
-    // History Window IPCs
+    // General App/Electron IPCs
     ipcMain.handle("get-primary-screen-size", this.getScreenSize.bind(self));
     ipcMain.on("quit-app", this.quitApp.bind(self));
   }
