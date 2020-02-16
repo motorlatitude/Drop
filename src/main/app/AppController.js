@@ -48,10 +48,17 @@ class AppController {
     });
 
     const historyWindowController = new HistoryWindowController(this._WindowManager);
-    const tray = new TrayController(pickerWindowController.window, historyWindowController.window);
+    const trayController = new TrayController(this._WindowManager);
 
     let colorFormats = new ColorFormats();
-    let messageHandler = new MessageHandler(this, this._WindowManager, this._Store, tray, colorFormats, this._Updater);
+    let messageHandler = new MessageHandler(
+      this,
+      this._WindowManager,
+      this._Store,
+      trayController,
+      colorFormats,
+      this._Updater
+    );
     messageHandler.setupListeners();
   }
 

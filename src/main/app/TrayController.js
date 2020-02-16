@@ -1,23 +1,24 @@
 const { Menu, Tray, app } = require("electron");
 const log = require("electron-log");
 
+const SettingsWindowController = require("./../windows/SettingsWindowController");
+
 /**
  * TrayController Class
  * In charge of handling the functions of the tray icon
  */
 class TrayController {
-  constructor(mw, hw) {
+  constructor(windowManager) {
     this.tray = null;
-    this.mainWindow = mw;
-    this.historyWindow = hw;
-    this.createNewTray();
+    this._WindowManager = windowManager;
+    this._CreateNewTray();
   }
 
   setTrayImage(img) {
     this.tray.setImage(img);
   }
 
-  createNewTray() {
+  _CreateNewTray() {
     this.tray = new Tray(__dirname + "./../../assets/img/taskbar_icon.png");
 
     const contextMenu = Menu.buildFromTemplate([
@@ -25,11 +26,11 @@ class TrayController {
         label: "Picker",
         type: "normal",
         click: () => {
-          if (this.mainWindow) {
-            if (this.mainWindow.isVisible()) {
-              this.mainWindow.hide();
+          if (this._WindowManager.windows.picker) {
+            if (this._WindowManager.windows.picker.isVisible()) {
+              this._WindowManager.windows.picker.hide();
             } else {
-              this.mainWindow.show();
+              this._WindowManager.windows.picker.show();
             }
           }
         }
@@ -38,17 +39,34 @@ class TrayController {
         label: "History",
         type: "normal",
         click: () => {
-          if (this.historyWindow) {
-            if (this.historyWindow.isVisible()) {
-              this.historyWindow.hide();
+          if (this._WindowManager.windows.history) {
+            if (this._WindowManager.windows.history.isVisible()) {
+              this._WindowManager.windows.history.hide();
             } else {
-              this.historyWindow.show();
+              this._WindowManager.windows.history.show();
             }
           }
         }
       },
       { type: "separator" },
-      { label: "Settings", type: "normal" },
+      {
+        label: "Settings",
+        type: "normal",
+        click: () => {
+          if (this._WindowManager.windows.settings) {
+            if (this._WindowManager.windows.settings.isVisible()) {
+              this._WindowManager.windows.settings.hide();
+            } else {
+              this._WindowManager.windows.settings.show();
+            }
+          } else {
+            const w = new SettingsWindowController(this._WindowManager);
+            w.window.on("ready-to-show", () => {
+              w.window.show();
+            });
+          }
+        }
+      },
       { type: "separator" },
       {
         label: "Quit",
@@ -63,11 +81,11 @@ class TrayController {
     this.tray.setContextMenu(contextMenu);
 
     this.tray.on("click", () => {
-      if (this.historyWindow) {
-        if (this.historyWindow.isVisible()) {
-          this.historyWindow.hide();
+      if (this._WindowManager.windows.history) {
+        if (this._WindowManager.windows.history.isVisible()) {
+          this._WindowManager.windows.history.hide();
         } else {
-          this.historyWindow.show();
+          this._WindowManager.windows.history.show();
         }
       }
     });
