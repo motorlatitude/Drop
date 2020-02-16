@@ -46,6 +46,7 @@ class PickerWindow {
   _ConfigureWindowEventListeners() {
     window.addEventListener("click", () => {
       document.getElementById("a").innerHTML = "Copied";
+      // Check if we should play sounds according to the settings
       ipcRenderer
         .invoke("SETTING", {
           type: "GET_SETTING",
@@ -54,6 +55,7 @@ class PickerWindow {
           }
         })
         .then(res => {
+          // if response is true then play drop audio
           if (res.response) {
             this._Audio.play();
           }
