@@ -8,6 +8,9 @@
 
 <p align="left">
     <img src="https://travis-ci.com/motorlatitude/Drop.svg?branch=master" alt="Build Status">
+    <a href="https://app.codacy.com/manual/lenny.glk/Drop?utm_source=github.com&utm_medium=referral&utm_content=motorlatitude/Drop&utm_campaign=Badge_Grade_Dashboard">
+      <img src="https://api.codacy.com/project/badge/Grade/65116691e5154f60b6c1ac2912607fb3" alt="Codacy Quality Badge">
+    </a>
     <img src="https://david-dm.org/motorlatitude/drop.svg" alt="Dependency Version">
     <img src="https://img.shields.io/github/downloads/motorlatitude/Drop/total?color=green" alt="GitHub All Releases">
     <img src="https://img.shields.io/github/package-json/v/motorlatitude/drop" alt="Drop Version">
@@ -47,26 +50,39 @@ so it will always be ready to use.
 If you require your own custom built version of Drop, follow the below instructions and they should lead you to successfully
 building Drop from source.
 
-1.  Clone this repository, you can choose which branch to clone, master will contain the most stable version of Drop.
+Since Drop uses native dependencies it is required that you have the correct build tools installed for your system in order
+to successfully build the application.
 
-```bash
-git clone https://github.com/motorlatitude/Drop.git && cd Drop
-```
+1.  ### Clone Repository
 
-2.  Install RobotJS and target the electron version as defined in the package.json and make sure to have relevant build
+    Clone this repository, you can choose which branch to clone, master will contain the most stable version of Drop.
+
+    ```bash
+    git clone https://github.com/motorlatitude/Drop.git && cd Drop
+    ```
+
+    Alpha and Beta branches will follow the format `alpha.x` and `beta.x` where `x` is the iteration number.
+
+2.  ### Install Native Dependencies
+
+    Install RobotJS and target the electron version as defined in the package.json and make sure to have relevant build
     tools installed on your system as this is a native library.
 
-```bash
-npm install robotjs --target=7.1.12
-```
+    ```bash
+    npm install robotjs@0.6.0 --target=7.1.12
+    ```
 
-3.  Install remaining dependencies.
+3.  ### Install NPM Dependencies
 
-```bash
-npm install
-```
+    Install the remaining npm dependencies before building.
 
-4.  Building Drop
+    ```bash
+    npm install
+    ```
+
+4.  ### Building Drop
+
+    You are now ready to build Drop, choose for what you plan on using your custom built version of Drop.
 
     - #### Building to run on your system
 
@@ -76,7 +92,8 @@ npm install
       npm run build
       ```
 
-      Once completed, a setup executable should be in the ./dist/ directory, run the installer to use the built version.
+      This step can take a couple of minutes, best grab a coffee. Once completed, a setup executable should be in
+      the `./dist/` directory, run the installer to use the built version.
 
     - #### Build for development purposes
 
