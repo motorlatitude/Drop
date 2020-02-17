@@ -47,31 +47,42 @@ so it will always be ready to use.
 If you require your own custom built version of Drop, follow the below instructions and they should lead you to successfully
 building Drop from source.
 
-1. Clone this repository, you can choose which branch to clone, master will contain the most stable version of Drop.
-   ```
-   git clone https://github.com/motorlatitude/Drop.git && cd Drop
-   ```
-2. Install RobotJS and target the electron version as defined in the package.json and make sure to have relevant build
-   tools installed on your system as this is a native library.
+1.  Clone this repository, you can choose which branch to clone, master will contain the most stable version of Drop.
 
-   ```
-   npm install robotjs --target=7.1.12
-   ```
+```bash
+git clone https://github.com/motorlatitude/Drop.git && cd Drop
+```
 
-3. Install remaining dependencies.
-   ```
-   npm install
-   ```
-4. Build drop
-   - #### Building to run on your system
-     If you wish to use your built version as if using the installer run
-     ```
-     npm run build
-     ```
-     Once completed, a setup executable should be in the ./dist/ directory, run the installer to use the built version.
-   - #### Build for development purposes
-     If you are using the code to make your own changes/modify it, it is easier to not run the npm build command
-     until you have finished development work. Use the start command to test your modified version
-     ```
-     npm start
-     ```
+2.  Install RobotJS and target the electron version as defined in the package.json and make sure to have relevant build
+    tools installed on your system as this is a native library.
+
+```bash
+npm install robotjs --target=7.1.12
+```
+
+3.  Install remaining dependencies.
+
+```bash
+npm install
+```
+
+4.  Building Drop
+
+    - #### Building to run on your system
+
+      If you wish to use your built version as if using the installer run:
+
+      ```bash
+      npm run build
+      ```
+
+      Once completed, a setup executable should be in the ./dist/ directory, run the installer to use the built version.
+
+    - #### Build for development purposes
+
+      If you are using the code to make your own changes/modify it, it is easier to not run the npm build command
+      until you have finished development work. Use the start command to test your modified version
+
+      ```bash
+      npm start
+      ```
