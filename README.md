@@ -17,6 +17,8 @@ existing tools, featuring a rich UI to support it along the way.
 
 ### ✨ Features
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/65116691e5154f60b6c1ac2912607fb3)](https://app.codacy.com/manual/lenny.glk/Drop?utm_source=github.com&utm_medium=referral&utm_content=motorlatitude/Drop&utm_campaign=Badge_Grade_Dashboard)
+
  - Multi-level Magnification
  - Customizable Shortcuts
  - Different color formats that it can output (CSS RGB, RGBA, HSL, HSLA and Hex with more coming soon!!!)
