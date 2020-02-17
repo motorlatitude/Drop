@@ -1,7 +1,19 @@
 const { globalShortcut } = require("electron");
 const log = require("electron-log");
 
+/**
+ * ShortcutController Class
+ *
+ * Handles the assignment and un-assigning of global shortcuts via
+ * electrons globalShortcut API
+ *
+ * @class ShortcutController
+ */
 class ShortcutController {
+  /**
+   * Creates an instance of ShortcutController.
+   * @memberof ShortcutController
+   */
   constructor() {
     this._GlobalShortcuts = {};
   }
@@ -12,9 +24,14 @@ class ShortcutController {
    * @param {void} callback The method to carry out if the shortcut is triggered
    */
   setGlobalShortcut(shortcut, callback) {
-    this._GlobalShortcuts[shortcut] = globalShortcut.register(shortcut, callback);
+    this._GlobalShortcuts[shortcut] = globalShortcut.register(
+      shortcut,
+      callback
+    );
     if (!this._GlobalShortcuts[shortcut]) {
-      log.error(new Error("Failed to register new global picker shortcut", shortcut));
+      log.error(
+        new Error("Failed to register new global picker shortcut", shortcut)
+      );
     } else {
       log.info(
         "Global picker shortcut was successfully registered: ",

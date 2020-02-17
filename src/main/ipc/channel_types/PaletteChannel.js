@@ -14,11 +14,16 @@ class PaletteChannel extends Channel {
    * Creates an instance of PaletteChannel.
    * @param {{windowManager: WindowManager, store: ElectronStore, tray: ElectronTray, colorFormats: ColorFormats}} channelProps
    * @param {event} ipcEventObject ipc event object
-   * @param {{type: 'GET' | 'GET_ALL' | 'SAVE' | 'DELETE', args: *}} [ipcEventDataObject] the included data
+   * @param {{type: ('GET' | 'GET_ALL' | 'SAVE' | 'DELETE'), args: *}} [ipcEventDataObject] the included data
    * @memberof PaletteChannel
    */
   constructor(channelProps, ipcEventObject, ipcEventDataObject) {
-    super(channelProps.windowManager, channelProps.store, channelProps.tray, channelProps.colorFormats);
+    super(
+      channelProps.windowManager,
+      channelProps.store,
+      channelProps.tray,
+      channelProps.colorFormats
+    );
     switch (ipcEventDataObject.type) {
       case "GET":
         return this.get(ipcEventDataObject.args);
@@ -38,11 +43,13 @@ class PaletteChannel extends Channel {
    * Get a specific palette from store. If supplied `paletteId` does not exist `undefined` will be returned
    *
    * @param {string} paletteId
-   * @returns {{colors: [string], name: string, id: string}} a object containing the requested palette's properties
+   * @return {{colors: [string], name: string, id: string}} a object containing the requested palette's properties
    * @memberof PaletteChannel
    */
   get(paletteId) {
-    let paletteStore = this.Store.get("palettes", { HISTORY: { colors: [], name: "Color History", id: "HISTORY" } });
+    const paletteStore = this.Store.get("palettes", {
+      HISTORY: { colors: [], name: "Color History", id: "HISTORY" }
+    });
     log.debug("GET", paletteStore[paletteId]);
     return paletteStore[paletteId];
   }
@@ -50,11 +57,13 @@ class PaletteChannel extends Channel {
   /**
    * Get a list of all palettes including the HISTORY palette
    *
-   * @returns {Object.<string, {colors: [string], name: string, id: string}>} a dictionary containing all palettes and their stored colors, including HISTORY palette
+   * @return {Object.<string, {colors: [string], name: string, id: string}>} a dictionary containing all palettes and their stored colors, including HISTORY palette
    * @memberof PaletteChannel
    */
   getAll() {
-    let paletteStore = this.Store.get("palettes", { HISTORY: { colors: [], name: "Color History", id: "HISTORY" } });
+    const paletteStore = this.Store.get("palettes", {
+      HISTORY: { colors: [], name: "Color History", id: "HISTORY" }
+    });
     log.debug("GET_ALL", paletteStore);
     return paletteStore;
   }
@@ -63,11 +72,21 @@ class PaletteChannel extends Channel {
    * Save a new palette into storage
    *
    * @param {{colors:[string], name: string, id: string}} palette serialized palette object
+   * @param {string} palette.name the name of the palette
+   * @param {string} palette.id the id of the palette
+   * @param {[string]} palette.colors all colors inside the palette, using hex format without a hash prefacing
+   * @return {{colors:[string], name: string, id: string}} returns the same palette object that was inputted
    * @memberof PaletteChannel
    */
   save(palette) {
-    let paletteStore = this.Store.get("palettes", { HISTORY: { colors: [], name: "Color History", id: "HISTORY" } });
-    paletteStore[palette.id] = { colors: palette.colors, name: palette.name, id: palette.id };
+    const paletteStore = this.Store.get("palettes", {
+      HISTORY: { colors: [], name: "Color History", id: "HISTORY" }
+    });
+    paletteStore[palette.id] = {
+      colors: palette.colors,
+      name: palette.name,
+      id: palette.id
+    };
     this.Store.set("palettes", paletteStore);
     return paletteStore[palette.id];
   }
@@ -76,10 +95,13 @@ class PaletteChannel extends Channel {
    * Remove a specified palette from storage
    *
    * @param {string} paletteId the id of the palette to delete
+   * @return {undefined}
    * @memberof PaletteChannel
    */
   delete(paletteId) {
-    let paletteStore = this.Store.get("palettes", { HISTORY: { colors: [], name: "Color History", id: "HISTORY" } });
+    const paletteStore = this.Store.get("palettes", {
+      HISTORY: { colors: [], name: "Color History", id: "HISTORY" }
+    });
     delete paletteStore[paletteId];
     this.Store.set("palettes", paletteStore);
     return undefined;

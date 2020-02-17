@@ -1,5 +1,3 @@
-const electron = require("electron");
-
 /**
  * Handles the palette window controls
  */
@@ -14,6 +12,12 @@ class HistoryWindowController {
     this.createWindow(wm);
   }
 
+  /**
+   * Create a new history window
+   *
+   * @param {WindowManager} wm the WindowManager instance
+   * @memberof HistoryWindowController
+   */
   createWindow(wm) {
     // Create the browser window.
     const historyWindow = wm.createNewWindow(this, "history");
@@ -22,10 +26,10 @@ class HistoryWindowController {
     this.window.loadFile(__dirname + "./../../views/history.html");
 
     // Open the DevTools.
-    //historyWindow.webContents.openDevTools({detached: true})
+    // historyWindow.webContents.openDevTools({detached: true})
 
     // Emitted when the window is closed.
-    this.window.on("closed", function() {
+    this.window.on("closed", () => {
       // Dereference the window object, usually you would store windows
       // in an array if your app supports multi windows, this is the time
       // when you should delete the corresponding element.

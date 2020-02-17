@@ -10,40 +10,40 @@ exports.config = () => ({
 });
 
 // convert the inputted hex color format into another format and return the final string value
-exports.convertHexColor = hex_color => {
-  let r = parseInt("0x" + hex_color.substring(0, 2));
-  let g = parseInt("0x" + hex_color.substring(2, 4));
-  let b = parseInt("0x" + hex_color.substring(4, 6));
-  //L
-  let rp = r / 255;
-  let gp = g / 255;
-  let bp = b / 255;
-  let max_l = Math.max(rp, gp, bp);
-  let min_l = Math.min(rp, gp, bp);
-  let luminescence = Math.ceil(((max_l + min_l) / 2) * 100);
+exports.convertHexColor = hexColor => {
+  const r = parseInt("0x" + hexColor.substring(0, 2));
+  const g = parseInt("0x" + hexColor.substring(2, 4));
+  const b = parseInt("0x" + hexColor.substring(4, 6));
+  // L
+  const rp = r / 255;
+  const gp = g / 255;
+  const bp = b / 255;
+  const maxL = Math.max(rp, gp, bp);
+  const minL = Math.min(rp, gp, bp);
+  const luminescence = Math.ceil(((maxL + minL) / 2) * 100);
   let saturation = 0;
   let hue = 0;
-  if (max_l !== min_l) {
-    //there is saturation
-    //S
+  if (maxL !== minL) {
+    // there is saturation
+    // S
     if (luminescence < 50) {
-      saturation = Math.ceil(((max_l - min_l) / (max_l + min_l)) * 100);
+      saturation = Math.ceil(((maxL - minL) / (maxL + minL)) * 100);
     } else {
-      saturation = Math.ceil(((max_l - min_l) / (2 - max_l - min_l)) * 100);
+      saturation = Math.ceil(((maxL - minL) / (2 - maxL - minL)) * 100);
     }
-    //H
-    let temp_h;
-    if (max_l == rp) {
-      temp_h = ((gp - bp) / (max_l - min_l)) * 60;
-    } else if (max_l == gp) {
-      temp_h = (2 + (bp - rp) / (max_l - min_l)) * 60;
-    } else if (max_l == bp) {
-      temp_h = (4 + (rp - gp) / (max_l - min_l)) * 60;
+    // H
+    let tempH;
+    if (maxL == rp) {
+      tempH = ((gp - bp) / (maxL - minL)) * 60;
+    } else if (maxL == gp) {
+      tempH = (2 + (bp - rp) / (maxL - minL)) * 60;
+    } else if (maxL == bp) {
+      tempH = (4 + (rp - gp) / (maxL - minL)) * 60;
     }
-    if (temp_h < 0) {
-      temp_h += 360;
+    if (tempH < 0) {
+      tempH += 360;
     }
-    hue = Math.ceil(temp_h);
+    hue = Math.ceil(tempH);
   }
   return "hsl(" + hue + "," + saturation + "%," + luminescence + "%)";
 };

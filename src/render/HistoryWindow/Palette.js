@@ -18,29 +18,39 @@ class Palette {
   /**
    * Create the palette element and generate eventListeners, should be followed by an
    * Palette.AppendNewPalette() method.
+   * @return {*}
    */
-  CreateElement() {
+  createElement() {
     let elColorList;
 
     // Fetch or create ul for placing colors in
     if (this._ID == "HISTORY") {
       elColorList = document.getElementById("template-palette");
     } else {
-      const templatePalette = document.getElementById("template-palette").cloneNode(true);
+      const templatePalette = document
+        .getElementById("template-palette")
+        .cloneNode(true);
       templatePalette.id = this._ID;
-      templatePalette.getElementsByClassName("palette-name")[0].innerHTML = this._Name;
-      templatePalette.getElementsByClassName("delete-palette")[0].classList.remove("disabled");
-      templatePalette.getElementsByClassName("history")[0].innerHTML = "<ul class='color-palette-list'></ul>";
+      templatePalette.getElementsByClassName(
+        "palette-name"
+      )[0].innerHTML = this._Name;
+      templatePalette
+        .getElementsByClassName("delete-palette")[0]
+        .classList.remove("disabled");
+      templatePalette.getElementsByClassName("history")[0].innerHTML =
+        "<ul class='color-palette-list'></ul>";
 
-      const colorPaletteListEl = templatePalette.getElementsByClassName("color-palette-list")[0];
+      const colorPaletteListEl = templatePalette.getElementsByClassName(
+        "color-palette-list"
+      )[0];
 
       // add drop listener to allow user to drag other colors into this palette
       colorPaletteListEl.addEventListener("drop", e => {
         e.preventDefault();
         const color = e.dataTransfer.getData("text");
         this._Colors.push(color);
-        ipcRenderer.invoke("PALETTE", { type: "SAVE", args: this.Serialize() });
-        this.AppendNewColorItem(colorPaletteListEl, color);
+        ipcRenderer.invoke("PALETTE", { type: "SAVE", args: this.serialize() });
+        this.appendNewColorItem(colorPaletteListEl, color);
       });
 
       // dragover listener required
@@ -52,14 +62,20 @@ class Palette {
     }
 
     const elColorListOptions = elColorList.getElementsByClassName("options")[0];
-    const elColorListDeleteOption = elColorListOptions.getElementsByClassName("delete-palette")[0];
+    const elColorListDeleteOption = elColorListOptions.getElementsByClassName(
+      "delete-palette"
+    )[0];
 
     // reveal & hide palette options on hover
     elColorListOptions.addEventListener("mouseover", evt => {
-      elColorListOptions.getElementsByClassName("expanded-options")[0].classList.add("display");
+      elColorListOptions
+        .getElementsByClassName("expanded-options")[0]
+        .classList.add("display");
     });
     elColorListOptions.addEventListener("mouseout", evt => {
-      elColorListOptions.getElementsByClassName("expanded-options")[0].classList.remove("display");
+      elColorListOptions
+        .getElementsByClassName("expanded-options")[0]
+        .classList.remove("display");
     });
 
     // Trash Event Listener
@@ -67,8 +83,11 @@ class Palette {
       // clicked trash, delete palette
       if (!elColorListDeleteOption.classList.contains("disabled")) {
         ipcRenderer.invoke("PALETTE", { type: "DELETE", args: this._ID });
-        this.RemovePalette(elColorList);
-        const windowBounds = await ipcRenderer.invoke("WINDOW", { type: "GET_BOUNDS", windowName: "history" });
+        this.removePalette(elColorList);
+        const windowBounds = await ipcRenderer.invoke("WINDOW", {
+          type: "GET_BOUNDS",
+          windowName: "history"
+        });
         ipcRenderer.invoke("WINDOW", {
           type: "SET_BOUNDS",
           windowName: "history",
@@ -83,7 +102,10 @@ class Palette {
 
     for (let i = 0; i < this._Colors.length; i++) {
       const color = this._Colors[i];
-      this.AppendNewColorItem(elColorList.getElementsByClassName("color-palette-list")[0], color);
+      this.appendNewColorItem(
+        elColorList.getElementsByClassName("color-palette-list")[0],
+        color
+      );
     }
 
     return elColorList;
@@ -93,7 +115,7 @@ class Palette {
    * Append a new palette to the list
    * @param {*} el the created element from this.CreateElement()
    */
-  AppendNewPalette(el) {
+  appendNewPalette(el) {
     document.getElementById("palettes").appendChild(el);
   }
 
@@ -101,27 +123,29 @@ class Palette {
    * Remove palette from the list
    * @param {*} el the palette element to be removed
    */
-  RemovePalette(el) {
+  removePalette(el) {
     document.getElementById("palettes").removeChild(el);
   }
 
   /**
    * Append a new color item to a palette
+   * @param {*} elColorList
    * @param {*} color
    */
-  AppendNewColorItem(elColorList, color) {
-    let elColorItem = document.createElement("li");
+  appendNewColorItem(elColorList, color) {
+    const elColorItem = document.createElement("li");
     elColorItem.setAttribute("style", "background: #" + color + ";");
     elColorItem.setAttribute("draggable", "true");
-    this.GenerateEventListeners(elColorItem, color);
+    this.generateEventListeners(elColorItem, color);
     elColorList.prepend(elColorItem);
   }
 
   /**
    * Generate event listeners for color items
    * @param {*} el
+   * @param {string} color
    */
-  GenerateEventListeners(el, color) {
+  generateEventListeners(el, color) {
     // Click Handler
     el.addEventListener(
       "click",
@@ -129,7 +153,9 @@ class Palette {
         ipcRenderer.invoke("PICKER", { type: "PICKED", args: { color } });
         // remove color if in history palette as it will get added to the front
         if (this._ID == "HISTORY") {
-          document.querySelector("#template-palette>.history>ul").removeChild(el);
+          document
+            .querySelector("#template-palette>.history>ul")
+            .removeChild(el);
         }
       },
       false
@@ -142,7 +168,7 @@ class Palette {
         const index = [...el.parentElement.children].indexOf(el);
         this._Colors.splice(this._Colors.length - index - 1, 1);
         el.parentNode.removeChild(el);
-        ipcRenderer.invoke("PALETTE", { type: "SAVE", args: this.Serialize() });
+        ipcRenderer.invoke("PALETTE", { type: "SAVE", args: this.serialize() });
       },
       false
     );
@@ -156,7 +182,7 @@ class Palette {
         e.target.classList.add("dragging");
 
         // set ghost overlay image
-        var elem = document.createElement("div");
+        const elem = document.createElement("div");
         elem.id = "drag-ghost";
         elem.style.position = "absolute";
         elem.style.top = "-1000px";
@@ -169,7 +195,10 @@ class Palette {
         e.dataTransfer.dropEffect = "copy";
 
         // Increase size of window to accommodate
-        const windowBounds = await ipcRenderer.invoke("WINDOW", { type: "GET_BOUNDS", windowName: "history" });
+        const windowBounds = await ipcRenderer.invoke("WINDOW", {
+          type: "GET_BOUNDS",
+          windowName: "history"
+        });
         ipcRenderer.invoke("WINDOW", {
           type: "SET_BOUNDS",
           windowName: "history",
@@ -179,7 +208,10 @@ class Palette {
             animate: true
           }
         });
-        [temporaryPalette, temporaryPaletteElement] = this.GenerateTemporaryPalette();
+        [
+          temporaryPalette,
+          temporaryPaletteElement
+        ] = this.generateTemporaryPalette();
       },
       false
     );
@@ -190,12 +222,21 @@ class Palette {
       async e => {
         console.log("Ending Drag");
         e.target.classList.remove("dragging");
-        if (temporaryPaletteElement && temporaryPaletteElement.querySelectorAll(".history>ul>li").length > 0) {
+        if (
+          temporaryPaletteElement &&
+          temporaryPaletteElement.querySelectorAll(".history>ul>li").length > 0
+        ) {
           // save palette
-          ipcRenderer.invoke("PALETTE", { type: "SAVE", args: temporaryPalette.Serialize() });
+          ipcRenderer.invoke("PALETTE", {
+            type: "SAVE",
+            args: temporaryPalette.serialize()
+          });
           [temporaryPalette, temporaryPaletteElement] = [undefined, undefined];
         } else {
-          const windowBounds = await ipcRenderer.invoke("WINDOW", { type: "GET_BOUNDS", windowName: "history" });
+          const windowBounds = await ipcRenderer.invoke("WINDOW", {
+            type: "GET_BOUNDS",
+            windowName: "history"
+          });
           ipcRenderer.invoke("WINDOW", {
             type: "SET_BOUNDS",
             windowName: "history",
@@ -206,7 +247,7 @@ class Palette {
             }
           });
           // remove temp palette
-          temporaryPalette.RemovePalette(temporaryPaletteElement);
+          temporaryPalette.removePalette(temporaryPaletteElement);
           [temporaryPalette, temporaryPaletteElement] = [undefined, undefined];
         }
         // clear generated ghost element
@@ -219,8 +260,9 @@ class Palette {
 
   /**
    * Creates a temporary new palette for the user to use when dragging colors
+   * @return {[Palette, PaletteElement]}
    */
-  GenerateTemporaryPalette() {
+  generateTemporaryPalette() {
     // Create New Blank Palette
     const p = new Palette({
       colors: [],
@@ -229,15 +271,16 @@ class Palette {
         .toString(36)
         .substr(2, 9)
     });
-    const newPaletteEl = p.CreateElement();
-    p.AppendNewPalette(newPaletteEl);
+    const newPaletteEl = p.createElement();
+    p.appendNewPalette(newPaletteEl);
     return [p, newPaletteEl];
   }
 
   /**
    * Serialize Palette back to object for storage purposes
+   * @return {{name: string, colors: [string], id: string}}
    */
-  Serialize() {
+  serialize() {
     return {
       name: this._Name,
       colors: this._Colors,

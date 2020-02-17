@@ -23,7 +23,14 @@ class MessageHandler {
    * @param {ColorFormats} colorFormats color format instance
    * @param {AutoUpdater} autoUpdater updater instance
    */
-  constructor(appController, windowManager, store, tray, colorFormats, autoUpdater) {
+  constructor(
+    appController,
+    windowManager,
+    store,
+    tray,
+    colorFormats,
+    autoUpdater
+  ) {
     this._AppController = appController;
     this._WindowManager = windowManager;
     this._Store = store;
@@ -36,7 +43,7 @@ class MessageHandler {
    * Setup listeners for expected incoming IPC messages
    */
   setupListeners() {
-    let self = this;
+    const self = this;
 
     const channelProps = {
       windowManager: this._WindowManager,
@@ -49,7 +56,10 @@ class MessageHandler {
 
     ipcMain.handle("PALETTE", (e, a) => new PaletteChannel(channelProps, e, a));
     ipcMain.handle("WINDOW", (e, a) => new WindowChannel(channelProps, e, a));
-    ipcMain.handle("SETTING", (e, a) => new SettingChannel(channelProps, e, a, au, ac));
+    ipcMain.handle(
+      "SETTING",
+      (e, a) => new SettingChannel(channelProps, e, a, au, ac)
+    );
     ipcMain.handle("MOUSE", (e, a) => new MouseChannel(channelProps, e, a));
     ipcMain.handle("PICKER", (e, a) => new PickerChannel(channelProps, e, a));
 
@@ -68,6 +78,7 @@ class MessageHandler {
 
   /**
    * Get the primary display size
+   * @return {{width: number, height: number}}
    */
   getScreenSize() {
     return screen.getPrimaryDisplay().workAreaSize;

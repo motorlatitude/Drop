@@ -10,6 +10,6 @@ exports.config = () => ({
 });
 
 // convert the inputted hex color format into another format and return the final string value
-exports.convertHexColor = hex_color => {
-  return "#" + hex_color.toUpperCase();
+exports.convertHexColor = hexColor => {
+  return "#" + hexColor.toUpperCase();
 };

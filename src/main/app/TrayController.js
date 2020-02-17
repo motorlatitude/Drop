@@ -5,19 +5,36 @@ const SettingsWindowController = require("./../windows/SettingsWindowController"
 
 /**
  * TrayController Class
- * In charge of handling the functions of the tray icon
+ *
+ * In charge of handling the functions of the tray icon in the taskbar
  */
 class TrayController {
+  /**
+   * Creates an instance of TrayController.
+   * @param {WindowManager} windowManager
+   * @memberof TrayController
+   */
   constructor(windowManager) {
     this.tray = null;
     this._WindowManager = windowManager;
     this._CreateNewTray();
   }
 
+  /**
+   * Set the tray icon image
+   *
+   * @param {NativeImage} img an electron native image
+   * @memberof TrayController
+   */
   setTrayImage(img) {
     this.tray.setImage(img);
   }
 
+  /**
+   * Create a new tray application
+   *
+   * @memberof TrayController
+   */
   _CreateNewTray() {
     this.tray = new Tray(__dirname + "./../../assets/img/taskbar_icon.png");
 

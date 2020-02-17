@@ -8,7 +8,8 @@ const AppController = require("./app/AppController");
 const Store = require("electron-store");
 const store = new Store();
 
-let windowBoss = new WindowManager();
+const windowBoss = new WindowManager();
 
 // Initializing App Controller
-const appController = new AppController(app, store, windowBoss);
+
+new AppController(app, store, windowBoss);

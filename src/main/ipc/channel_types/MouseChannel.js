@@ -19,7 +19,12 @@ class MouseChannel extends Channel {
    * @memberof MouseChannel
    */
   constructor(channelProps, ipcEventObject, ipcEventDataObject) {
-    super(channelProps.windowManager, channelProps.store, channelProps.tray, channelProps.colorFormats);
+    super(
+      channelProps.windowManager,
+      channelProps.store,
+      channelProps.tray,
+      channelProps.colorFormats
+    );
     switch (ipcEventDataObject.type) {
       case "MOVE":
         return this.moveMouse(ipcEventDataObject.args);
@@ -30,8 +35,10 @@ class MouseChannel extends Channel {
   }
 
   /**
-   * Moves the mouse cursor
-   * @param {{direction: 'RIGHT' | 'LEFT' | 'UP' | 'DOWN', shift: boolean}} args the direction and indication if large or small movements
+   * Moves mouse cursor
+   * @param {{direction: ('RIGHT' | 'LEFT' | 'UP' | 'DOWN'), shift: boolean}} args arguments
+   * @return {undefined} undefined
+   * @memberof MouseChannel
    */
   moveMouse(args) {
     const currentMousePosition = robot.getMousePos();
@@ -65,7 +72,9 @@ class MouseChannel extends Channel {
         robot.moveMouse(currentMousePosition.x, currentMousePosition.y + 1);
         return undefined;
       default:
-        log.error(new Error("Unknown direction to move the mouse in", args.direction));
+        log.error(
+          new Error("Unknown direction to move the mouse in", args.direction)
+        );
         return undefined;
     }
   }

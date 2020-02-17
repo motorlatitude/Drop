@@ -1,12 +1,27 @@
-const electron = require("electron");
-
+/**
+ * SettingsWindowController Class
+ *
+ * Handles the settings window
+ * @class SettingsWindowController
+ */
 class SettingsWindowController {
+  /**
+   * Creates an instance of SettingsWindowController.
+   * @param {WindowManager} wm the WindowManager instance for the application
+   * @memberof SettingsWindowController
+   */
   constructor(wm) {
     this.window = null;
     this._windowManager = wm;
     this.createWindow(wm);
   }
 
+  /**
+   * Create a new settings window
+   *
+   * @param {WindowManager} wm the WindowManager instance for the application
+   * @memberof SettingsWindowController
+   */
   createWindow(wm) {
     // Create the browser window.
     const settingsWindow = wm.createNewWindow(this, "settings");
@@ -15,7 +30,7 @@ class SettingsWindowController {
     this.window.loadFile(__dirname + "./../../views/settings.html");
 
     // Open the DevTools.
-    //historyWindow.webContents.openDevTools({detached: true})
+    // historyWindow.webContents.openDevTools({detached: true})
 
     // Emitted when the window is closed.
     this.window.on("closed", e => {

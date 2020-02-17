@@ -26,6 +26,12 @@ class PickerWindowController {
     return this._MouseCaptureHandler.PickerSize;
   }
 
+  /**
+   * Set the new size of the picker, this will also adjust the bounds of the
+   * picker window
+   * @param {number} size the new size of the picker should be between 12 and 27
+   * @memberof PickerWindowController
+   */
   set pickerSize(size) {
     if (size <= 27 && size >= 12 && this.window !== null) {
       this._MouseCaptureHandler.PickerSize = size;

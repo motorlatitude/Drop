@@ -1,11 +1,10 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer } = require("electron");
 
 /**
  * Popover Window Class
  * In charge of handling popover renderer processes
  */
 class PopoverWindow {
-
   /**
    * Initiate a new popover window
    */
@@ -24,7 +23,7 @@ class PopoverWindow {
     ipcRenderer.on("options", (event, opts) => {
       this._ID = opts.id;
       const optionsListEl = document.getElementById("option-list");
-      opts.options.forEach((option) => {
+      opts.options.forEach(option => {
         // Create a new select option, li element
         const optItem = document.createElement("li");
         optItem.setAttribute("data-type", option.value);
@@ -33,21 +32,33 @@ class PopoverWindow {
         if (option.isSeparator === true) {
           optItem.classList.add("separator");
         } else {
-          optItem.innerHTML = '<div class="icon"></div>'+
-                              '<div class="name">'+option.title+'</div>'+
-                              '<div class="format">'+option.sub_title+'</div>';
+          optItem.innerHTML =
+            '<div class="icon"></div>' +
+            '<div class="name">' +
+            option.title +
+            "</div>" +
+            '<div class="format">' +
+            option.sub_title +
+            "</div>";
           // Add click event listener to the select option
-          optItem.addEventListener("click", () => {
-            const ipcChannelName = "options-"+this._ID+"-click-"+option._id;
-            ipcRenderer.send(ipcChannelName, option.value);
-            ipcRenderer.invoke("WINDOW", {type: "HIDE", windowName: "popover"});
-          }, false);
+          optItem.addEventListener(
+            "click",
+            () => {
+              const ipcChannelName =
+                "options-" + this._ID + "-click-" + option._id;
+              ipcRenderer.send(ipcChannelName, option.value);
+              ipcRenderer.invoke("WINDOW", {
+                type: "HIDE",
+                windowName: "popover"
+              });
+            },
+            false
+          );
         }
         optionsListEl.appendChild(optItem);
       });
     });
   }
-
 }
 
-const pw = new PopoverWindow();
+new PopoverWindow();

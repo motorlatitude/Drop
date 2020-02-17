@@ -1,7 +1,17 @@
 const { ipcRenderer } = require("electron");
 const Palette = require("./Palette");
 
+/**
+ * HistoryWindow Class
+ *
+ * Handles render process history window
+ * @class HistoryWindow
+ */
 class HistoryWindow {
+  /**
+   * Creates an instance of HistoryWindow.
+   * @memberof HistoryWindow
+   */
   constructor() {
     this.configureWindowControls();
     this.fetchPalettes();
@@ -15,13 +25,18 @@ class HistoryWindow {
     // Configure Window For Correct Dimensions
     // TODO: could become a problem when a large number of palettes are created,
     // will have to include scrolling at a certain point
-    const primaryScreenSize = await ipcRenderer.invoke("get-primary-screen-size");
+    const primaryScreenSize = await ipcRenderer.invoke(
+      "get-primary-screen-size"
+    );
     ipcRenderer.invoke("WINDOW", {
       type: "SET_BOUNDS",
       windowName: "history",
       args: {
         height: 110 + Object.keys(palettes).length * 110,
-        y: primaryScreenSize.height - 230 - (Object.keys(palettes).length - 1) * 110,
+        y:
+          primaryScreenSize.height -
+          230 -
+          (Object.keys(palettes).length - 1) * 110,
         animate: true
       }
     });
@@ -31,11 +46,14 @@ class HistoryWindow {
       const p = new Palette(palettes[paletteId]);
       if (paletteId == "HISTORY") {
         ipcRenderer.on("color-history-update", (evt, newColor) => {
-          p.AppendNewColorItem(document.getElementById("history-list"), newColor);
+          p.appendNewColorItem(
+            document.getElementById("history-list"),
+            newColor
+          );
         });
       }
-      const pEl = p.CreateElement();
-      p.AppendNewPalette(pEl);
+      const pEl = p.createElement();
+      p.appendNewPalette(pEl);
     });
   }
 
@@ -57,7 +75,10 @@ class HistoryWindow {
     });
 
     document.getElementById("select").addEventListener("click", async () => {
-      const dropdownState = await ipcRenderer.invoke("WINDOW", { type: "IS_VISIBLE", windowName: "popover" });
+      const dropdownState = await ipcRenderer.invoke("WINDOW", {
+        type: "IS_VISIBLE",
+        windowName: "popover"
+      });
       console.log(dropdownState);
       if (!dropdownState.visible) {
         ipcRenderer.invoke("WINDOW", { type: "SHOW", windowName: "popover" });
@@ -72,9 +93,11 @@ class HistoryWindow {
       ipcRenderer.invoke("WINDOW", { type: "HIDE", windowName: "history" });
     });
 
-    document.getElementsByClassName("settings-cog")[0].addEventListener("click", () => {
-      ipcRenderer.invoke("WINDOW", { type: "SHOW", windowName: "settings" });
-    });
+    document
+      .getElementsByClassName("settings-cog")[0]
+      .addEventListener("click", () => {
+        ipcRenderer.invoke("WINDOW", { type: "SHOW", windowName: "settings" });
+      });
 
     document.getElementsByClassName("quit")[0].addEventListener("click", () => {
       ipcRenderer.send("quit-app");
@@ -82,4 +105,4 @@ class HistoryWindow {
   }
 }
 
-const hw = new HistoryWindow();
+new HistoryWindow();

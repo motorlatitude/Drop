@@ -2,7 +2,20 @@ const robot = require("robotjs"); // => /!\ when installing robotjs add --target
 const electron = require("electron");
 const log = require("electron-log");
 
+/**
+ * MouseCaptureHandler Class
+ *
+ * Handles taking screenshots around the mouse cursor and sending them to the
+ * renderer in a grid
+ * @class MouseCaptureHandler
+ */
 class MouseCaptureHandler {
+  /**
+   * Creates an instance of MouseCaptureHandler.
+   * @param {*} wm
+   * @param {*} pwc
+   * @memberof MouseCaptureHandler
+   */
   constructor(wm, pwc) {
     this.PickerSize = 17;
 
@@ -42,7 +55,12 @@ class MouseCaptureHandler {
   }
 
   /**
-   * Check if capturing should be taking place
+   * Checks if a new screenshot should be taken based on if the picker is
+   * visible and if the mouse position has moved since the last capture
+   *
+   * @param {boolean} [ignore=false] should the capture check be ignored
+   * @return {boolean}
+   * @memberof MouseCaptureHandler
    */
   _shouldCapture(ignore = false) {
     if (ignore) {
@@ -68,31 +86,51 @@ class MouseCaptureHandler {
     }
   }
 
+  /**
+   * Capture an area around the mouse cursor and send a grid to the render process
+   *
+   * @param {boolean} [ignoreChecks=false] should capture checks be ignored
+   * @memberof MouseCaptureHandler
+   */
   _mouseCapture(ignoreChecks = false) {
     if (this._shouldCapture(ignoreChecks)) {
       // capture small screenshot around mouse cursor position
-      var img = robot.screen.capture(
+      const img = robot.screen.capture(
         Math.ceil(this._PreviousMousePosition.x - this.PickerSize / 2),
         Math.ceil(this._PreviousMousePosition.y - this.PickerSize / 2),
         this.PickerSize,
         this.PickerSize
       );
-      let multi = img.width / this.PickerSize;
+      const multi = img.width / this.PickerSize;
       // get current screen
-      let currentScreen = electron.screen.getDisplayNearestPoint({
+      const currentScreen = electron.screen.getDisplayNearestPoint({
         x: this._PreviousMousePosition.x,
         y: this._PreviousMousePosition.y
       });
-      let factor = currentScreen.scaleFactor;
-      let workAreaSize = currentScreen.workArea;
+      const factor = currentScreen.scaleFactor;
+      const workAreaSize = currentScreen.workArea;
       // scale windows X and Y coords to display
       let windowX = Math.floor(this._PreviousMousePosition.x / factor) - 20;
       let windowY = Math.floor(this._PreviousMousePosition.y / factor) - 20;
-      if (workAreaSize.width < this._PreviousMousePosition.x / factor - workAreaSize.x + this.PickerSize * 15) {
-        windowX = Math.floor(this._PreviousMousePosition.x / factor) - (this.PickerSize * 15 - 20);
+      if (
+        workAreaSize.width <
+        this._PreviousMousePosition.x / factor -
+          workAreaSize.x +
+          this.PickerSize * 15
+      ) {
+        windowX =
+          Math.floor(this._PreviousMousePosition.x / factor) -
+          (this.PickerSize * 15 - 20);
       }
-      if (workAreaSize.height < this._PreviousMousePosition.y / factor - workAreaSize.y + (this.PickerSize * 15 - 90)) {
-        windowY = Math.floor(this._PreviousMousePosition.y / factor) - (this.PickerSize * 15 - 20);
+      if (
+        workAreaSize.height <
+        this._PreviousMousePosition.y / factor -
+          workAreaSize.y +
+          (this.PickerSize * 15 - 90)
+      ) {
+        windowY =
+          Math.floor(this._PreviousMousePosition.y / factor) -
+          (this.PickerSize * 15 - 20);
       }
       this._WindowManager.windows.picker.setBounds(
         {
@@ -103,11 +141,11 @@ class MouseCaptureHandler {
         },
         false
       );
-      let colors = {};
-      for (var k = 0; k < this.PickerSize; k++) {
+      const colors = {};
+      for (let k = 0; k < this.PickerSize; k++) {
         colors[k] = [];
-        for (var l = 0; l < this.PickerSize; l++) {
-          var hex = img.colorAt(l * multi, k * multi);
+        for (let l = 0; l < this.PickerSize; l++) {
+          const hex = img.colorAt(l * multi, k * multi);
           colors[k].push({
             x: 6 + k,
             y: 6 + l,
@@ -115,7 +153,10 @@ class MouseCaptureHandler {
           });
         }
       }
-      this._WindowManager.windows.picker.webContents.send("color", JSON.stringify(colors));
+      this._WindowManager.windows.picker.webContents.send(
+        "color",
+        JSON.stringify(colors)
+      );
     }
   }
 }

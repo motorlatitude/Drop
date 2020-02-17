@@ -1,10 +1,19 @@
 const electron = require("electron");
 const { ipcMain } = electron;
 
+/**
+ * PopoverWindowController Class
+ *
+ * Handles dropdown windows
+ * @class PopoverWindowController
+ */
 class PopoverWindowController {
   /**
-   *
-   * @param {WindowManager} wm The apps window manager
+   * Creates an instance of PopoverWindowController.
+   * @param {WindowManager} wm the WindowManager instance for the application
+   * @param {[{any}]} options the select options
+   * @param {*} position the position of the drop down
+   * @memberof PopoverWindowController
    */
   constructor(wm, options, position) {
     this._windowId = Math.random()
@@ -56,9 +65,12 @@ class PopoverWindowController {
         .toString(36)
         .substr(2, 15);
       if (!val.isSeparator) {
-        ipcMain.on("options-" + this._windowId + "-click-" + val._id, (evt, args) => {
-          val.clickHandler(args);
-        });
+        ipcMain.on(
+          "options-" + this._windowId + "-click-" + val._id,
+          (evt, args) => {
+            val.clickHandler(args);
+          }
+        );
       }
       return val;
     });

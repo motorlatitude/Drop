@@ -5,6 +5,7 @@
   "main": "src/main/main.js",
   "scripts": {
     "start": "./node_modules/.bin/electron .",
+    "lint": "./node_modules/.bin/eslint -c .eslintrc.json --fix .",
     "build": "electron-builder build",
     "release": "electron-builder --publish always build"
   },
@@ -32,7 +33,12 @@
   "devDependencies": {
     "electron": "^7.1.12",
     "electron-builder": "^22.3.2",
-    "electron-rebuild": "^1.10.0"
+    "electron-rebuild": "^1.10.0",
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1"
   },
   "dependencies": {
     "color-namer": "^1.4.0",

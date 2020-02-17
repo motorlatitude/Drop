@@ -9,6 +9,10 @@ const log = require("electron-log");
  *
  */
 class WindowManager {
+  /**
+   * Creates an instance of WindowManager.
+   * @memberof WindowManager
+   */
   constructor() {
     /** Object containing all windows using the window name as the key */
     this.windows = {};
@@ -17,6 +21,14 @@ class WindowManager {
     this.isQuitting = false;
   }
 
+  /**
+   * Create a new window
+   *
+   * @param {*} controller the parent window controller
+   * @param {string} windowName the name of the window type
+   * @return {BrowserWindow}
+   * @memberof WindowManager
+   */
   createNewWindow(controller, windowName) {
     const baseWindowOptions = {
       resizable: false,
@@ -32,8 +44,10 @@ class WindowManager {
     };
     switch (windowName) {
       case "history":
-        baseWindowOptions.x = electron.screen.getPrimaryDisplay().workAreaSize.width - 400;
-        baseWindowOptions.y = electron.screen.getPrimaryDisplay().workAreaSize.height - 210;
+        baseWindowOptions.x =
+          electron.screen.getPrimaryDisplay().workAreaSize.width - 400;
+        baseWindowOptions.y =
+          electron.screen.getPrimaryDisplay().workAreaSize.height - 210;
         baseWindowOptions.width = 390;
         baseWindowOptions.height = 210;
         break;
@@ -44,8 +58,10 @@ class WindowManager {
         baseWindowOptions.parentWindow = this.windows.history;
         break;
       case "settings":
-        baseWindowOptions.x = electron.screen.getPrimaryDisplay().workAreaSize.width / 2 - 350;
-        baseWindowOptions.y = electron.screen.getPrimaryDisplay().workAreaSize.height / 2 - 250;
+        baseWindowOptions.x =
+          electron.screen.getPrimaryDisplay().workAreaSize.width / 2 - 350;
+        baseWindowOptions.y =
+          electron.screen.getPrimaryDisplay().workAreaSize.height / 2 - 250;
         baseWindowOptions.width = 700;
         baseWindowOptions.height = 500;
         baseWindowOptions.alwaysOnTop = false;
