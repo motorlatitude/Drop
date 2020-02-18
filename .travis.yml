@@ -10,7 +10,7 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sleep 3; fi
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -y install libxtst-dev libpng++-dev
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -y install libxtst-dev libpng++-dev; fi
 
 install:
   - npm install robotjs --target=7.1.12
@@ -19,14 +19,27 @@ install:
 jobs:
   include:
     - stage: test
+      os: linux
       name: "Linting Checks"
       script: npm run lint
     - script: npm run test
       name: "Running E2E Tests"
+      os: linux
     - stage: build
+      os: windows
+      name: "Building"
+      script: npm run build
+    - stage: build
+      os: linux
       name: "Building"
       script: npm run build
     - stage: deploy
       if: branch = master
+      os: windows
+      script: npm run release
+      name: "Deploying Release"
+    - stage: deploy
+      if: branch = master
+      os: linux
       script: npm run release
       name: "Deploying Release"
