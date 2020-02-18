@@ -4,12 +4,16 @@ const electronPath = require("electron"); // Require Electron from the binaries 
 const path = require("path");
 
 describe("Application launch", function() {
-  this.timeout(10000);
+  this.timeout(30000);
 
   beforeEach(function() {
     this.app = new Application({
       path: electronPath,
-      args: [path.join(__dirname, "..")]
+      args: [path.join(__dirname, "..")],
+      chromeDriverArgs: ["no-sandbox"],
+      startTimeout: 50 * 1000,
+      quitTimeout: 10 * 1000,
+      waitTimeout: 10 * 1000
     });
     return this.app.start();
   });

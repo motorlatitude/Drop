@@ -17,8 +17,9 @@ jobs:
       script: npm run lint
     - script: npm run test
       name: "Running E2E Tests"
-    - stage: deploy
+    - stage: build
       name: "Building"
       script: npm run build
-    - script: npm run release
+    - stage: deploy
+      script: npm run release
       name: "Deploying Release"
