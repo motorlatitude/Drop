@@ -38,10 +38,16 @@ jobs:
       script: npm run test
       name: "Running E2E Tests"
     - stage: build
-      if: (os = linux) OR (os = windows)
-      name: "Building"
+      if: (os = linux)
+      name: "Building Linux"
       script: npm run build
+    - script: npm run build
+      if: (os = windows)
+      name: "Building Windows"
     - stage: deploy
-      if: (branch = master) AND ((os = windows) OR (os = linux))
+      if: ((branch = master) OR (type = pull_request)) AND (os = windows)
       script: npm run release
-      name: "Deploying Release"
+      name: "Deploying Windows Release"
+    - script: npm run release
+      if: ((branch = master) OR (type = pull_request)) AND (os = linux)
+      name: "Deploying Linux Release"
