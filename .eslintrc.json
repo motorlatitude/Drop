@@ -6,6 +6,7 @@
   },
   "extends": [
     "google",
+    "plugin:mocha/recommended",
     "plugin:security-node/recommended",
     "plugin:prettier/recommended"
   ],
@@ -16,7 +17,7 @@
   "parserOptions": {
     "ecmaVersion": 2018
   },
-  "plugins": ["security-node", "prettier"],
+  "plugins": ["security-node", "mocha", "prettier"],
   "rules": {
     "prettier/prettier": "error"
   }

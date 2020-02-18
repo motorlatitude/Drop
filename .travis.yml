@@ -10,5 +10,15 @@ branches:
   only:
     - master
 
-script:
-  - npm run build
+jobs:
+  include:
+    - stage: test
+      name: "Linting Checks"
+      script: npm run lint
+    - script: npm run test
+      name: "Running E2E Tests"
+    - stage: deploy
+      name: "Building"
+      script: npm run build
+    - script: npm run release
+      name: "Deploying Release"
