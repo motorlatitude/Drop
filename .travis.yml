@@ -4,8 +4,11 @@ os:
   - linux
   - windows
 
-services:
-  - xvfb
+addons:
+  chrome: stable
+  apt:
+    packages:
+      - xvfb
 
 before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
