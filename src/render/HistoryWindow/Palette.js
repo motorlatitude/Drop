@@ -84,19 +84,10 @@ class Palette {
       if (!elColorListDeleteOption.classList.contains("disabled")) {
         ipcRenderer.invoke("PALETTE", { type: "DELETE", args: this._ID });
         this.removePalette(elColorList);
-        const windowBounds = await ipcRenderer.invoke("WINDOW", {
-          type: "GET_BOUNDS",
-          windowName: "history"
-        });
-        ipcRenderer.invoke("WINDOW", {
-          type: "SET_BOUNDS",
-          windowName: "history",
-          args: {
-            height: windowBounds.height - 110,
-            y: windowBounds.y + 110,
-            animate: true
-          }
-        });
+        this.changeHistoryWindowBounds(
+          windowBounds.height - 110,
+          windowBounds.y + 110
+        );
       }
     });
 
@@ -109,6 +100,31 @@ class Palette {
     }
 
     return elColorList;
+  }
+
+  /**
+   * Change the bounds of the history window for adding/removing palettes. This
+   * will increase or decrease the height and adjust the y coordinate
+   * accordingly
+   *
+   * @param {number} heightModifier the amount to increase or decrease the height
+   * @param {number} yModifier the amount to increase or decrease the y coordinate
+   * @memberof Palette
+   */
+  async changeHistoryWindowBounds(heightModifier, yModifier) {
+    const windowBounds = await ipcRenderer.invoke("WINDOW", {
+      type: "GET_BOUNDS",
+      windowName: "history"
+    });
+    ipcRenderer.invoke("WINDOW", {
+      type: "SET_BOUNDS",
+      windowName: "history",
+      args: {
+        height: windowBounds.height + heightModifier,
+        y: windowBounds.y + yModifier,
+        animate: true
+      }
+    });
   }
 
   /**
@@ -195,19 +211,7 @@ class Palette {
         e.dataTransfer.dropEffect = "copy";
 
         // Increase size of window to accommodate
-        const windowBounds = await ipcRenderer.invoke("WINDOW", {
-          type: "GET_BOUNDS",
-          windowName: "history"
-        });
-        ipcRenderer.invoke("WINDOW", {
-          type: "SET_BOUNDS",
-          windowName: "history",
-          args: {
-            height: windowBounds.height + 110,
-            y: windowBounds.y - 110,
-            animate: true
-          }
-        });
+        this.changeHistoryWindowBounds(110, -110);
         [
           temporaryPalette,
           temporaryPaletteElement
@@ -233,19 +237,7 @@ class Palette {
           });
           [temporaryPalette, temporaryPaletteElement] = [undefined, undefined];
         } else {
-          const windowBounds = await ipcRenderer.invoke("WINDOW", {
-            type: "GET_BOUNDS",
-            windowName: "history"
-          });
-          ipcRenderer.invoke("WINDOW", {
-            type: "SET_BOUNDS",
-            windowName: "history",
-            args: {
-              height: windowBounds.height - 110,
-              y: windowBounds.y + 110,
-              animate: true
-            }
-          });
+          this.changeHistoryWindowBounds(-110, 110);
           // remove temp palette
           temporaryPalette.removePalette(temporaryPaletteElement);
           [temporaryPalette, temporaryPaletteElement] = [undefined, undefined];
@@ -267,6 +259,7 @@ class Palette {
     const p = new Palette({
       colors: [],
       name: "New Color Palette",
+      // eslint-disable-next-line security-node/detect-insecure-randomness
       id: Math.random()
         .toString(36)
         .substr(2, 9)

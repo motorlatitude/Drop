@@ -84,7 +84,6 @@ class PickerWindow {
     });
 
     window.addEventListener("keyup", event => {
-      console.log(event.key);
       if (
         event.key === "Escape" ||
         event.key === "Esc" ||

@@ -79,7 +79,6 @@ class HistoryWindow {
         type: "IS_VISIBLE",
         windowName: "popover"
       });
-      console.log(dropdownState);
       if (!dropdownState.visible) {
         ipcRenderer.invoke("WINDOW", { type: "SHOW", windowName: "popover" });
         document.getElementById("select").classList.add("active");

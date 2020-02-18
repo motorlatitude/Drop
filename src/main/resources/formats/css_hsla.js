@@ -10,14 +10,11 @@ exports.config = () => ({
 });
 
 // convert the inputted hex color format into another format and return the final string value
-exports.convertHexColor = hexColor => {
-  const r = parseInt("0x" + hexColor.substring(0, 2));
-  const g = parseInt("0x" + hexColor.substring(2, 4));
-  const b = parseInt("0x" + hexColor.substring(4, 6));
+exports.convertColor = color => {
   // L
-  const rp = r / 255;
-  const gp = g / 255;
-  const bp = b / 255;
+  const rp = color.rgb.r / 255;
+  const gp = color.rgb.g / 255;
+  const bp = color.rgb.b / 255;
   const maxL = Math.max(rp, gp, bp);
   const minL = Math.min(rp, gp, bp);
   const luminescence = Math.ceil(((maxL + minL) / 2) * 100);

@@ -56,6 +56,9 @@ class ColorFormats {
       } else {
         log.log("Plugins:", files);
         files.forEach((pluginPath, index) => {
+          // eslint rule disabled here, to enable a plugin system 3rd-party code
+          // must be allowed to load and run here
+          // eslint-disable-next-line security-node/detect-non-literal-require-calls
           const plug = require(pluginPath);
           const plugConfigParams = plug.config();
           if (plugConfigParams.type === "format") {
@@ -64,7 +67,19 @@ class ColorFormats {
               sub_title: plugConfigParams.format.displayFormat,
               icon: plugConfigParams.format.icon,
               value: plugConfigParams.name,
-              convertFromHex: hexColor => plug.convertHexColor(hexColor)
+              convertFromHex: hexColor => {
+                const r = parseInt("0x" + hexColor.substring(0, 2));
+                const g = parseInt("0x" + hexColor.substring(2, 4));
+                const b = parseInt("0x" + hexColor.substring(4, 6));
+                plug.convertColor({
+                  hex: hexColor,
+                  rgb: {
+                    r,
+                    g,
+                    b
+                  }
+                });
+              }
             });
           } else {
             log.error(

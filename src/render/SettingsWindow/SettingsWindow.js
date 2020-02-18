@@ -44,7 +44,6 @@ class SettingsWindow {
 
         // Checkboxes
         const setCheckbox = (key, value) => {
-          console.log("setting", key);
           switch (key) {
             case "isHistoryLimit":
               if (value === true) {
@@ -201,7 +200,6 @@ class SettingsWindow {
           ipcRenderer
             .invoke("SETTING", { type: "CHECK_UPDATE" })
             .then(data => {
-              console.log(data);
               if (data.error !== null) {
                 console.error(data.error);
                 document.getElementById("update-status").innerHTML =
