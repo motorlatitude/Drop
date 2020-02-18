@@ -25,6 +25,8 @@ install:
   - npm install
   - echo "npm test temporarily disabled"
 
+script: true
+
 jobs:
   include:
     - stage: test
@@ -36,18 +38,10 @@ jobs:
       script: npm run test
       name: "Running E2E Tests"
     - stage: build
-      if: os = windows
-      name: "Building"
-      script: npm run build
-    - stage: build
-      if: os = linux
+      if: (os = linux) OR (os = windows)
       name: "Building"
       script: npm run build
     - stage: deploy
-      if: (branch = master) AND (os = windows)
-      script: npm run release
-      name: "Deploying Release"
-    - stage: deploy
-      if: (branch = master) AND (os = linux)
+      if: (branch = master) AND ((os = windows) OR (os = linux))
       script: npm run release
       name: "Deploying Release"
