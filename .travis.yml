@@ -24,30 +24,33 @@ install:
   - npm install robotjs --target=7.1.12
   - npm install
 
+stages:
+  - test
+  - build
+  - deploy
+
 jobs:
   include:
     - stage: test
-      os: linux
+      if: os = linux
       name: "Linting Checks"
       script: npm run lint
     - script: npm run test
       name: "Running E2E Tests"
-      os: linux
+      if: os = linux
     - stage: build
-      os: windows
       name: "Building"
       script: npm run build
+      if: os = windows
     - stage: build
-      os: linux
+      if: os = linux
       name: "Building"
       script: npm run build
     - stage: deploy
-      if: branch = master
-      os: windows
+      if: (branch = master) AND (os = windows)
       script: npm run release
       name: "Deploying Release"
     - stage: deploy
-      if: branch = master
-      os: linux
+      if: (branch = master) AND (os = linux)
       script: npm run release
       name: "Deploying Release"
