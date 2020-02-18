@@ -23,6 +23,7 @@ before_install:
 install:
   - npm install robotjs --target=7.1.12
   - npm install
+  - echo "npm test temporarily disabled"
 
 jobs:
   include:
