@@ -106,7 +106,7 @@ class Updater {
 
     autoUpdater.on("update-available", info => {
       log.info("A newer version is available", info);
-      const currentSettings = this.Store.get("settings", {}); // TODO: create default settings object
+      const currentSettings = this._Store.get("settings", {}); // TODO: create default settings object
       if (currentSettings.autoCheckDownloadUpdates === true) {
         this.downloadLatestUpdate();
         if (this._WindowManager.windows.settings) {
@@ -144,7 +144,7 @@ class Updater {
 
     autoUpdater.on("update-downloaded", info => {
       log.info("Update has been downloaded", info);
-      const currentSettings = this.Store.get("settings", {}); // TODO: create default settings object
+      const currentSettings = this._Store.get("settings", {}); // TODO: create default settings object
       if (currentSettings.autoInstallUpdates === true) {
         autoUpdater.quitAndInstall(true, true);
       } else {
