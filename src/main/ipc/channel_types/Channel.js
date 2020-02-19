@@ -1,15 +1,19 @@
-
-class Channel {
 /**
- *Creates an instance of Channel.
- * @param {*} windowManager the apps window manager instance
- * @param {*} store the apps store
- * @param {*} tray the apps tray
- * @param {*} colorFormats the color format instance
- * @memberof Channel
+ * Channel Class
+ *
+ * Handles all IPC channels
+ * @class Channel
  */
-constructor(windowManager, store, tray, colorFormats) {
-
+class Channel {
+  /**
+   *Creates an instance of Channel.
+   * @param {*} windowManager the apps window manager instance
+   * @param {*} store the apps store
+   * @param {*} tray the apps tray
+   * @param {*} colorFormats the color format instance
+   * @memberof Channel
+   */
+  constructor(windowManager, store, tray, colorFormats) {
     /** @property {WindowManager} WindowManager the apps window manager */
     this.WindowManager = windowManager;
 
@@ -22,7 +26,6 @@ constructor(windowManager, store, tray, colorFormats) {
     /** @property {ColorFormats} ColorFormats the color format instance for the app */
     this.ColorFormats = colorFormats;
   }
-
 }
 
 module.exports = Channel;

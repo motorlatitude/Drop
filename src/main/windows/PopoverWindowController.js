@@ -1,12 +1,22 @@
 const electron = require("electron");
 const { ipcMain } = electron;
 
+/**
+ * PopoverWindowController Class
+ *
+ * Handles dropdown windows
+ * @class PopoverWindowController
+ */
 class PopoverWindowController {
   /**
-   *
-   * @param {WindowManager} wm The apps window manager
+   * Creates an instance of PopoverWindowController.
+   * @param {WindowManager} wm the WindowManager instance for the application
+   * @param {[{any}]} options the select options
+   * @param {*} position the position of the drop down
+   * @memberof PopoverWindowController
    */
   constructor(wm, options, position) {
+    // eslint-disable-next-line security-node/detect-insecure-randomness
     this._windowId = Math.random()
       .toString(36)
       .substr(2, 9);
@@ -22,7 +32,7 @@ class PopoverWindowController {
    * @param {{x: number, y: number}} [position] the position of the popover
    */
   createWindow(wm, options, position) {
-    this.window = wm.createNewWindow("popover");
+    this.window = wm.createNewWindow(this, "popover");
     if (position) {
       this.setPosition(position);
     }
@@ -51,7 +61,11 @@ class PopoverWindowController {
    * @param {[{clickHandler: function, title: string, sub_title: string, icon: string, isSeparator: boolean, value: string}]} [options] popover window option items
    */
   setOptions(options) {
+    // Setup IPC event listeners for each option item that isn't a separator so
+    // that click handlers are called in the main process rather than render
+    // process
     const opts = options.map(val => {
+      // eslint-disable-next-line security-node/detect-insecure-randomness
       val._id = Math.random()
         .toString(36)
         .substr(2, 15);
@@ -65,6 +79,7 @@ class PopoverWindowController {
       }
       return val;
     });
+    // Send options to renderer
     this.window.webContents.send("options", {
       id: this._windowId,
       options: opts
