@@ -65,6 +65,9 @@ class Palette {
     const elColorListDeleteOption = elColorListOptions.getElementsByClassName(
       "delete-palette"
     )[0];
+    const elColorListClearOption = elColorListOptions.getElementsByClassName(
+      "clear-palette"
+    )[0];
 
     // reveal & hide palette options on hover
     elColorListOptions.addEventListener("mouseover", evt => {
@@ -84,10 +87,18 @@ class Palette {
       if (!elColorListDeleteOption.classList.contains("disabled")) {
         ipcRenderer.invoke("PALETTE", { type: "DELETE", args: this._ID });
         this.removePalette(elColorList);
-        this.changeHistoryWindowBounds(
-          windowBounds.height - 110,
-          windowBounds.y + 110
-        );
+        this.changeHistoryWindowBounds(-110, 110);
+      }
+    });
+
+    // Clear Event Listener
+    elColorListClearOption.addEventListener("click", async e => {
+      // clicked trash, clear palette
+      if (!elColorListDeleteOption.classList.contains("disabled")) {
+        this._Colors = [];
+        elColorList.getElementsByClassName("color-palette-list")[0].innerHTML =
+          "";
+        ipcRenderer.invoke("PALETTE", { type: "SAVE", args: this.serialize() });
       }
     });
 

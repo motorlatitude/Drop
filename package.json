@@ -10,6 +10,12 @@
     "build": "electron-builder build --publish never",
     "release": "electron-builder build --publish always"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm test",
+      "pre-push": "npm run lint && npm test"
+    }
+  },
   "build": {
     "appId": "com.electron.drop",
     "productName": "Drop",
@@ -43,13 +49,13 @@
     "chai": "^4.2.0",
     "electron": "^7.1.12",
     "electron-builder": "^22.3.2",
-    "electron-rebuild": "^1.10.0",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-mocha": "^6.2.2",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-security-node": "^1.0.11",
+    "husky": "^4.2.3",
     "mocha": "^7.0.1",
     "prettier": "^1.19.1",
     "spectron": "5.0.0"
