@@ -20,12 +20,12 @@
 Drop is a color picker made for windows using electron. It's designed for developers and designers as a way to gather,
 tweak and share colors, featuring a rich UI to support it along the way.
 
--   Multi-level Magnification
--   Customizable Shortcuts
--   Different color formats that it can output (CSS RGB, RGBA, HSL, HSLA and Hex with more coming soon!!!)
--   Create and share palettes to keep your different projects organized
--   Automatically puts the clicked colour into your clipboard
--   With more features on the way...
+- Multi-level Magnification
+- Customizable Shortcuts
+- Different color formats that it can output (CSS RGB, RGBA, HSL, HSLA and Hex with more coming soon!!!)
+- Create and share palettes to keep your different projects organized
+- Automatically puts the clicked colour into your clipboard
+- With more features on the way...
 
 🏗️ **Development Stage**: Alpha
 
@@ -33,7 +33,7 @@ This project is still in its development stage so some aspects of it will not wo
 bugs.
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/motorlatitude/Drop/alpha.5/src/assets/img/thumbnail.png" alt="Drop Preview - Showing the history window" width="75%">
+    <img src="https://raw.githubusercontent.com/motorlatitude/Drop/master/src/assets/img/thumbnail.png" alt="Drop Preview - Showing the history window" width="75%">
 </p>
 
 ## Installation
@@ -84,22 +84,22 @@ to successfully build the application.
 
     You are now ready to build Drop, choose for what you plan on using your custom built version of Drop.
 
-    -   #### Building to run on your system
+    - #### Building to run on your system
 
-        If you wish to use your built version as if using the installer run:
+      If you wish to use your built version as if using the installer run:
 
-        ```bash
-        npm run build
-        ```
+      ```bash
+      npm run build
+      ```
 
-        This step can take a couple of minutes, best grab a coffee. Once completed, a setup executable should be in
-        the `./dist/` directory, run the installer to use the built version.
+      This step can take a couple of minutes, best grab a coffee. Once completed, a setup executable should be in
+      the `./dist/` directory, run the installer to use the built version.
 
-    -   #### Build for development purposes
+    - #### Build for development purposes
 
-        If you are using the code to make your own changes/modify it, it is easier to not run the npm build command
-        until you have finished development work. Use the start command to test your modified version
+      If you are using the code to make your own changes/modify it, it is easier to not run the npm build command
+      until you have finished development work. Use the start command to test your modified version
 
-        ```bash
-        npm start
-        ```
+      ```bash
+      npm start
+      ```
