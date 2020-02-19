@@ -8,7 +8,7 @@
     "lint": "./node_modules/.bin/eslint -c .eslintrc.json --fix .",
     "test": "mocha",
     "build": "electron-builder build --publish never",
-    "release": "electron-builder build"
+    "release": "electron-builder build --publish always"
   },
   "build": {
     "appId": "com.electron.drop",
@@ -17,6 +17,13 @@
     "asar": true,
     "win": {
       "icon": "./src/assets/img/icon.ico",
+      "publish": [
+        "github"
+      ]
+    },
+    "linux": {
+      "icon": "./src/assets/img/icon@512x512.png",
+      "category": "Utility",
       "publish": [
         "github"
       ]
