@@ -1,3 +1,4 @@
+const path = require("path");
 const log = require("electron-log");
 
 const ShortcutController = require("./ShortcutController");
@@ -46,6 +47,7 @@ class AppController {
         ? log.transports.file.getFile().path
         : "None"
     );
+    this.logPath = path.dirname(log.transports.file.getFile().path);
   }
 
   /**

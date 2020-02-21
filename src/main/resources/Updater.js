@@ -76,6 +76,11 @@ class Updater {
    * Checks for any available updates for the application
    */
   async checkForUpdates() {
+    // set last checked for update timestamp to now
+    const currentSettings = this._Store.get("settings", {});
+    currentSettings.lastUpdateCheck = new Date().getTime();
+    this._Store.set("settings", currentSettings);
+    // check for updates
     return await autoUpdater.checkForUpdates().catch(err => {
       log.error(err);
     });

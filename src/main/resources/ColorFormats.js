@@ -71,7 +71,7 @@ class ColorFormats {
                 const r = parseInt("0x" + hexColor.substring(0, 2));
                 const g = parseInt("0x" + hexColor.substring(2, 4));
                 const b = parseInt("0x" + hexColor.substring(4, 6));
-                plug.convertColor({
+                return plug.convertColor({
                   hex: hexColor,
                   rgb: {
                     r,

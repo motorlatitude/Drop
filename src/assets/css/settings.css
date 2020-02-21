@@ -378,6 +378,20 @@ body {
     margin: 5px 10px 0 0;
 }
 
+#drop-framework-versions a {
+    text-decoration: none;
+    color: rgb(82, 82, 74);
+    font-size: 13px;
+    border-radius: 3px;
+    padding: 4px 10px;
+    border: 1px solid rgb(82, 82, 74);
+}
+
+#drop-framework-versions a:hover {
+    background: rgb(82, 82, 74);
+    color: #242423;
+}
+
 /* CHECKBOX STYLING */
 
 .settings-frame .settings-checkbox {
