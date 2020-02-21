@@ -249,6 +249,7 @@ class SettingsWindow {
 
     // Updater found a newer version
     ipcRenderer.on("UPDATER-UPDATE-AVAILABLE", () => {
+      this._setSettings();
       document.getElementById("update-status").innerHTML = "Update Available";
       updateButtonEl.value = "Download Update";
       updateButtonEl.setAttribute("data-function", "download");
@@ -257,6 +258,7 @@ class SettingsWindow {
 
     // Updater didn't find a newer version
     ipcRenderer.on("UPDATER-UPDATE-UNAVAILABLE", () => {
+      this._setSettings();
       document.getElementById("update-status").innerHTML = "Up To Date";
       updateButtonEl.removeAttribute("disabled");
     });

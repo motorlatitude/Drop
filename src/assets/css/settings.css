@@ -392,6 +392,102 @@ body {
     color: #242423;
 }
 
+.shortcut-sidebar {
+    float: left;
+    width: 180px;
+    height: calc(100% - 90px);
+    margin: 5px;
+    background: hsl(60, 2%, 10%, 1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.shortcut-sidebar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.shortcut-sidebar ul li {
+    width: 100%;
+    margin: 0;
+    padding: 0 10px;
+    line-height: 45px;
+    font-size: 14px;
+    border-bottom: 1px solid hsl(60, 2%, 13%, 1);
+}
+
+.shortcut-sidebar ul li:hover {
+    background: hsl(60, 2%, 12%, 1);
+}
+
+.shortcut-sidebar ul li.active {
+    color: #fff;
+    background: hsla(272, 100%, 26%, 1);
+}
+
+.shortcut-main-frame {
+    float: left;
+    margin: -10px 5px;
+    width: calc(100% - 200px);
+    height: calc(100% - 90px);
+}
+
+.shortcut-main-frame ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
+}
+
+.shortcut-main-frame ul li {
+    width: 100%;
+    line-height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 0;
+}
+
+.shortcut-main-frame ul li .shortcut-name {
+    flex: 0 0 140px;
+    text-align: right;
+}
+
+.shortcut-main-frame ul li .shortcut-keys {
+    flex: 1 1 auto;
+    text-align: left;
+    margin-left: 60px;
+    background: hsl(60, 2%, 10%, 1);
+    border-radius: 4px;
+    height: 40px;
+}
+
+.shortcut-main-frame ul li .shortcut-keys ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.shortcut-main-frame ul li .shortcut-keys ul li {
+    float: left;
+    margin: 5px 8px 0;
+    padding: 0 10px;
+    width: -webkit-fill-available;
+    width: -moz-fit-content;
+    width: fit-content;
+    line-height: 26px;
+    background: rgb(255, 252, 247);
+    box-shadow: 0 3px 0 rgb(185, 183, 180);
+    border-radius: 3px;
+    color: #6b6b6b;
+    font-size: 13px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 /* CHECKBOX STYLING */
 
 .settings-frame .settings-checkbox {
@@ -424,6 +520,11 @@ body {
     border: 1.5px solid hsla(60, 2%, 24%, 1);
     border-radius: 3px;
     transition: 0.1s ease-in-out;
+}
+
+.settings-frame .shortcut-name .settings-checkbox .checkmark {
+    top: 12px;
+    left: -10px;
 }
 
 /* On mouse-over, add a grey background color */
