@@ -1,6 +1,7 @@
 const electron = require("electron");
-const { BrowserWindow } = electron;
+const { BrowserWindow, nativeImage } = electron;
 const log = require("electron-log");
+const path = require("path");
 
 /**
  * Class WindowManager
@@ -30,13 +31,16 @@ class WindowManager {
    * @memberof WindowManager
    */
   createNewWindow(controller, windowName) {
+    const icn = nativeImage.createFromPath(
+      path.resolve(__dirname, "./../../assets/img/icon.png")
+    );
     const baseWindowOptions = {
       resizable: false,
-      frame: false,
       transparent: true,
+      frame: false,
       alwaysOnTop: true,
       show: false,
-      icon: __dirname + "./../../assets/img/icon.png",
+      icon: icn,
       webPreferences: {
         nodeIntegration: true,
         experimentalFeatures: true

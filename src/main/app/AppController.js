@@ -112,7 +112,11 @@ class AppController {
       "force-color-profile",
       currentSettings.colorProfile ? "default" : currentSettings.colorProfile
     );
-
+    log.info(process.platform);
+    if (process.platform === "linux") {
+      this._App.commandLine.appendSwitch("enable-transparent-visuals");
+      this._App.commandLine.appendSwitch("disable-gpu");
+    }
     this.setLoginItem(currentSettings.launchOnStartup ? true : false);
   }
 
@@ -121,7 +125,14 @@ class AppController {
    * @memberof AppController
    */
   _SetEventListeners() {
-    this._App.on("ready", this._AppIsReady.bind(this));
+    this._App.on("ready", () => {
+      setTimeout(
+        () => {
+          this._AppIsReady();
+        },
+        process.platform === "linux" ? 3000 : 0
+      ); // 3s delay required for transparency in linux OS
+    });
 
     this._App.on("will-quit", () => {
       this._WindowManager.windows.picker = null;

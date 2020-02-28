@@ -1,5 +1,6 @@
-const { Menu, Tray, app } = require("electron");
+const { Menu, Tray, app, nativeImage } = require("electron");
 const log = require("electron-log");
+const path = require("path");
 
 const SettingsWindowController = require("./../windows/SettingsWindowController");
 
@@ -36,7 +37,12 @@ class TrayController {
    * @memberof TrayController
    */
   _CreateNewTray() {
-    this.tray = new Tray(__dirname + "./../../assets/img/taskbar_icon.png");
+    console.log(path.resolve());
+    const img = nativeImage.createFromPath(
+      path.resolve(__dirname, "./../../assets/img/taskbar_icon.png")
+    );
+    log.log(img.isEmpty());
+    this.tray = new Tray(img);
 
     const contextMenu = Menu.buildFromTemplate([
       {

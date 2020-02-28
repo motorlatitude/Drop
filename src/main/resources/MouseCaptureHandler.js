@@ -88,7 +88,7 @@ class MouseCaptureHandler {
 
   /**
    * Capture an area around the mouse cursor and send a grid to the render process
-   *
+   * TODO: App crashes on linux if mouse reaches the corners of the display???
    * @param {boolean} [ignoreChecks=false] should capture checks be ignored
    * @memberof MouseCaptureHandler
    */
