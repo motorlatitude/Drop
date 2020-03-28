@@ -37,7 +37,6 @@ class TrayController {
    * @memberof TrayController
    */
   _CreateNewTray() {
-    console.log(path.resolve());
     const img = nativeImage.createFromPath(
       path.resolve(__dirname, "./../../assets/img/taskbar_icon.png")
     );

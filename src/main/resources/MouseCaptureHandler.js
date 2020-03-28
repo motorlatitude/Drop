@@ -89,7 +89,6 @@ class MouseCaptureHandler {
 
   /**
    * Capture an area around the mouse cursor and send a grid to the render process
-   * TODO: App crashes on linux if mouse reaches the corners of the display???
    * BUG: RobotJS bug that causes segmentation faults to occur when user moves cursor to edge of screen in linux
    * @param {boolean} [ignoreChecks=false] should capture checks be ignored
    * @memberof MouseCaptureHandler
