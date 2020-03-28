@@ -1,5 +1,7 @@
 const path = require("path");
 const log = require("electron-log");
+const electron = require("electron");
+const { crashReporter } = electron;
 
 const ShortcutController = require("./ShortcutController");
 const Updater = require("./../resources/Updater");
@@ -48,6 +50,8 @@ class AppController {
         : "None"
     );
     this.logPath = path.dirname(log.transports.file.getFile().path);
+    this._App.setPath("temp", this.logPath);
+    log.info("Crashes Directory", crashReporter.getCrashesDirectory());
   }
 
   /**
