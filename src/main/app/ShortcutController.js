@@ -19,6 +19,14 @@ class ShortcutController {
   }
 
   /**
+   * Register all available shortcuts
+   */
+  setAllGlobalShortcuts() {
+    // const allShortcuts = ["shortcutOpenMagnifier", "shortcutOpenHistory"];
+    this.setGlobalShortcut();
+  }
+
+  /**
    * Register a new global shortcut for the app
    * @param {string} shortcut The shortcut sequence to register
    * @param {void} callback The method to carry out if the shortcut is triggered

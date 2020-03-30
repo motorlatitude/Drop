@@ -349,12 +349,14 @@ body {
     margin-left: 20px;
     margin-top: 0;
     color: hsla(60, 2%, 74%, 1);
+    line-height: 30px;
 }
 
 .settings-frame .drop-updater label[for="drop-btn-check-update"] {
     position: absolute;
     left: 140px;
     top: -2px;
+    line-height: 18px;
 }
 
 .settings-frame .drop-updater label[for="drop-btn-check-update"] span#lastUpdateCheck {
@@ -428,22 +430,27 @@ body {
 
 .shortcut-main-frame {
     float: left;
-    margin: -10px 5px;
-    width: calc(100% - 200px);
+    margin: -10px 5px -10px 20px;
+    width: calc(100% - 220px);
     height: calc(100% - 90px);
 }
 
-.shortcut-main-frame ul {
+.shortcut-main-frame > ul {
     list-style: none;
     margin: 0;
     padding: 0;
     width: 100%;
     height: auto;
+    display: none;
+}
+
+.shortcut-main-frame > ul.visible {
+    display: block;
 }
 
 .shortcut-main-frame ul li {
     width: 100%;
-    line-height: 42px;
+    line-height: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -451,29 +458,38 @@ body {
     top: 0;
 }
 
-.shortcut-main-frame ul li .shortcut-name {
-    flex: 0 0 140px;
-    text-align: right;
+.shortcut-name {
+    flex: 0 0 120px;
+    text-align: left;
 }
 
-.shortcut-main-frame ul li .shortcut-keys {
+.shortcut-keys {
     flex: 1 1 auto;
     text-align: left;
-    margin-left: 60px;
+    margin-left: 40px;
     background: hsl(60, 2%, 10%, 1);
     border-radius: 4px;
     height: 40px;
+    border: 2px solid hsl(60, 2%, 10%, 1);
 }
 
-.shortcut-main-frame ul li .shortcut-keys ul {
+.shortcut-keys:hover {
+    background: hsl(60, 2%, 12%, 1);
+}
+
+.shortcut-keys.shortcut-active {
+    border: 2px solid hsla(272, 100%, 38%, 1);
+}
+
+.shortcut-keys ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.shortcut-main-frame ul li .shortcut-keys ul li {
+.shortcut-keys ul li {
     float: left;
-    margin: 5px 8px 0;
+    margin: 3px 8px 0;
     padding: 0 10px;
     width: -webkit-fill-available;
     width: -moz-fit-content;
@@ -483,9 +499,15 @@ body {
     box-shadow: 0 3px 0 rgb(185, 183, 180);
     border-radius: 3px;
     color: #6b6b6b;
-    font-size: 13px;
-    font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.shortcut-keys ul li svg {
+    height: 20px;
+    padding: 3px;
+    margin: 3px 0;
 }
 
 /* CHECKBOX STYLING */
@@ -513,7 +535,7 @@ body {
 /* Create a custom checkbox */
 .settings-frame .settings-checkbox .checkmark {
     position: absolute;
-    top: 2px;
+    top: 7px;
     left: -20px;
     height: 18px;
     width: 18px;
@@ -522,9 +544,13 @@ body {
     transition: 0.1s ease-in-out;
 }
 
+.settings-frame .shortcut-name .settings-checkbox {
+    font-size: 12px;
+}
+
 .settings-frame .shortcut-name .settings-checkbox .checkmark {
-    top: 12px;
-    left: -10px;
+    top: 10px;
+    left: -20px;
 }
 
 /* On mouse-over, add a grey background color */

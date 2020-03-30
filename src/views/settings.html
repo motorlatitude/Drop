@@ -210,12 +210,12 @@
         <div class="settings-frame shortcuts" data-view="shortcuts">
             <div class="shortcut-sidebar">
                 <ul>
-                    <li class="active">General</li>
-                    <li>Magnifier</li>
+                    <li class="active" data-sidebar-nav="General">General</li>
+                    <li data-sidebar-nav="Magnifier">Magnifier</li>
                 </ul>
             </div>
             <div class="shortcut-main-frame">
-                <ul>
+                <ul data-shortcut-group="General" class="visible">
                     <li>
                         <div class="shortcut-name">
                             <label for="shortcutOpenMagnifier" class="settings-checkbox">Open Magnifier
@@ -223,10 +223,10 @@
                                 <span class="checkmark"></span>
                             </label>
                         </div>
-                        <div class="shortcut-keys">
+                        <div class="shortcut-keys" data-shortcut-for="shortcutOpenMagnifier">
                             <ul>
-                                <li>ctrl</li>
-                                <li>I</li>
+                                <li data-key="Control" data-key-code="17">ctrl</li>
+                                <li data-key="i" data-key-code="73">I</li>
                             </ul>
                         </div>
                     </li>
@@ -237,10 +237,54 @@
                                 <span class="checkmark"></span>
                             </label>
                         </div>
-                        <div class="shortcut-keys">
+                        <div class="shortcut-keys" data-shortcut-for="shortcutOpenHistory">
                             <ul>
-                                <li>ctrl</li>
-                                <li>P</li>
+                                <li data-key="Control" data-key-code="17">ctrl</li>
+                                <li data-key="p" data-key-code="80">P</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <ul data-shortcut-group="Magnifier">
+                    <li>
+                        <div class="shortcut-name">
+                            <label for="shortcutMoveLensUp" class="settings-checkbox">Move Lens Up
+                                <input id="shortcutMoveLensUp" type="checkbox" checked />
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="shortcut-keys" data-shortcut-for="shortcutMoveLensUp">
+                            <ul>
+                                <li>
+                                    <svg aria-hidden="true" focusable="false" data-prefix="far"
+                                        data-icon="long-arrow-up" class="svg-inline--fa fa-long-arrow-up fa-w-10"
+                                        role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                        <path fill="currentColor"
+                                            d="M19.716 184.485l19.626 19.626c4.753 4.753 12.484 4.675 17.14-.173L134 123.22V468c0 6.627 5.373 12 12 12h28c6.627 0 12-5.373 12-12V123.22l77.518 80.717c4.656 4.849 12.387 4.927 17.14.173l19.626-19.626c4.686-4.686 4.686-12.284 0-16.971L168.485 35.716c-4.686-4.686-12.284-4.686-16.971 0L19.716 167.515c-4.686 4.686-4.686 12.284 0 16.97z">
+                                        </path>
+                                    </svg>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="shortcut-name">
+                            <label for="shortcutMoveLensRight" class="settings-checkbox">Move Lens Right
+                                <input id="shortcutMoveLensRight" type="checkbox" checked />
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="shortcut-keys" data-shortcut-for="shortcutMoveLensRight">
+                            <ul>
+                                <li>
+                                    <svg aria-hidden="true" focusable="false" data-prefix="far"
+                                        data-icon="long-arrow-right" class="svg-inline--fa fa-long-arrow-right fa-w-14"
+                                        role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                        <path fill="currentColor"
+                                            d="M295.515 115.716l-19.626 19.626c-4.753 4.753-4.675 12.484.173 17.14L356.78 230H12c-6.627 0-12 5.373-12 12v28c0 6.627 5.373 12 12 12h344.78l-80.717 77.518c-4.849 4.656-4.927 12.387-.173 17.14l19.626 19.626c4.686 4.686 12.284 4.686 16.971 0l131.799-131.799c4.686-4.686 4.686-12.284 0-16.971L312.485 115.716c-4.686-4.686-12.284-4.686-16.97 0z">
+                                        </path>
+                                    </svg>
+                                </li>
                             </ul>
                         </div>
                     </li>

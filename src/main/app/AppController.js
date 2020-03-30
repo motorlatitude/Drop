@@ -37,6 +37,7 @@ class AppController {
     this._Updater = new Updater(this._Store, this._WindowManager);
 
     // call private methods
+    log.info("Setting Up Application");
     this._SetFlags();
     this._SetEventListeners();
 
@@ -54,6 +55,7 @@ class AppController {
    * Electron has finished initializing, own logic in here
    */
   _AppIsReady() {
+    log.info("Application Ready");
     // eslint-disable-next-line no-unused-vars
     const pickerWindowController = new PickerWindowController(
       this._WindowManager
