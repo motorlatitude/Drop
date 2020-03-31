@@ -35,6 +35,8 @@ class WindowManager {
       path.resolve(__dirname, "./../../assets/img/icon.png")
     );
     const baseWindowOptions = {
+      x: electron.screen.getPrimaryDisplay().workArea.x,
+      y: electron.screen.getPrimaryDisplay().workArea.y,
       resizable: false,
       transparent: true,
       frame: false,
