@@ -300,7 +300,7 @@ class SettingsWindow {
     });
 
     const keyCaptureEls = document.querySelectorAll(".shortcut-keys");
-    let oldShortcut = undefined;
+    let oldShortcut;
 
     const resetShortcutCapture = () => {
       const activeShortcutElement = document.querySelector(
@@ -333,6 +333,10 @@ class SettingsWindow {
           .querySelector(".shortcut-keys.shortcut-active")
           .classList.remove("shortcut-active");
         document.removeEventListener("keydown", onKeyDown);
+        ipcRenderer.invoke("SETTING", {
+          type: "ENABLE_SHORTCUTS",
+          args: {}
+        });
       }
     };
 
@@ -423,6 +427,10 @@ class SettingsWindow {
         keyCaptureEl.innerHTML = "<ul></ul>";
         document.addEventListener("keydown", onKeyDown);
         // unregister all global shortcuts
+        ipcRenderer.invoke("SETTING", {
+          type: "DISABLE_SHORTCUTS",
+          args: {}
+        });
         e.preventDefault();
       });
     });

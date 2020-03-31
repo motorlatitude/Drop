@@ -16,7 +16,7 @@ class SettingChannel extends Channel {
    * @param {event} ipcEventObject ipc event object
    * @param {{type: ('CHECK_UPDATE' | 'DOWNLOAD_UPDATE' | 'INSTALL_UPDATE' | 'MODIFY_SETTING' | 'GET_SETTING' | 'GET_ALL_SETTINGS'), args: *}} [ipcEventDataObject] the included data
    * @param {electron-updater} autoUpdater electron autoUpdater instance
-   * @param {ApPController} appController the app controller instance for the application
+   * @param {AppController} appController the app controller instance for the application
    * @memberof SettingChannel
    */
   constructor(
@@ -49,7 +49,27 @@ class SettingChannel extends Channel {
         return this.getSetting(ipcEventDataObject.args);
       case "GET_ALL_SETTINGS":
         return this.getAllSettings();
+      case "DISABLE_SHORTCUTS":
+        return this.disableShortcuts(appController);
+      case "ENABLE_SHORTCUTS":
+        return this.enableShortcuts(appController);
     }
+  }
+
+  /**
+   * Enable all global shortcuts
+   * @param {AppController} appController the controller for the application
+   */
+  enableShortcuts(appController) {
+    appController.registerGlobalShortcuts();
+  }
+
+  /**
+   *  Disable all global shortcuts
+   * @param {AppController} appController the controller for the application
+   */
+  disableShortcuts(appController) {
+    appController.unregisterGlobalShortcuts();
   }
 
   /**

@@ -19,11 +19,45 @@ class ShortcutController {
   }
 
   /**
-   * Register all available shortcuts
+   * Converts an array of keys into a string to be used for electrons shortcut register
+   * @param {[string]} shortcutKeyArray an array of key names
+   * @return {string}
    */
-  setAllGlobalShortcuts() {
-    // const allShortcuts = ["shortcutOpenMagnifier", "shortcutOpenHistory"];
-    this.setGlobalShortcut();
+  formatShortcut(shortcutKeyArray) {
+    let keyString = "";
+    // converts any special keys to electron's used keys
+    const keyName = keyString => {
+      switch (keyString) {
+        case "Control":
+          return "CommandOrControl";
+        case "Command":
+          return "CommandOrControl";
+        default:
+          return keyString;
+      }
+    };
+
+    for (let i = 0; i < shortcutKeyArray.length; i++) {
+      keyString += "" + keyName(shortcutKeyArray[i]) + "+";
+    }
+    return keyString.substring(0, keyString.length - 1);
+  }
+
+  /**
+   * Set all enabled global shortcuts
+   * @param {{key: string, shortcut: string[], callback: void, enabled: boolean}} shortcutObjects a list of all available shortcuts
+   */
+  setAllGlobalShortcuts(shortcutObjects) {
+    Object.keys(shortcutObjects).forEach(shortcutKey => {
+      const shortcut = shortcutObjects[shortcutKey];
+      if (shortcut.enabled) {
+        log.info("Setting Global Shortcut:", shortcutKey);
+        this.setGlobalShortcut(
+          this.formatShortcut(shortcut.shortcut),
+          shortcut.callback
+        );
+      }
+    });
   }
 
   /**

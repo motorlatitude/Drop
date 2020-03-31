@@ -65,17 +65,7 @@ class AppController {
       this._WindowManager
     );
 
-    this._ShortcutManager.setGlobalShortcut("CommandOrControl+I", () => {
-      log.log("Global Shortcut Was Triggered, Showing Picker Window");
-      if (this._WindowManager.windows.picker) {
-        if (this._WindowManager.windows.picker.isVisible()) {
-          this._WindowManager.windows.picker.hide();
-        } else {
-          this._WindowManager.windows.picker.show();
-          this._WindowManager.windows.picker.webContents.zoomFactor = 1;
-        }
-      }
-    });
+    this.registerGlobalShortcuts();
 
     // eslint-disable-next-line no-unused-vars
     const historyWindowController = new HistoryWindowController(
@@ -93,6 +83,79 @@ class AppController {
       this._Updater
     );
     messageHandler.setupListeners();
+  }
+
+  /**
+   * Unregister all global shortcuts
+   * @memberof AppController
+   */
+  unregisterGlobalShortcuts() {
+    this._ShortcutManager.unsetAllGlobalShortcuts();
+  }
+
+  /**
+   * Setup global shortcuts
+   * @memberof AppController
+   */
+  registerGlobalShortcuts() {
+    const allShortcuts = { shortcutOpenMagnifier: {}, shortcutOpenHistory: {} };
+    Object.keys(allShortcuts).forEach((shortcut, index) => {
+      const populatedShortcutObject = {
+        key: Object.keys(allShortcuts)[index],
+        shortcut: "",
+        callback: null,
+        enabled: true
+      };
+      switch (populatedShortcutObject.key) {
+        case "shortcutOpenMagnifier":
+          populatedShortcutObject.callback = () => {
+            log.log(
+              "Global Shortcut Was Triggered, Toggling Picker Window Visibility"
+            );
+            if (this._WindowManager.windows.picker) {
+              if (this._WindowManager.windows.picker.isVisible()) {
+                this._WindowManager.windows.picker.hide();
+              } else {
+                this._WindowManager.windows.picker.show();
+                this._WindowManager.windows.picker.webContents.zoomFactor = 1;
+              }
+            }
+          };
+          populatedShortcutObject.shortcut = this._Store.get(
+            "settings.shortcutOpenMagnifierKeys",
+            ["Control", "I"]
+          );
+          populatedShortcutObject.enabled = this._Store.get(
+            "settings.shortcutOpenMagnifier",
+            true
+          );
+          break;
+        case "shortcutOpenHistory":
+          populatedShortcutObject.callback = () => {
+            log.log(
+              "Global Shortcut Was Triggered, Toggling History Window Visibility"
+            );
+            if (this._WindowManager.windows.history) {
+              if (this._WindowManager.windows.history.isVisible()) {
+                this._WindowManager.windows.history.hide();
+              } else {
+                this._WindowManager.windows.history.show();
+              }
+            }
+          };
+          populatedShortcutObject.shortcut = this._Store.get(
+            "settings.shortcutOpenHistoryKeys",
+            ["Control", "P"]
+          );
+          populatedShortcutObject.enabled = this._Store.get(
+            "settings.shortcutOpenHistory",
+            true
+          );
+          break;
+      }
+      allShortcuts[populatedShortcutObject.key] = populatedShortcutObject;
+    });
+    this._ShortcutManager.setAllGlobalShortcuts(allShortcuts);
   }
 
   /**

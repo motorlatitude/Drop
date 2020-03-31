@@ -54,7 +54,6 @@ class WindowManager {
           electron.screen.getPrimaryDisplay().workArea.x +
           electron.screen.getPrimaryDisplay().workAreaSize.width -
           400;
-        log.info("baseWindowOptions.x", baseWindowOptions.x);
         baseWindowOptions.y =
           electron.screen.getPrimaryDisplay().workArea.y +
           electron.screen.getPrimaryDisplay().workAreaSize.height -
