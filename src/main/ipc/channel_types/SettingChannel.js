@@ -1,5 +1,6 @@
 const log = require("electron-log");
 
+const DefaultSettings = require("../../resources/Defaults").defaultSettings;
 const Channel = require("./Channel");
 
 /**
@@ -80,7 +81,7 @@ class SettingChannel extends Channel {
    * @memberof SettingChannel
    */
   getSetting(args) {
-    const currentSettings = this.Store.get("settings", {}); // TODO: create default settings object
+    const currentSettings = this.Store.get("settings", DefaultSettings);
     log.log("GET", args.key, currentSettings[args.key]);
     return { response: currentSettings[args.key] };
   }
@@ -91,7 +92,7 @@ class SettingChannel extends Channel {
    * @memberof SettingChannel
    */
   getAllSettings() {
-    const currentSettings = this.Store.get("settings", {}); // TODO: create default settings object
+    const currentSettings = this.Store.get("settings", DefaultSettings);
     log.log("GET_ALL", currentSettings);
     return currentSettings;
   }
@@ -105,7 +106,7 @@ class SettingChannel extends Channel {
    * @memberof SettingChannel
    */
   modifySetting(args, autoUpdater, appController) {
-    const currentSettings = this.Store.get("settings", {}); // TODO: create default settings object
+    const currentSettings = this.Store.get("settings", DefaultSettings);
     currentSettings[args.key] = args.value;
     this.Store.set("settings", currentSettings);
 

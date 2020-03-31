@@ -3,6 +3,7 @@ const log = require("electron-log");
 const electron = require("electron");
 const { crashReporter } = electron;
 
+const DefaultSettings = require("../resources/Defaults").defaultSettings;
 const ShortcutController = require("./ShortcutController");
 const Updater = require("./../resources/Updater");
 const TrayController = require("./TrayController");
@@ -123,7 +124,7 @@ class AppController {
           };
           populatedShortcutObject.shortcut = this._Store.get(
             "settings.shortcutOpenMagnifierKeys",
-            ["Control", "I"]
+            DefaultSettings.shortcutOpenMagnifierKeys
           );
           populatedShortcutObject.enabled = this._Store.get(
             "settings.shortcutOpenMagnifier",
@@ -145,7 +146,7 @@ class AppController {
           };
           populatedShortcutObject.shortcut = this._Store.get(
             "settings.shortcutOpenHistoryKeys",
-            ["Control", "P"]
+            DefaultSettings.shortcutOpenHistoryKeys
           );
           populatedShortcutObject.enabled = this._Store.get(
             "settings.shortcutOpenHistory",
@@ -175,8 +176,7 @@ class AppController {
    * @memberof AppController
    */
   _SetFlags() {
-    // TODO: create default settings object
-    const currentSettings = this._Store.get("settings", {});
+    const currentSettings = this._Store.get("settings", DefaultSettings);
     this._App.commandLine.appendSwitch(
       "force-color-profile",
       currentSettings.colorProfile ? "default" : currentSettings.colorProfile
@@ -213,14 +213,22 @@ class AppController {
       this._WindowManager.isQuitting = true;
 
       log.info("Removing Close Event Listeners From Windows");
-      this._WindowManager.windows.history.removeAllListeners("close");
-      this._WindowManager.windows.history.close();
-      this._WindowManager.windows.popover.removeAllListeners("close");
-      this._WindowManager.windows.popover.close();
-      this._WindowManager.windows.settings.removeAllListeners("close");
-      this._WindowManager.windows.settings.close();
-      this._WindowManager.windows.picker.removeAllListeners("close");
-      this._WindowManager.windows.picker.close();
+      if (this._WindowManager.windows.history) {
+        this._WindowManager.windows.history.removeAllListeners("close");
+        this._WindowManager.windows.history.close();
+      }
+      if (this._WindowManager.windows.popover) {
+        this._WindowManager.windows.popover.removeAllListeners("close");
+        this._WindowManager.windows.popover.close();
+      }
+      if (this._WindowManager.windows.settings) {
+        this._WindowManager.windows.settings.removeAllListeners("close");
+        this._WindowManager.windows.settings.close();
+      }
+      if (this._WindowManager.windows.picker) {
+        this._WindowManager.windows.picker.removeAllListeners("close");
+        this._WindowManager.windows.picker.close();
+      }
     });
 
     this._App.on("window-all-closed", () => {

@@ -113,6 +113,24 @@ class WindowChannel extends Channel {
    */
   showWindow(windowName) {
     if (this.WindowManager.windows[windowName]) {
+      if (windowName === "popover") {
+        const windowBounds = this.WindowManager.windows.history.getBounds();
+        const windowScreen = screen.getDisplayNearestPoint({
+          x: windowBounds.x,
+          y: windowBounds.y
+        });
+        let windowY = windowBounds.y + 30 * windowScreen.scaleFactor;
+        if (windowY + 260 >= windowScreen.bounds.height) {
+          windowY = windowY - (260 - 60) * windowScreen.scaleFactor;
+        }
+        this.WindowManager.windows.popover.setBounds(
+          {
+            x: windowBounds.x + 30,
+            y: windowY
+          },
+          false
+        );
+      }
       this.WindowManager.windows[windowName].show();
       return undefined;
     } else if (windowName === "settings") {
@@ -140,14 +158,13 @@ class WindowChannel extends Channel {
       });
 
       const windowBounds = this.WindowManager.windows.history.getBounds();
-
-      let windowY = windowBounds.y + 50;
       const windowScreen = screen.getDisplayNearestPoint({
         x: windowBounds.x,
         y: windowBounds.y
       });
+      let windowY = windowBounds.y + 30 * windowScreen.scaleFactor;
       if (windowY + 260 >= windowScreen.bounds.height) {
-        windowY = windowY - 260 - 40;
+        windowY = windowY - (260 - 60) * windowScreen.scaleFactor;
       }
       const w = new PopoverWindowController(this.WindowManager, popoverItems, {
         x: windowBounds.x + 30,
