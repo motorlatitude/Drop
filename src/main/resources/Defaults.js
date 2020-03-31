@@ -1,7 +1,7 @@
 exports.defaultSettings = {
   lastUpdateCheck: new Date().getTime(),
   shortcutOpenMagnifierKeys: ["Control", "i"],
-  shortcutOpenHistoryKeys: ["Control", "p"],
+  shortcutOpenHistoryKeys: ["Control", "Shift", "p"],
   shortcutMoveLensUpKeys: ["ArrowUp"],
   shortcutOpenMagnifier: true,
   launchOnStartup: true,
@@ -12,5 +12,6 @@ exports.defaultSettings = {
   shortcutMoveLensRight: true,
   shortcutMoveLensUp: true,
   shortcutOpenHistory: true,
-  historyLimit: "30"
+  historyLimit: "30",
+  colorProfile: "default"
 };
