@@ -53,16 +53,20 @@ class SettingChannel extends Channel {
       case "DISABLE_SHORTCUTS":
         return this.disableShortcuts(appController);
       case "ENABLE_SHORTCUTS":
-        return this.enableShortcuts(appController);
+        return this.enableShortcuts(appController, channelProps.windowManager);
     }
   }
 
   /**
    * Enable all global shortcuts
    * @param {AppController} appController the controller for the application
+   * @param {WindowManager} windowManager the WindowManager instance for the application
    */
-  enableShortcuts(appController) {
+  enableShortcuts(appController, windowManager) {
     appController.registerGlobalShortcuts();
+    if (windowManager.windows.picker) {
+      windowManager.windows.picker.webContents.send("SHORTCUTS_UPDATED", {});
+    }
   }
 
   /**

@@ -1,6 +1,6 @@
 const { globalShortcut } = require("electron");
 const log = require("electron-log");
-
+const KeyAssignment = require("../resources/KeyAssignment");
 /**
  * ShortcutController Class
  *
@@ -19,31 +19,6 @@ class ShortcutController {
   }
 
   /**
-   * Converts an array of keys into a string to be used for electrons shortcut register
-   * @param {[string]} shortcutKeyArray an array of key names
-   * @return {string}
-   */
-  formatShortcut(shortcutKeyArray) {
-    let keyString = "";
-    // converts any special keys to electron's used keys
-    const keyName = keyString => {
-      switch (keyString) {
-        case "Control":
-          return "CommandOrControl";
-        case "Command":
-          return "CommandOrControl";
-        default:
-          return keyString;
-      }
-    };
-
-    for (let i = 0; i < shortcutKeyArray.length; i++) {
-      keyString += "" + keyName(shortcutKeyArray[i]) + "+";
-    }
-    return keyString.substring(0, keyString.length - 1);
-  }
-
-  /**
    * Set all enabled global shortcuts
    * @param {{key: string, shortcut: string[], callback: void, enabled: boolean}} shortcutObjects a list of all available shortcuts
    */
@@ -53,7 +28,7 @@ class ShortcutController {
       if (shortcut.enabled) {
         log.info("Setting Global Shortcut:", shortcutKey);
         this.setGlobalShortcut(
-          this.formatShortcut(shortcut.shortcut),
+          KeyAssignment.format(shortcut.shortcut),
           shortcut.callback
         );
       }

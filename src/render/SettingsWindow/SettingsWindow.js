@@ -25,11 +25,25 @@ class SettingsWindow {
       "shortcutOpenMagnifier",
       "shortcutOpenHistory",
       "shortcutMoveLensUp",
-      "shortcutMoveLensRight"
+      "shortcutMoveLensRight",
+      "shortcutMoveLensDown",
+      "shortcutMoveLensLeft",
+      "shortcutMoveLensUp10px",
+      "shortcutMoveLensRight10px",
+      "shortcutMoveLensDown10px",
+      "shortcutMoveLensLeft10px"
     ];
     this._KeyListSettingKeys = [
       "shortcutOpenHistoryKeys",
-      "shortcutOpenMagnifierKeys"
+      "shortcutOpenMagnifierKeys",
+      "shortcutMoveLensUpKeys",
+      "shortcutMoveLensRightKeys",
+      "shortcutMoveLensDownKeys",
+      "shortcutMoveLensLeftKeys",
+      "shortcutMoveLensUp10pxKeys",
+      "shortcutMoveLensRight10pxKeys",
+      "shortcutMoveLensDown10pxKeys",
+      "shortcutMoveLensLeft10pxKeys"
     ];
     this._KeyFormatter = new KeyFormatter();
     this._ConfigureEventListeners();

@@ -1,6 +1,10 @@
 const { ipcRenderer } = require("electron");
 const namer = require("color-namer");
+const Mousetrap = require("mousetrap");
 
+const KeyAssignment = require("../../main/resources/KeyAssignment");
+const DefaultSettings = require("../../main/resources/Defaults")
+  .defaultSettings;
 /**
  * PickerWindow Class
  *
@@ -83,6 +87,13 @@ class PickerWindow {
       });
     });
 
+    ipcRenderer.on("SHORTCUTS_UPDATED", () => {
+      this._ConfigureShortcuts();
+    });
+
+    // shortcuts
+    this._ConfigureShortcuts();
+
     window.addEventListener("keyup", event => {
       if (
         event.key === "Escape" ||
@@ -90,62 +101,6 @@ class PickerWindow {
         event.keyCode === 27
       ) {
         ipcRenderer.invoke("WINDOW", { type: "HIDE", windowName: "picker" });
-      }
-      if (event.keyCode === 39) {
-        // right
-        if (event.shiftKey) {
-          ipcRenderer.invoke("MOUSE", {
-            type: "MOVE",
-            args: { direction: "RIGHT", shift: true }
-          });
-        } else {
-          ipcRenderer.invoke("MOUSE", {
-            type: "MOVE",
-            args: { direction: "RIGHT", shift: false }
-          });
-        }
-      }
-      if (event.keyCode === 37) {
-        // left
-        if (event.shiftKey) {
-          ipcRenderer.invoke("MOUSE", {
-            type: "MOVE",
-            args: { direction: "LEFT", shift: true }
-          });
-        } else {
-          ipcRenderer.invoke("MOUSE", {
-            type: "MOVE",
-            args: { direction: "LEFT", shift: false }
-          });
-        }
-      }
-      if (event.keyCode === 38) {
-        // up
-        if (event.shiftKey) {
-          ipcRenderer.invoke("MOUSE", {
-            type: "MOVE",
-            args: { direction: "UP", shift: true }
-          });
-        } else {
-          ipcRenderer.invoke("MOUSE", {
-            type: "MOVE",
-            args: { direction: "UP", shift: false }
-          });
-        }
-      }
-      if (event.keyCode === 40) {
-        // down
-        if (event.shiftKey) {
-          ipcRenderer.invoke("MOUSE", {
-            type: "MOVE",
-            args: { direction: "DOWN", shift: true }
-          });
-        } else {
-          ipcRenderer.invoke("MOUSE", {
-            type: "MOVE",
-            args: { direction: "DOWN", shift: false }
-          });
-        }
       }
       if (["-", "Minus"].includes(event.key)) {
         // minus decreases loop size
@@ -166,6 +121,119 @@ class PickerWindow {
         event.preventDefault();
       }
     });
+  }
+
+  /**
+   * Configure shortcuts for Picker
+   */
+  _ConfigureShortcuts() {
+    Mousetrap.reset(); // clear all previous shortcuts if this is a shortcut update
+    const allShortcuts = {
+      shortcutMoveLensRight: {},
+      shortcutMoveLensLeft: {},
+      shortcutMoveLensDown: {},
+      shortcutMoveLensUp: {},
+      shortcutMoveLensRight10px: {},
+      shortcutMoveLensLeft10px: {},
+      shortcutMoveLensDown10px: {},
+      shortcutMoveLensUp10px: {}
+    };
+    ipcRenderer
+      .invoke("SETTING", {
+        type: "GET_ALL_SETTINGS",
+        args: {}
+      })
+      .then(settings => {
+        Object.keys(allShortcuts).forEach((shortcut, index) => {
+          const populatedShortcutObject = {
+            key: shortcut,
+            shortcut: settings[shortcut + "Keys"]
+              ? settings[shortcut + "Keys"]
+              : DefaultSettings[shortcut + "Keys"],
+            callback: null,
+            enabled: settings[shortcut]
+              ? settings[shortcut]
+              : DefaultSettings[shortcut]
+          };
+          switch (populatedShortcutObject.key) {
+            case "shortcutMoveLensRight":
+              populatedShortcutObject.callback = () => {
+                ipcRenderer.invoke("MOUSE", {
+                  type: "MOVE",
+                  args: { direction: "RIGHT", shift: false }
+                });
+              };
+              break;
+            case "shortcutMoveLensLeft":
+              populatedShortcutObject.callback = () => {
+                ipcRenderer.invoke("MOUSE", {
+                  type: "MOVE",
+                  args: { direction: "LEFT", shift: false }
+                });
+              };
+              break;
+            case "shortcutMoveLensDown":
+              populatedShortcutObject.callback = () => {
+                ipcRenderer.invoke("MOUSE", {
+                  type: "MOVE",
+                  args: { direction: "DOWN", shift: false }
+                });
+              };
+              break;
+            case "shortcutMoveLensUp":
+              populatedShortcutObject.callback = () => {
+                ipcRenderer.invoke("MOUSE", {
+                  type: "MOVE",
+                  args: { direction: "UP", shift: false }
+                });
+              };
+              break;
+            case "shortcutMoveLensRight10px":
+              populatedShortcutObject.callback = () => {
+                ipcRenderer.invoke("MOUSE", {
+                  type: "MOVE",
+                  args: { direction: "RIGHT", shift: true }
+                });
+              };
+              break;
+            case "shortcutMoveLensLeft10px":
+              populatedShortcutObject.callback = () => {
+                ipcRenderer.invoke("MOUSE", {
+                  type: "MOVE",
+                  args: { direction: "LEFT", shift: true }
+                });
+              };
+              break;
+            case "shortcutMoveLensDown10px":
+              populatedShortcutObject.callback = () => {
+                ipcRenderer.invoke("MOUSE", {
+                  type: "MOVE",
+                  args: { direction: "DOWN", shift: true }
+                });
+              };
+              break;
+            case "shortcutMoveLensUp10px":
+              populatedShortcutObject.callback = () => {
+                ipcRenderer.invoke("MOUSE", {
+                  type: "MOVE",
+                  args: { direction: "UP", shift: true }
+                });
+              };
+              break;
+          }
+          allShortcuts[shortcut] = populatedShortcutObject;
+        });
+
+        Object.keys(allShortcuts).forEach(shortcutKey => {
+          const shortcut = allShortcuts[shortcutKey];
+          if (shortcut.enabled) {
+            Mousetrap.bind(
+              KeyAssignment.format(shortcut.shortcut).toLowerCase(),
+              shortcut.callback
+            );
+          }
+        });
+      });
   }
 }
 

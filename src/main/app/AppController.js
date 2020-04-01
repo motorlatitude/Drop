@@ -99,7 +99,10 @@ class AppController {
    * @memberof AppController
    */
   registerGlobalShortcuts() {
-    const allShortcuts = { shortcutOpenMagnifier: {}, shortcutOpenHistory: {} };
+    const allShortcuts = {
+      shortcutOpenMagnifier: {},
+      shortcutOpenHistory: {}
+    };
     Object.keys(allShortcuts).forEach((shortcut, index) => {
       const populatedShortcutObject = {
         key: Object.keys(allShortcuts)[index],
@@ -181,7 +184,7 @@ class AppController {
       "force-color-profile",
       currentSettings.colorProfile ? "default" : currentSettings.colorProfile
     );
-    log.info(process.platform);
+    log.info("OS:", process.platform);
     if (process.platform === "linux") {
       this._App.commandLine.appendSwitch("enable-transparent-visuals");
       this._App.commandLine.appendSwitch("disable-gpu");

@@ -58,7 +58,7 @@ class TrayController {
         }
       },
       {
-        label: "History",
+        label: "Palettes",
         type: "normal",
         click: () => {
           if (this._WindowManager.windows.history) {

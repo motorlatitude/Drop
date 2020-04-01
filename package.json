@@ -74,6 +74,7 @@
     "electron-updater": "^4.2.0",
     "glob": "^7.1.6",
     "moment": "^2.24.0",
+    "mousetrap": "^1.6.5",
     "robotjs": "^0.6.0",
     "svg2png": "^4.1.1"
   }
