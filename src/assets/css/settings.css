@@ -449,7 +449,7 @@ body {
   float: left;
   margin: -10px -10px -10px 20px;
   width: calc(100% - 220px);
-  height: calc(100% - 90px);
+  height: calc(100% - 60px);
   padding: 0 10px 0 0;
   overflow-x: hidden;
   overflow-y: auto;
@@ -498,6 +498,10 @@ body {
   align-items: center;
   position: relative;
   top: 0;
+  margin-top: 0;
+}
+
+.shortcut-main-frame > ul > li:first-child {
   margin-top: 10px;
 }
 
@@ -512,7 +516,7 @@ body {
   margin-left: 40px;
   background: hsl(60, 2%, 10%, 1);
   border-radius: 4px;
-  height: 40px;
+  height: 30px;
   border: 2px solid hsl(60, 2%, 10%, 1);
 }
 
@@ -532,24 +536,25 @@ body {
 
 .shortcut-keys ul li {
   float: left;
-  margin: 3px 8px 0;
-  padding: 0 10px;
+  margin: 3px 3px 0;
+  padding: 0 8px;
   width: -webkit-fill-available;
   width: -moz-fit-content;
   width: fit-content;
-  line-height: 26px;
+  line-height: 18px;
   background: rgb(255, 252, 247);
   box-shadow: 0 3px 0 rgb(185, 183, 180);
-  border-radius: 3px;
+  border-radius: 2px;
   color: #6b6b6b;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   pointer-events: none;
+  min-width: 22px;
 }
 
 .shortcut-keys ul li svg {
-  height: 20px;
-  padding: 3px;
+  height: 12px;
+  padding: 1px;
   margin: 3px 0;
 }
 

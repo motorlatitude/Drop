@@ -72,7 +72,7 @@ class AppController {
     const historyWindowController = new HistoryWindowController(
       this._WindowManager
     );
-    const trayController = new TrayController(this._WindowManager);
+    const trayController = new TrayController(this._WindowManager, this._Store);
 
     const colorFormats = new ColorFormats();
     const messageHandler = new MessageHandler(

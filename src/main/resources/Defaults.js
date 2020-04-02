@@ -1,7 +1,7 @@
 exports.defaultSettings = {
   lastUpdateCheck: new Date().getTime(),
   shortcutOpenMagnifierKeys: ["Control", "i"],
-  shortcutOpenHistoryKeys: ["Control", "Shift", "p"],
+  shortcutOpenHistoryKeys: ["Control", "Shift", "d"],
   shortcutOpenMagnifier: true,
   launchOnStartup: true,
   playSounds: true,
@@ -23,6 +23,14 @@ exports.defaultSettings = {
   shortcutMoveLensLeft10px: true,
   shortcutMoveLensUp10pxKeys: ["Shift", "ArrowUp"],
   shortcutMoveLensUp10px: true,
+  shortcutIncreaseSizeKeys: ["+"],
+  shortcutIncreaseSize: true,
+  shortcutDecreaseSizeKeys: ["-"],
+  shortcutFormatNext: true,
+  shortcutFormatNextKeys: ["Alt", "ArrowRight"],
+  shortcutFormatPrevious: true,
+  shortcutFormatPreviousKeys: ["Alt", "ArrowLeft"],
+  shortcutDecreaseSize: true,
   shortcutOpenHistory: true,
   historyLimit: "30",
   colorProfile: "default"

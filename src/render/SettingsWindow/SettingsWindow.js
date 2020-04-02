@@ -1,4 +1,5 @@
 const electron = require("electron");
+const webFrame = electron.webFrame;
 const { ipcRenderer } = electron;
 const moment = require("moment");
 
@@ -31,7 +32,11 @@ class SettingsWindow {
       "shortcutMoveLensUp10px",
       "shortcutMoveLensRight10px",
       "shortcutMoveLensDown10px",
-      "shortcutMoveLensLeft10px"
+      "shortcutMoveLensLeft10px",
+      "shortcutIncreaseSize",
+      "shortcutDecreaseSize",
+      "shortcutFormatNext",
+      "shortcutFormatPrevious"
     ];
     this._KeyListSettingKeys = [
       "shortcutOpenHistoryKeys",
@@ -43,11 +48,21 @@ class SettingsWindow {
       "shortcutMoveLensUp10pxKeys",
       "shortcutMoveLensRight10pxKeys",
       "shortcutMoveLensDown10pxKeys",
-      "shortcutMoveLensLeft10pxKeys"
+      "shortcutMoveLensLeft10pxKeys",
+      "shortcutIncreaseSizeKeys",
+      "shortcutDecreaseSizeKeys",
+      "shortcutFormatNextKeys",
+      "shortcutFormatPreviousKeys"
     ];
     this._KeyFormatter = new KeyFormatter();
     this._ConfigureEventListeners();
     this._setSettings();
+
+    // ensure that web frame doesn't zoom in/out using default keyboard shortcuts e.g. ctrl+plus
+    document.body.style.zoom = 1.0;
+    webFrame.setZoomFactor(1);
+    webFrame.setVisualZoomLevelLimits(1, 1);
+    webFrame.setLayoutZoomLevelLimits(0, 0);
   }
 
   /**
@@ -92,6 +107,7 @@ class SettingsWindow {
           const kEl = document.querySelector(
             ".shortcut-keys[data-shortcut-for='" + key.slice(0, -4) + "'] ul"
           );
+          kEl.innerHTML = ""; // make sure nothing is in the fields
           for (let i = 0; i < value.length; i++) {
             const eKey = value[i];
             const newKey = document.createElement("li");
@@ -381,7 +397,7 @@ class SettingsWindow {
 
     this.keyDownTimeout = null;
     const onKeyDown = e => {
-      console.log(e.key, e.keyCode);
+      console.log(e, e.key, e.keyCode);
       if (document.querySelector(".shortcut-keys.shortcut-active")) {
         const kEl = document.querySelector(".shortcut-keys.shortcut-active ul");
         let keyAlreadyUsed = false;

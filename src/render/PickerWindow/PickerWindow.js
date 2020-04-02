@@ -1,4 +1,4 @@
-const { ipcRenderer } = require("electron");
+const { ipcRenderer, webFrame } = require("electron");
 const namer = require("color-namer");
 const Mousetrap = require("mousetrap");
 
@@ -21,6 +21,12 @@ class PickerWindow {
     this._ConfigureWindowEventListeners();
     this._ConfigureIPCEvents();
     this._Audio = new Audio("./../assets/audio/drop.wav");
+
+    // ensure that web frame doesn't zoom in/out using default keyboard shortcuts e.g. ctrl+plus
+    document.body.style.zoom = 1.0;
+    webFrame.setZoomFactor(1);
+    webFrame.setVisualZoomLevelLimits(1, 1);
+    webFrame.setLayoutZoomLevelLimits(0, 0);
   }
 
   /**
@@ -102,24 +108,6 @@ class PickerWindow {
       ) {
         ipcRenderer.invoke("WINDOW", { type: "HIDE", windowName: "picker" });
       }
-      if (["-", "Minus"].includes(event.key)) {
-        // minus decreases loop size
-        ipcRenderer.invoke("PICKER", {
-          type: "MODIFY_SIZE",
-          args: { zoomType: "decrease" }
-        });
-        document.body.style.zoom = 1.0;
-        event.preventDefault();
-      }
-      if (event.key == "+") {
-        // plus Increase loop size
-        ipcRenderer.invoke("PICKER", {
-          type: "MODIFY_SIZE",
-          args: { zoomType: "increase" }
-        });
-        document.body.style.zoom = 1.0;
-        event.preventDefault();
-      }
     });
   }
 
@@ -136,7 +124,11 @@ class PickerWindow {
       shortcutMoveLensRight10px: {},
       shortcutMoveLensLeft10px: {},
       shortcutMoveLensDown10px: {},
-      shortcutMoveLensUp10px: {}
+      shortcutMoveLensUp10px: {},
+      shortcutIncreaseSize: {},
+      shortcutDecreaseSize: {},
+      shortcutFormatNext: {},
+      shortcutFormatPrevious: {}
     };
     ipcRenderer
       .invoke("SETTING", {
@@ -217,6 +209,40 @@ class PickerWindow {
                 ipcRenderer.invoke("MOUSE", {
                   type: "MOVE",
                   args: { direction: "UP", shift: true }
+                });
+              };
+              break;
+            case "shortcutIncreaseSize":
+              populatedShortcutObject.callback = () => {
+                ipcRenderer.invoke("PICKER", {
+                  type: "MODIFY_SIZE",
+                  args: { zoomType: "increase" }
+                });
+                window.scrollTo(0, 0);
+              };
+              break;
+            case "shortcutDecreaseSize":
+              populatedShortcutObject.callback = () => {
+                ipcRenderer.invoke("PICKER", {
+                  type: "MODIFY_SIZE",
+                  args: { zoomType: "decrease" }
+                });
+                window.scrollTo(0, 0);
+              };
+              break;
+            case "shortcutFormatNext":
+              populatedShortcutObject.callback = () => {
+                ipcRenderer.invoke("FORMAT", {
+                  type: "NEXT",
+                  args: {}
+                });
+              };
+              break;
+            case "shortcutFormatPrevious":
+              populatedShortcutObject.callback = () => {
+                ipcRenderer.invoke("FORMAT", {
+                  type: "BACK",
+                  args: {}
                 });
               };
               break;

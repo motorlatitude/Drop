@@ -2,6 +2,8 @@ const { Menu, Tray, app, nativeImage } = require("electron");
 const log = require("electron-log");
 const path = require("path");
 
+const DefaultSettings = require("../resources/Defaults").defaultSettings;
+const KeyAssignment = require("../resources/KeyAssignment");
 const SettingsWindowController = require("./../windows/SettingsWindowController");
 
 /**
@@ -12,12 +14,14 @@ const SettingsWindowController = require("./../windows/SettingsWindowController"
 class TrayController {
   /**
    * Creates an instance of TrayController.
-   * @param {WindowManager} windowManager
+   * @param {WindowManager} windowManager the applications window manager instance
+   * @param {Store} store the application store instance
    * @memberof TrayController
    */
-  constructor(windowManager) {
+  constructor(windowManager, store) {
     this.tray = null;
     this._WindowManager = windowManager;
+    this._Store = store;
     this._CreateNewTray();
   }
 
@@ -36,17 +40,32 @@ class TrayController {
    *
    * @memberof TrayController
    */
-  _CreateNewTray() {
+  async _CreateNewTray() {
     const img = nativeImage.createFromPath(
       path.resolve(__dirname, "./../../assets/img/taskbar_icon.png")
     );
     log.log(img.isEmpty());
     this.tray = new Tray(img);
 
+    const pickerShortcut = await KeyAssignment.format(
+      this._Store.get(
+        "settings.shortcutOpenMagnifierKeys",
+        DefaultSettings.shortcutOpenMagnifierKeys
+      )
+    );
+
+    const palletteShortcut = await KeyAssignment.format(
+      this._Store.get(
+        "settings.shortcutOpenHistoryKeys",
+        DefaultSettings.shortcutOpenHistoryKeys
+      )
+    );
+
     const contextMenu = Menu.buildFromTemplate([
       {
         label: "Picker",
         type: "normal",
+        accelerator: pickerShortcut,
         click: () => {
           if (this._WindowManager.windows.picker) {
             if (this._WindowManager.windows.picker.isVisible()) {
@@ -60,6 +79,7 @@ class TrayController {
       {
         label: "Palettes",
         type: "normal",
+        accelerator: palletteShortcut,
         click: () => {
           if (this._WindowManager.windows.history) {
             if (this._WindowManager.windows.history.isVisible()) {

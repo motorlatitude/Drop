@@ -1,4 +1,4 @@
-const { ipcRenderer } = require("electron");
+const { ipcRenderer, webFrame } = require("electron");
 const Palette = require("./Palette");
 
 /**
@@ -15,6 +15,11 @@ class HistoryWindow {
   constructor() {
     this.configureWindowControls();
     this.fetchPalettes();
+    // ensure that web frame doesn't zoom in/out using default keyboard shortcuts e.g. ctrl+plus
+    document.body.style.zoom = 1.0;
+    webFrame.setZoomFactor(1);
+    webFrame.setVisualZoomLevelLimits(1, 1);
+    webFrame.setLayoutZoomLevelLimits(0, 0);
   }
 
   /**

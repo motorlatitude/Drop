@@ -6,6 +6,7 @@ const WindowChannel = require("./channel_types/WindowChannel");
 const SettingChannel = require("./channel_types/SettingChannel");
 const MouseChannel = require("./channel_types/MouseChannel");
 const PickerChannel = require("./channel_types/PickerChannel");
+const FormatChannel = require("./channel_types/FormatChannel");
 
 /**
  * MessageHandler Class
@@ -62,6 +63,7 @@ class MessageHandler {
     );
     ipcMain.handle("MOUSE", (e, a) => new MouseChannel(channelProps, e, a));
     ipcMain.handle("PICKER", (e, a) => new PickerChannel(channelProps, e, a));
+    ipcMain.handle("FORMAT", (e, a) => new FormatChannel(channelProps, e, a));
 
     // General App/Electron IPCs
     ipcMain.handle("get-primary-screen-size", this.getScreenSize.bind(self));
