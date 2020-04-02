@@ -1,7 +1,7 @@
 const log = require("electron-log");
 
 const { autoUpdater } = require("electron-updater");
-
+const DefaultSettings = require("../resources/Defaults").defaultSettings;
 /**
  * Updater Class
  *
@@ -20,7 +20,7 @@ class Updater {
     this._AutoUpdaterInterval = null;
     autoUpdater.logger = log;
     autoUpdater.logger.transports.file.level = "info";
-    const settings = store.get("settings", {});
+    const settings = store.get("settings", DefaultSettings);
     this._AutoCheck =
       settings.autoCheckDownloadUpdates === undefined ||
       settings.autoCheckDownloadUpdates === true
@@ -41,7 +41,7 @@ class Updater {
     if (this._AutoCheck) {
       log.info("Starting Automatic Update Checking Interval");
       this._AutoUpdaterInterval = setInterval(() => {
-        const settings = this._Store.get("settings", {});
+        const settings = this._Store.get("settings", DefaultSettings);
         this._AutoCheck =
           settings.autoCheckDownloadUpdates === undefined ||
           settings.autoCheckDownloadUpdates === true
@@ -76,6 +76,11 @@ class Updater {
    * Checks for any available updates for the application
    */
   async checkForUpdates() {
+    // set last checked for update timestamp to now
+    const currentSettings = this._Store.get("settings", DefaultSettings);
+    currentSettings.lastUpdateCheck = new Date().getTime();
+    this._Store.set("settings", currentSettings);
+    // check for updates
     return await autoUpdater.checkForUpdates().catch(err => {
       log.error(err);
     });
@@ -106,7 +111,7 @@ class Updater {
 
     autoUpdater.on("update-available", info => {
       log.info("A newer version is available", info);
-      const currentSettings = this.Store.get("settings", {}); // TODO: create default settings object
+      const currentSettings = this._Store.get("settings", DefaultSettings);
       if (currentSettings.autoCheckDownloadUpdates === true) {
         this.downloadLatestUpdate();
         if (this._WindowManager.windows.settings) {
@@ -144,7 +149,7 @@ class Updater {
 
     autoUpdater.on("update-downloaded", info => {
       log.info("Update has been downloaded", info);
-      const currentSettings = this.Store.get("settings", {}); // TODO: create default settings object
+      const currentSettings = this._Store.get("settings", DefaultSettings);
       if (currentSettings.autoInstallUpdates === true) {
         autoUpdater.quitAndInstall(true, true);
       } else {

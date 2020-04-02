@@ -1,5 +1,9 @@
+const path = require("path");
 const log = require("electron-log");
+const electron = require("electron");
+const { crashReporter } = electron;
 
+const DefaultSettings = require("../resources/Defaults").defaultSettings;
 const ShortcutController = require("./ShortcutController");
 const Updater = require("./../resources/Updater");
 const TrayController = require("./TrayController");
@@ -36,6 +40,7 @@ class AppController {
     this._Updater = new Updater(this._Store, this._WindowManager);
 
     // call private methods
+    log.info("Setting Up Application");
     this._SetFlags();
     this._SetEventListeners();
 
@@ -46,34 +51,28 @@ class AppController {
         ? log.transports.file.getFile().path
         : "None"
     );
+    this.logPath = path.dirname(log.transports.file.getFile().path);
+    this._App.setPath("temp", this.logPath);
+    log.info("Crashes Directory", crashReporter.getCrashesDirectory());
   }
 
   /**
    * Electron has finished initializing, own logic in here
    */
   _AppIsReady() {
+    log.info("Application Ready");
     // eslint-disable-next-line no-unused-vars
     const pickerWindowController = new PickerWindowController(
       this._WindowManager
     );
 
-    this._ShortcutManager.setGlobalShortcut("CommandOrControl+I", () => {
-      log.log("Global Shortcut Was Triggered, Showing Picker Window");
-      if (this._WindowManager.windows.picker) {
-        if (this._WindowManager.windows.picker.isVisible()) {
-          this._WindowManager.windows.picker.hide();
-        } else {
-          this._WindowManager.windows.picker.show();
-          this._WindowManager.windows.picker.webContents.zoomFactor = 1;
-        }
-      }
-    });
+    this.registerGlobalShortcuts();
 
     // eslint-disable-next-line no-unused-vars
     const historyWindowController = new HistoryWindowController(
       this._WindowManager
     );
-    const trayController = new TrayController(this._WindowManager);
+    const trayController = new TrayController(this._WindowManager, this._Store);
 
     const colorFormats = new ColorFormats();
     const messageHandler = new MessageHandler(
@@ -85,6 +84,82 @@ class AppController {
       this._Updater
     );
     messageHandler.setupListeners();
+  }
+
+  /**
+   * Unregister all global shortcuts
+   * @memberof AppController
+   */
+  unregisterGlobalShortcuts() {
+    this._ShortcutManager.unsetAllGlobalShortcuts();
+  }
+
+  /**
+   * Setup global shortcuts
+   * @memberof AppController
+   */
+  registerGlobalShortcuts() {
+    const allShortcuts = {
+      shortcutOpenMagnifier: {},
+      shortcutOpenHistory: {}
+    };
+    Object.keys(allShortcuts).forEach((shortcut, index) => {
+      const populatedShortcutObject = {
+        key: Object.keys(allShortcuts)[index],
+        shortcut: "",
+        callback: null,
+        enabled: true
+      };
+      switch (populatedShortcutObject.key) {
+        case "shortcutOpenMagnifier":
+          populatedShortcutObject.callback = () => {
+            log.log(
+              "Global Shortcut Was Triggered, Toggling Picker Window Visibility"
+            );
+            if (this._WindowManager.windows.picker) {
+              if (this._WindowManager.windows.picker.isVisible()) {
+                this._WindowManager.windows.picker.hide();
+              } else {
+                this._WindowManager.windows.picker.show();
+                this._WindowManager.windows.picker.webContents.zoomFactor = 1;
+              }
+            }
+          };
+          populatedShortcutObject.shortcut = this._Store.get(
+            "settings.shortcutOpenMagnifierKeys",
+            DefaultSettings.shortcutOpenMagnifierKeys
+          );
+          populatedShortcutObject.enabled = this._Store.get(
+            "settings.shortcutOpenMagnifier",
+            true
+          );
+          break;
+        case "shortcutOpenHistory":
+          populatedShortcutObject.callback = () => {
+            log.log(
+              "Global Shortcut Was Triggered, Toggling History Window Visibility"
+            );
+            if (this._WindowManager.windows.history) {
+              if (this._WindowManager.windows.history.isVisible()) {
+                this._WindowManager.windows.history.hide();
+              } else {
+                this._WindowManager.windows.history.show();
+              }
+            }
+          };
+          populatedShortcutObject.shortcut = this._Store.get(
+            "settings.shortcutOpenHistoryKeys",
+            DefaultSettings.shortcutOpenHistoryKeys
+          );
+          populatedShortcutObject.enabled = this._Store.get(
+            "settings.shortcutOpenHistory",
+            true
+          );
+          break;
+      }
+      allShortcuts[populatedShortcutObject.key] = populatedShortcutObject;
+    });
+    this._ShortcutManager.setAllGlobalShortcuts(allShortcuts);
   }
 
   /**
@@ -104,13 +179,16 @@ class AppController {
    * @memberof AppController
    */
   _SetFlags() {
-    // TODO: create default settings object
-    const currentSettings = this._Store.get("settings", {});
+    const currentSettings = this._Store.get("settings", DefaultSettings);
     this._App.commandLine.appendSwitch(
       "force-color-profile",
       currentSettings.colorProfile ? "default" : currentSettings.colorProfile
     );
-
+    log.info("OS:", process.platform);
+    if (process.platform === "linux") {
+      this._App.commandLine.appendSwitch("enable-transparent-visuals");
+      this._App.commandLine.appendSwitch("disable-gpu");
+    }
     this.setLoginItem(currentSettings.launchOnStartup ? true : false);
   }
 
@@ -119,7 +197,14 @@ class AppController {
    * @memberof AppController
    */
   _SetEventListeners() {
-    this._App.on("ready", this._AppIsReady.bind(this));
+    this._App.on("ready", () => {
+      setTimeout(
+        () => {
+          this._AppIsReady();
+        },
+        process.platform === "linux" ? 3000 : 0
+      ); // 3s delay required for transparency in linux OS
+    });
 
     this._App.on("will-quit", () => {
       this._WindowManager.windows.picker = null;
@@ -131,14 +216,22 @@ class AppController {
       this._WindowManager.isQuitting = true;
 
       log.info("Removing Close Event Listeners From Windows");
-      this._WindowManager.windows.history.removeAllListeners("close");
-      this._WindowManager.windows.history.close();
-      this._WindowManager.windows.popover.removeAllListeners("close");
-      this._WindowManager.windows.popover.close();
-      this._WindowManager.windows.settings.removeAllListeners("close");
-      this._WindowManager.windows.settings.close();
-      this._WindowManager.windows.picker.removeAllListeners("close");
-      this._WindowManager.windows.picker.close();
+      if (this._WindowManager.windows.history) {
+        this._WindowManager.windows.history.removeAllListeners("close");
+        this._WindowManager.windows.history.close();
+      }
+      if (this._WindowManager.windows.popover) {
+        this._WindowManager.windows.popover.removeAllListeners("close");
+        this._WindowManager.windows.popover.close();
+      }
+      if (this._WindowManager.windows.settings) {
+        this._WindowManager.windows.settings.removeAllListeners("close");
+        this._WindowManager.windows.settings.close();
+      }
+      if (this._WindowManager.windows.picker) {
+        this._WindowManager.windows.picker.removeAllListeners("close");
+        this._WindowManager.windows.picker.close();
+      }
     });
 
     this._App.on("window-all-closed", () => {

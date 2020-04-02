@@ -3,6 +3,7 @@ const { nativeImage, clipboard } = electron;
 const log = require("electron-log");
 const svg2png = require("svg2png");
 
+const DefaultSettings = require("../../resources/Defaults").defaultSettings;
 const Channel = require("./Channel");
 
 /**
@@ -46,7 +47,7 @@ class PickerChannel extends Channel {
    */
   newColorPick(args) {
     const color = args.color;
-    const currentSettings = this.Store.get("settings", {}); // TODO: create default settings object
+    const currentSettings = this.Store.get("settings", DefaultSettings); // TODO: create default settings object
     const paletteStore = this.Store.get("palettes", {
       HISTORY: { colors: [], name: "Color History", id: "HISTORY" }
     });

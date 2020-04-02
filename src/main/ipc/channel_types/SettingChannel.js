@@ -1,5 +1,6 @@
 const log = require("electron-log");
 
+const DefaultSettings = require("../../resources/Defaults").defaultSettings;
 const Channel = require("./Channel");
 
 /**
@@ -16,7 +17,7 @@ class SettingChannel extends Channel {
    * @param {event} ipcEventObject ipc event object
    * @param {{type: ('CHECK_UPDATE' | 'DOWNLOAD_UPDATE' | 'INSTALL_UPDATE' | 'MODIFY_SETTING' | 'GET_SETTING' | 'GET_ALL_SETTINGS'), args: *}} [ipcEventDataObject] the included data
    * @param {electron-updater} autoUpdater electron autoUpdater instance
-   * @param {ApPController} appController the app controller instance for the application
+   * @param {AppController} appController the app controller instance for the application
    * @memberof SettingChannel
    */
   constructor(
@@ -49,7 +50,31 @@ class SettingChannel extends Channel {
         return this.getSetting(ipcEventDataObject.args);
       case "GET_ALL_SETTINGS":
         return this.getAllSettings();
+      case "DISABLE_SHORTCUTS":
+        return this.disableShortcuts(appController);
+      case "ENABLE_SHORTCUTS":
+        return this.enableShortcuts(appController, channelProps.windowManager);
     }
+  }
+
+  /**
+   * Enable all global shortcuts
+   * @param {AppController} appController the controller for the application
+   * @param {WindowManager} windowManager the WindowManager instance for the application
+   */
+  enableShortcuts(appController, windowManager) {
+    appController.registerGlobalShortcuts();
+    if (windowManager.windows.picker) {
+      windowManager.windows.picker.webContents.send("SHORTCUTS_UPDATED", {});
+    }
+  }
+
+  /**
+   *  Disable all global shortcuts
+   * @param {AppController} appController the controller for the application
+   */
+  disableShortcuts(appController) {
+    appController.unregisterGlobalShortcuts();
   }
 
   /**
@@ -60,7 +85,7 @@ class SettingChannel extends Channel {
    * @memberof SettingChannel
    */
   getSetting(args) {
-    const currentSettings = this.Store.get("settings", {}); // TODO: create default settings object
+    const currentSettings = this.Store.get("settings", DefaultSettings);
     log.log("GET", args.key, currentSettings[args.key]);
     return { response: currentSettings[args.key] };
   }
@@ -71,7 +96,7 @@ class SettingChannel extends Channel {
    * @memberof SettingChannel
    */
   getAllSettings() {
-    const currentSettings = this.Store.get("settings", {}); // TODO: create default settings object
+    const currentSettings = this.Store.get("settings", DefaultSettings);
     log.log("GET_ALL", currentSettings);
     return currentSettings;
   }
@@ -85,7 +110,7 @@ class SettingChannel extends Channel {
    * @memberof SettingChannel
    */
   modifySetting(args, autoUpdater, appController) {
-    const currentSettings = this.Store.get("settings", {}); // TODO: create default settings object
+    const currentSettings = this.Store.get("settings", DefaultSettings);
     currentSettings[args.key] = args.value;
     this.Store.set("settings", currentSettings);
 

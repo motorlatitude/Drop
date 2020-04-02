@@ -1,11 +1,12 @@
 const electron = require("electron");
-const { ipcMain, screen, app } = electron;
+const { ipcMain, screen, app, shell } = electron;
 
 const PaletteChannel = require("./channel_types/PaletteChannel");
 const WindowChannel = require("./channel_types/WindowChannel");
 const SettingChannel = require("./channel_types/SettingChannel");
 const MouseChannel = require("./channel_types/MouseChannel");
 const PickerChannel = require("./channel_types/PickerChannel");
+const FormatChannel = require("./channel_types/FormatChannel");
 
 /**
  * MessageHandler Class
@@ -62,10 +63,19 @@ class MessageHandler {
     );
     ipcMain.handle("MOUSE", (e, a) => new MouseChannel(channelProps, e, a));
     ipcMain.handle("PICKER", (e, a) => new PickerChannel(channelProps, e, a));
+    ipcMain.handle("FORMAT", (e, a) => new FormatChannel(channelProps, e, a));
 
     // General App/Electron IPCs
     ipcMain.handle("get-primary-screen-size", this.getScreenSize.bind(self));
     ipcMain.on("quit-app", this.quitApp.bind(self));
+    ipcMain.handle("open-logs", this.openLogsDirectory.bind(self));
+  }
+
+  /**
+   * Open the logs directory using the system default explorer
+   */
+  openLogsDirectory() {
+    shell.openItem(this._AppController.logPath);
   }
 
   /**

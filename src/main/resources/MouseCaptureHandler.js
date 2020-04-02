@@ -24,6 +24,7 @@ class MouseCaptureHandler {
 
     this._PollingInterval = null;
     this._PreviousMousePosition = { x: 0, y: 0 };
+    this._PreviousImage = null;
   }
 
   /**
@@ -88,20 +89,12 @@ class MouseCaptureHandler {
 
   /**
    * Capture an area around the mouse cursor and send a grid to the render process
-   *
+   * BUG: RobotJS bug that causes segmentation faults to occur when user moves cursor to edge of screen in linux
    * @param {boolean} [ignoreChecks=false] should capture checks be ignored
    * @memberof MouseCaptureHandler
    */
   _mouseCapture(ignoreChecks = false) {
     if (this._shouldCapture(ignoreChecks)) {
-      // capture small screenshot around mouse cursor position
-      const img = robot.screen.capture(
-        Math.ceil(this._PreviousMousePosition.x - this.PickerSize / 2),
-        Math.ceil(this._PreviousMousePosition.y - this.PickerSize / 2),
-        this.PickerSize,
-        this.PickerSize
-      );
-      const multi = img.width / this.PickerSize;
       // get current screen
       const currentScreen = electron.screen.getDisplayNearestPoint({
         x: this._PreviousMousePosition.x,
@@ -109,6 +102,36 @@ class MouseCaptureHandler {
       });
       const factor = currentScreen.scaleFactor;
       const workAreaSize = currentScreen.workArea;
+
+      // capture small screenshot around mouse cursor
+      // keep capture within desktop limits to avoid segfault crash
+      let captureX = this._PreviousMousePosition.x;
+      let captureY = this._PreviousMousePosition.y;
+      if (
+        Math.ceil(this._PreviousMousePosition.x / factor) - workAreaSize.x >=
+        workAreaSize.width - Math.ceil(this.PickerSize / 2)
+      ) {
+        captureX = workAreaSize.width - Math.floor(this.PickerSize / 2);
+      } else if (this._PreviousMousePosition.x <= this.PickerSize / 2) {
+        captureX = this.PickerSize / 2;
+      }
+      if (
+        Math.ceil(this._PreviousMousePosition.y / factor) - workAreaSize.y >=
+        workAreaSize.height - Math.ceil(this.PickerSize / 2)
+      ) {
+        captureY = workAreaSize.height - Math.floor(this.PickerSize / 2);
+      } else if (this._PreviousMousePosition.y <= this.PickerSize / 2) {
+        captureY = this.PickerSize / 2;
+      }
+
+      this._PreviousImage = robot.screen.capture(
+        Math.ceil(captureX - this.PickerSize / 2),
+        Math.ceil(captureY - this.PickerSize / 2),
+        this.PickerSize,
+        this.PickerSize
+      );
+      const img = this._PreviousImage;
+      const multi = img.width / this.PickerSize;
       // scale windows X and Y coords to display
       let windowX = Math.floor(this._PreviousMousePosition.x / factor) - 20;
       let windowY = Math.floor(this._PreviousMousePosition.y / factor) - 20;

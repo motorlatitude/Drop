@@ -1,6 +1,6 @@
 const { globalShortcut } = require("electron");
 const log = require("electron-log");
-
+const KeyAssignment = require("../resources/KeyAssignment");
 /**
  * ShortcutController Class
  *
@@ -16,6 +16,23 @@ class ShortcutController {
    */
   constructor() {
     this._GlobalShortcuts = {};
+  }
+
+  /**
+   * Set all enabled global shortcuts
+   * @param {{key: string, shortcut: string[], callback: void, enabled: boolean}} shortcutObjects a list of all available shortcuts
+   */
+  setAllGlobalShortcuts(shortcutObjects) {
+    Object.keys(shortcutObjects).forEach(shortcutKey => {
+      const shortcut = shortcutObjects[shortcutKey];
+      if (shortcut.enabled) {
+        log.info("Setting Global Shortcut:", shortcutKey);
+        this.setGlobalShortcut(
+          KeyAssignment.format(shortcut.shortcut),
+          shortcut.callback
+        );
+      }
+    });
   }
 
   /**

@@ -106,7 +106,6 @@ class PickerWindowController {
       if (this._MouseCaptureHandler !== null) {
         this._MouseCaptureHandler.stopPolling();
       }
-      this.window.destroy();
       this.isVisible = false;
       this.window = null;
     });

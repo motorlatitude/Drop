@@ -1,7 +1,7 @@
 {
   "name": "drop",
-  "version": "0.0.1-alpha.5",
-  "description": "Windows Colour Picker",
+  "version": "0.0.1-alpha.6",
+  "description": "Color-Picker Tool built on Electron",
   "main": "src/main/main.js",
   "scripts": {
     "start": "./node_modules/.bin/electron .",
@@ -45,6 +45,13 @@
   },
   "author": "Lennart Hase",
   "license": "GNU GPL V3.0",
+  "keywords": [
+    "electron",
+    "color-picker"
+  ],
+  "bugs": {
+    "url": "https://github.com/motorlatitude/Drop/issues"
+  },
   "devDependencies": {
     "chai": "^4.2.0",
     "electron": "^7.1.12",
@@ -67,6 +74,7 @@
     "electron-updater": "^4.2.0",
     "glob": "^7.1.6",
     "moment": "^2.24.0",
+    "mousetrap": "^1.6.5",
     "robotjs": "^0.6.0",
     "svg2png": "^4.1.1"
   }

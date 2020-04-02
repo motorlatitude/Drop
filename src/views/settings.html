@@ -1,210 +1,539 @@
 <!DOCTYPE html>
 <html lang="en-GB">
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>Drop Settings</title>
-        <link href="./../assets/css/settings.css" rel="stylesheet"/>
-    </head>
-    <body>
-        <div class="main-frame">
-            <div class="titlebar">
-                <div class="window-title">
-                    Settings
-                </div>
-                <div class="window-close-button" id="close-window">
-                    &times;
-                </div>
-                <div class="navbar">
-                    <ul>
-                        <li class="navbar-item active" data-linked-view="general">
-                            <div class="icon">
-                                <div class="icon-box general">
-                                    <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="toggle-on" class="svg-inline--fa fa-toggle-on fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 576 512">
-                                        <g class="fa-group">
-                                            <path class="fa-secondary" d="M384 384a128 128 0 1 1 128-128 127.93 127.93 0 0 1-128 128z" opacity="0.4"></path>
-                                            <path class="fa-primary" d="M384 64H192C86 64 0 150 0 256s86 192 192 192h192c106 0 192-86 192-192S490 64 384 64zm0 320a128 128 0 1 1 128-128 127.93 127.93 0 0 1-128 128z"></path>
-                                        </g>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="title">
-                                General
-                            </div>
-                        </li>
-                        <li class="navbar-item" data-linked-view="picker">
-                            <div class="icon">
-                                <div class="icon-box picker">
-                                    <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="location" class="svg-inline--fa fa-location fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512">
-                                        <g class="fa-group">
-                                            <path class="fa-secondary" d="M344 256a88 88 0 1 1-88-88 88 88 0 0 1 88 88z" opacity="0.4"></path>
-                                            <path class="fa-primary" d="M496 224h-50.88A191.86 191.86 0 0 0 288 66.88V16a16 16 0 0 0-16-16h-32a16 16 0 0 0-16 16v50.88A191.86 191.86 0 0 0 66.88 224H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h50.88A191.86 191.86 0 0 0 224 445.12V496a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16v-50.88A191.86 191.86 0 0 0 445.12 288H496a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zM256 384a128 128 0 1 1 128-128 128 128 0 0 1-128 128z"></path>
-                                        </g>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="title">
-                                Picker
-                            </div>
-                        </li>
-                        <li class="navbar-item" data-linked-view="formats">
-                            <div class="icon">
-                                <div class="icon-box formats">
-                                    <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="brackets-curly" class="svg-inline--fa fa-brackets-curly fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 576 512">
-                                        <g class="fa-group">
-                                            <path class="fa-secondary" d="M566.64 233.37a32 32 0 0 1 0 45.25l-45.25 45.25a32 32 0 0 0-9.39 22.64V384a96 96 0 0 1-96 96h-48a16 16 0 0 1-16-16v-32a16 16 0 0 1 16-16h48a32 32 0 0 0 32-32v-37.48a96 96 0 0 1 28.13-67.89L498.76 256l-22.62-22.62A96 96 0 0 1 448 165.47V128a32 32 0 0 0-32-32h-48a16 16 0 0 1-16-16V48a16 16 0 0 1 16-16h48a96 96 0 0 1 96 96v37.48a32 32 0 0 0 9.38 22.65l45.25 45.24z" opacity="0.4"></path>
-                                            <path class="fa-primary" d="M208 32h-48a96 96 0 0 0-96 96v37.48a32.12 32.12 0 0 1-9.38 22.65L9.38 233.37a32 32 0 0 0 0 45.25l45.25 45.25A32.05 32.05 0 0 1 64 346.51V384a96 96 0 0 0 96 96h48a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16h-48a32 32 0 0 1-32-32v-37.48a96 96 0 0 0-28.13-67.89L77.26 256l22.63-22.63A96 96 0 0 0 128 165.48V128a32 32 0 0 1 32-32h48a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z"></path>
-                                        </g>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="title">
-                                Formats
-                            </div>
-                        </li>
-                        <li class="navbar-item" data-linked-view="shortcuts">
-                            <div class="icon">
-                                <div class="icon-box shortcuts">
-                                    <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="backspace" class="svg-inline--fa fa-backspace fa-w-20" role="img" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 512">
-                                        <g class="fa-group">
-                                            <path class="fa-secondary" d="M576 64H205.26A64 64 0 0 0 160 82.75L9.38 233.37a32 32 0 0 0 0 45.25L160 429.25A64 64 0 0 0 205.25 448H576a64 64 0 0 0 64-64V128a64 64 0 0 0-64-64zm-84.69 254.06a16 16 0 0 1 0 22.63l-22.62 22.62a16 16 0 0 1-22.63 0L384 301.25l-62.06 62.06a16 16 0 0 1-22.63 0l-22.62-22.62a16 16 0 0 1 0-22.63L338.75 256l-62.06-62.06a16 16 0 0 1 0-22.63l22.62-22.62a16 16 0 0 1 22.63 0L384 210.75l62.06-62.06a16 16 0 0 1 22.63 0l22.62 22.62a16 16 0 0 1 0 22.63L429.25 256z" opacity="0.4"></path>
-                                            <path class="fa-primary" d="M491.31 318.06a16 16 0 0 1 0 22.63l-22.62 22.62a16 16 0 0 1-22.63 0L384 301.25l-62.06 62.06a16 16 0 0 1-22.63 0l-22.62-22.62a16 16 0 0 1 0-22.63L338.75 256l-62.06-62.06a16 16 0 0 1 0-22.63l22.62-22.62a16 16 0 0 1 22.63 0L384 210.75l62.06-62.06a16 16 0 0 1 22.63 0l22.62 22.62a16 16 0 0 1 0 22.63L429.25 256z"></path>
-                                        </g>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="title">
-                                Shortcuts
-                            </div>
-                        </li>
-                        <li class="navbar-item right" data-linked-view="about">
-                            <div class="icon">
-                                <div class="icon-box about">
-                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 726.58 877">
-                                        <defs>
-                                            <style>
-                                                .cls-1 {
-                                                    fill: none;
-                                                    stroke: hsla(266, 83%, 57%, 1);
-                                                    stroke-miterlimit: 10;
-                                                    stroke-width: 30px;
-                                                }
-                                                .cls-2 {
-                                                    fill: hsla(266, 83%, 57%, 1);
-                                                }
-                                            </style>
-                                        </defs>
-                                        <title>taskbar_icon</title>
-                                        <path class="cls-1" d="M1194,341.71q3.73,3.65,7.38,7.38a348.29,348.29,0,1,1-499.88,0c2.42-2.49,4.89-4.95,7.38-7.38" transform="translate(-588.1 -77.94)"/>
-                                        <polyline class="cls-1" points="113.35 271.15 120.72 263.78 363.29 21.21 605.85 263.78 613.23 271.15"/>
-                                        <path class="cls-2" d="M674.58,582.8c72.54-48.36,90.37-59,146.36-52,64.49,8.06,120.91,120.91,241.82,120.91,119,0,146.36-60.82,162.48-76.94h0C1225.24,727.5,1102.66,855,949.9,855S674.58,735.56,674.58,582.8Z" transform="translate(-588.1 -77.94)"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="title">
-                                About
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="settings-frame general visible" data-view="general">
-                <ul>
-                    <li>
-                        <div class="col-left">Startup:</div>
-                        <div class="col-right">
-                            <label for="launchOnStartup" class="settings-checkbox">Launch Drop on startup
-                                <input id="launchOnStartup" type="checkbox" checked/>
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="col-left">Sounds:</div>
-                        <div class="col-right">
-                            <label for="playSounds" class="settings-checkbox">Play sounds
-                                <input id="playSounds" type="checkbox" checked/>
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="col-left">Color History:</div>
-                        <div class="col-right">
-                            <label for="isHistoryLimit" class="settings-checkbox">Limit number of colors in history palette
-                                <input id="isHistoryLimit" type="checkbox"/>
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="historyLimit">
-                                <input id="historyLimit" type="number" value="30"/>
-                                Max colors
-                            </label>
-                        </div>
-                    </li>
-                </ul>
-                <hr/>
-                <ul>
-                    <li>
-                        <div class="col-left">Taskbar:</div>
-                        <div class="col-right">
-                            <label for="showPickedColor" class="settings-checkbox">Show picked color
-                                <input id="showPickedColor" type="checkbox" checked/>
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                    </li>
-                </ul>
-                <hr/>
-                <ul>
-                    <li>
-                        <div class="col-left">Color Profile:</div>
-                        <div class="col-right">
-                            <label for="colorProfile">
-                                <select id="colorProfile" aria-label="Color Profile">
-                                    <option value="default" selected>Default</option>
-                                    <option value="srgb">sRGB</option>
-                                </select>
-                            </label>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="settings-frame picker" data-view="picker">
-                Picker Page
-            </div>
-            <div class="settings-frame formats" data-view="formats">
-                Formats Page
-            </div>
-            <div class="settings-frame shortcuts" data-view="shortcuts">
-                Shortcuts Page
-            </div>
-            <div class="settings-frame about" data-view="about">
-                <div class="icon">
-                    <img src="../assets/img/icon.png" alt="Drop Icon"/>
-                    <div id="drop-framework-versions"></div>
-                </div>
-                <div class="drop-version" id="drop-version"></div>
-                <div class="drop-updater">
-                    <input type="Button" value="Check For Updates" data-function="check" id="drop-btn-check-update"/>
-                    <label for="drop-btn-check-update">
-                        <span id="update-status">Up To Date</span><br/><span id="lastUpdateCheck">Last checked 25s ago</span>
-                    </label>
-                    <br/>
-                    <br/>
-                    <label for="autoCheckDownloadUpdates" class="settings-checkbox">Automatically check & download updates
-                        <input id="autoCheckDownloadUpdates" type="checkbox" checked/>
-                        <span class="checkmark"></span>
-                    </label>
-                    <br/>
-                    <label for="autoInstallUpdates" class="settings-checkbox">Automatically install updates
-                        <input id="autoInstallUpdates" type="checkbox" checked/>
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-            </div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Drop Settings</title>
+    <link href="./../assets/css/settings.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="main-frame">
+      <div class="titlebar">
+        <div class="window-title">
+          Settings
         </div>
-        <script>
-            require("./../render/SettingsWindow/SettingsWindow.js");
-        </script>
-    </body>
+        <div class="window-close-button" id="close-window">
+          &times;
+        </div>
+        <div class="navbar">
+          <ul>
+            <li class="navbar-item active" data-linked-view="general">
+              <div class="icon">
+                <div class="icon-box general">
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fad"
+                    data-icon="toggle-on"
+                    class="svg-inline--fa fa-toggle-on fa-w-18"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewbox="0 0 576 512"
+                  >
+                    <g class="fa-group">
+                      <path
+                        class="fa-secondary"
+                        d="M384 384a128 128 0 1 1 128-128 127.93 127.93 0 0 1-128 128z"
+                        opacity="0.4"
+                      ></path>
+                      <path
+                        class="fa-primary"
+                        d="M384 64H192C86 64 0 150 0 256s86 192 192 192h192c106 0 192-86 192-192S490 64 384 64zm0 320a128 128 0 1 1 128-128 127.93 127.93 0 0 1-128 128z"
+                      ></path>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="title">
+                General
+              </div>
+            </li>
+            <li class="navbar-item" data-linked-view="picker">
+              <div class="icon">
+                <div class="icon-box picker">
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fad"
+                    data-icon="location"
+                    class="svg-inline--fa fa-location fa-w-16"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewbox="0 0 512 512"
+                  >
+                    <g class="fa-group">
+                      <path
+                        class="fa-secondary"
+                        d="M344 256a88 88 0 1 1-88-88 88 88 0 0 1 88 88z"
+                        opacity="0.4"
+                      ></path>
+                      <path
+                        class="fa-primary"
+                        d="M496 224h-50.88A191.86 191.86 0 0 0 288 66.88V16a16 16 0 0 0-16-16h-32a16 16 0 0 0-16 16v50.88A191.86 191.86 0 0 0 66.88 224H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h50.88A191.86 191.86 0 0 0 224 445.12V496a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16v-50.88A191.86 191.86 0 0 0 445.12 288H496a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zM256 384a128 128 0 1 1 128-128 128 128 0 0 1-128 128z"
+                      ></path>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="title">
+                Picker
+              </div>
+            </li>
+            <li class="navbar-item" data-linked-view="formats">
+              <div class="icon">
+                <div class="icon-box formats">
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fad"
+                    data-icon="brackets-curly"
+                    class="svg-inline--fa fa-brackets-curly fa-w-18"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewbox="0 0 576 512"
+                  >
+                    <g class="fa-group">
+                      <path
+                        class="fa-secondary"
+                        d="M566.64 233.37a32 32 0 0 1 0 45.25l-45.25 45.25a32 32 0 0 0-9.39 22.64V384a96 96 0 0 1-96 96h-48a16 16 0 0 1-16-16v-32a16 16 0 0 1 16-16h48a32 32 0 0 0 32-32v-37.48a96 96 0 0 1 28.13-67.89L498.76 256l-22.62-22.62A96 96 0 0 1 448 165.47V128a32 32 0 0 0-32-32h-48a16 16 0 0 1-16-16V48a16 16 0 0 1 16-16h48a96 96 0 0 1 96 96v37.48a32 32 0 0 0 9.38 22.65l45.25 45.24z"
+                        opacity="0.4"
+                      ></path>
+                      <path
+                        class="fa-primary"
+                        d="M208 32h-48a96 96 0 0 0-96 96v37.48a32.12 32.12 0 0 1-9.38 22.65L9.38 233.37a32 32 0 0 0 0 45.25l45.25 45.25A32.05 32.05 0 0 1 64 346.51V384a96 96 0 0 0 96 96h48a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16h-48a32 32 0 0 1-32-32v-37.48a96 96 0 0 0-28.13-67.89L77.26 256l22.63-22.63A96 96 0 0 0 128 165.48V128a32 32 0 0 1 32-32h48a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z"
+                      ></path>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="title">
+                Formats
+              </div>
+            </li>
+            <li class="navbar-item" data-linked-view="shortcuts">
+              <div class="icon">
+                <div class="icon-box shortcuts">
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fad"
+                    data-icon="backspace"
+                    class="svg-inline--fa fa-backspace fa-w-20"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewbox="0 0 640 512"
+                  >
+                    <g class="fa-group">
+                      <path
+                        class="fa-secondary"
+                        d="M576 64H205.26A64 64 0 0 0 160 82.75L9.38 233.37a32 32 0 0 0 0 45.25L160 429.25A64 64 0 0 0 205.25 448H576a64 64 0 0 0 64-64V128a64 64 0 0 0-64-64zm-84.69 254.06a16 16 0 0 1 0 22.63l-22.62 22.62a16 16 0 0 1-22.63 0L384 301.25l-62.06 62.06a16 16 0 0 1-22.63 0l-22.62-22.62a16 16 0 0 1 0-22.63L338.75 256l-62.06-62.06a16 16 0 0 1 0-22.63l22.62-22.62a16 16 0 0 1 22.63 0L384 210.75l62.06-62.06a16 16 0 0 1 22.63 0l22.62 22.62a16 16 0 0 1 0 22.63L429.25 256z"
+                        opacity="0.4"
+                      ></path>
+                      <path
+                        class="fa-primary"
+                        d="M491.31 318.06a16 16 0 0 1 0 22.63l-22.62 22.62a16 16 0 0 1-22.63 0L384 301.25l-62.06 62.06a16 16 0 0 1-22.63 0l-22.62-22.62a16 16 0 0 1 0-22.63L338.75 256l-62.06-62.06a16 16 0 0 1 0-22.63l22.62-22.62a16 16 0 0 1 22.63 0L384 210.75l62.06-62.06a16 16 0 0 1 22.63 0l22.62 22.62a16 16 0 0 1 0 22.63L429.25 256z"
+                      ></path>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="title">
+                Shortcuts
+              </div>
+            </li>
+            <li class="navbar-item right" data-linked-view="about">
+              <div class="icon">
+                <div class="icon-box about">
+                  <svg
+                    id="Layer_1"
+                    data-name="Layer 1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewbox="0 0 726.58 877"
+                  >
+                    <defs>
+                      <style>
+                        .cls-1 {
+                          fill: none;
+                          stroke: hsla(266, 83%, 57%, 1);
+                          stroke-miterlimit: 10;
+                          stroke-width: 30px;
+                        }
+
+                        .cls-2 {
+                          fill: hsla(266, 83%, 57%, 1);
+                        }
+                      </style>
+                    </defs>
+                    <title>taskbar_icon</title>
+                    <path
+                      class="cls-1"
+                      d="M1194,341.71q3.73,3.65,7.38,7.38a348.29,348.29,0,1,1-499.88,0c2.42-2.49,4.89-4.95,7.38-7.38"
+                      transform="translate(-588.1 -77.94)"
+                    />
+                    <polyline
+                      class="cls-1"
+                      points="113.35 271.15 120.72 263.78 363.29 21.21 605.85 263.78 613.23 271.15"
+                    />
+                    <path
+                      class="cls-2"
+                      d="M674.58,582.8c72.54-48.36,90.37-59,146.36-52,64.49,8.06,120.91,120.91,241.82,120.91,119,0,146.36-60.82,162.48-76.94h0C1225.24,727.5,1102.66,855,949.9,855S674.58,735.56,674.58,582.8Z"
+                      transform="translate(-588.1 -77.94)"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="title">
+                About
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="settings-frame general visible" data-view="general">
+        <ul>
+          <li>
+            <div class="col-left">Startup:</div>
+            <div class="col-right">
+              <label for="launchOnStartup" class="settings-checkbox"
+                >Launch Drop on startup
+                <input id="launchOnStartup" type="checkbox" checked />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </li>
+          <li>
+            <div class="col-left">Sounds:</div>
+            <div class="col-right">
+              <label for="playSounds" class="settings-checkbox"
+                >Play sounds
+                <input id="playSounds" type="checkbox" checked />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </li>
+          <li>
+            <div class="col-left">Color History:</div>
+            <div class="col-right">
+              <label for="isHistoryLimit" class="settings-checkbox"
+                >Limit number of colors in history palette
+                <input id="isHistoryLimit" type="checkbox" />
+                <span class="checkmark"></span>
+              </label>
+              <label for="historyLimit">
+                <input id="historyLimit" type="number" value="30" />
+                Max colors
+              </label>
+            </div>
+          </li>
+        </ul>
+        <hr />
+        <ul>
+          <li>
+            <div class="col-left">Taskbar:</div>
+            <div class="col-right">
+              <label for="showPickedColor" class="settings-checkbox"
+                >Show picked color
+                <input id="showPickedColor" type="checkbox" checked />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </li>
+        </ul>
+        <hr />
+        <ul>
+          <li>
+            <div class="col-left">Color Profile:</div>
+            <div class="col-right">
+              <label for="colorProfile">
+                <select id="colorProfile" aria-label="Color Profile">
+                  <option value="default" selected>Default</option>
+                  <option value="srgb">sRGB</option>
+                </select>
+              </label>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="settings-frame picker" data-view="picker">
+        Picker Page
+      </div>
+      <div class="settings-frame formats" data-view="formats">
+        Formats Page
+      </div>
+      <div class="settings-frame shortcuts" data-view="shortcuts">
+        <div class="shortcut-sidebar">
+          <ul>
+            <li class="active" data-sidebar-nav="General">General</li>
+            <li data-sidebar-nav="Magnifier">Magnifier</li>
+            <li data-sidebar-nav="ZoomAndSize">Zoom & Size</li>
+            <li data-sidebar-nav="Formats">Formats</li>
+          </ul>
+        </div>
+        <div class="shortcut-main-frame">
+          <ul data-shortcut-group="General" class="visible">
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutOpenMagnifier" class="settings-checkbox"
+                  >Open Magnifier
+                  <input id="shortcutOpenMagnifier" type="checkbox" checked />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div
+                class="shortcut-keys"
+                data-shortcut-for="shortcutOpenMagnifier"
+              >
+                <ul></ul>
+              </div>
+            </li>
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutOpenHistory" class="settings-checkbox"
+                  >Open Palette List
+                  <input id="shortcutOpenHistory" type="checkbox" checked />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div
+                class="shortcut-keys"
+                data-shortcut-for="shortcutOpenHistory"
+              >
+                <ul></ul>
+              </div>
+            </li>
+          </ul>
+          <ul data-shortcut-group="Magnifier">
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutMoveLensUp" class="settings-checkbox"
+                  >Move Lens Up
+                  <input id="shortcutMoveLensUp" type="checkbox" checked />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div class="shortcut-keys" data-shortcut-for="shortcutMoveLensUp">
+                <ul></ul>
+              </div>
+            </li>
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutMoveLensRight" class="settings-checkbox"
+                  >Move Lens Right
+                  <input id="shortcutMoveLensRight" type="checkbox" checked />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div
+                class="shortcut-keys"
+                data-shortcut-for="shortcutMoveLensRight"
+              >
+                <ul></ul>
+              </div>
+            </li>
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutMoveLensDown" class="settings-checkbox"
+                  >Move Lens Down
+                  <input id="shortcutMoveLensDown" type="checkbox" checked />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div
+                class="shortcut-keys"
+                data-shortcut-for="shortcutMoveLensDown"
+              >
+                <ul></ul>
+              </div>
+            </li>
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutMoveLensLeft" class="settings-checkbox"
+                  >Move Lens Left
+                  <input id="shortcutMoveLensLeft" type="checkbox" checked />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div
+                class="shortcut-keys"
+                data-shortcut-for="shortcutMoveLensLeft"
+              >
+                <ul></ul>
+              </div>
+            </li>
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutMoveLensUp10px" class="settings-checkbox"
+                  >Move Lens Up (10px)
+                  <input id="shortcutMoveLensUp10px" type="checkbox" checked />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div
+                class="shortcut-keys"
+                data-shortcut-for="shortcutMoveLensUp10px"
+              >
+                <ul></ul>
+              </div>
+            </li>
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutMoveLensRight10px" class="settings-checkbox"
+                  >Move Lens Right (10px)
+                  <input
+                    id="shortcutMoveLensRight10px"
+                    type="checkbox"
+                    checked
+                  />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div
+                class="shortcut-keys"
+                data-shortcut-for="shortcutMoveLensRight10px"
+              >
+                <ul></ul>
+              </div>
+            </li>
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutMoveLensDown10px" class="settings-checkbox"
+                  >Move Lens Down (10px)
+                  <input
+                    id="shortcutMoveLensDown10px"
+                    type="checkbox"
+                    checked
+                  />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div
+                class="shortcut-keys"
+                data-shortcut-for="shortcutMoveLensDown10px"
+              >
+                <ul></ul>
+              </div>
+            </li>
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutMoveLensLeft10px" class="settings-checkbox"
+                  >Move Lens Left (10px)
+                  <input
+                    id="shortcutMoveLensLeft10px"
+                    type="checkbox"
+                    checked
+                  />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div
+                class="shortcut-keys"
+                data-shortcut-for="shortcutMoveLensLeft10px"
+              >
+                <ul></ul>
+              </div>
+            </li>
+          </ul>
+          <ul data-shortcut-group="ZoomAndSize">
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutIncreaseSize" class="settings-checkbox"
+                  >Increase Size
+                  <input id="shortcutIncreaseSize" type="checkbox" checked />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div
+                class="shortcut-keys"
+                data-shortcut-for="shortcutIncreaseSize"
+              >
+                <ul></ul>
+              </div>
+            </li>
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutDecreaseSize" class="settings-checkbox"
+                  >Decrease Size
+                  <input id="shortcutDecreaseSize" type="checkbox" checked />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div
+                class="shortcut-keys"
+                data-shortcut-for="shortcutDecreaseSize"
+              >
+                <ul></ul>
+              </div>
+            </li>
+          </ul>
+          <ul data-shortcut-group="Formats">
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutFormatNext" class="settings-checkbox"
+                  >Next Format
+                  <input id="shortcutFormatNext" type="checkbox" checked />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div class="shortcut-keys" data-shortcut-for="shortcutFormatNext">
+                <ul></ul>
+              </div>
+            </li>
+            <li>
+              <div class="shortcut-name">
+                <label for="shortcutFormatPrevious" class="settings-checkbox"
+                  >Previous Format
+                  <input id="shortcutFormatPrevious" type="checkbox" checked />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div
+                class="shortcut-keys"
+                data-shortcut-for="shortcutFormatPrevious"
+              >
+                <ul></ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="settings-frame about" data-view="about">
+        <div class="icon">
+          <img src="../assets/img/icon.png" alt="Drop Icon" />
+          <div id="drop-framework-versions"></div>
+        </div>
+        <div class="drop-version" id="drop-version"></div>
+        <div class="drop-updater">
+          <input
+            type="Button"
+            value="Check For Updates"
+            data-function="check"
+            id="drop-btn-check-update"
+          />
+          <label for="drop-btn-check-update">
+            <span id="update-status">Up To Date</span><br /><span
+              id="lastUpdateCheck"
+              >Last checked 25s ago</span
+            >
+          </label>
+          <br />
+          <br />
+          <label for="autoCheckDownloadUpdates" class="settings-checkbox"
+            >Automatically check & download updates
+            <input id="autoCheckDownloadUpdates" type="checkbox" checked />
+            <span class="checkmark"></span>
+          </label>
+          <br />
+          <label for="autoInstallUpdates" class="settings-checkbox"
+            >Automatically install updates
+            <input id="autoInstallUpdates" type="checkbox" checked />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <script>
+      require("./../render/SettingsWindow/SettingsWindow.js");
+    </script>
+  </body>
 </html>

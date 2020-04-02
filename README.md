@@ -65,6 +65,12 @@ to successfully build the application.
 
 2.  ### Install Native Dependencies
 
+    If building on linux, you may require the following packages;
+
+    ```bash
+    sudo apt-get -y install libxtst-dev libpng++-dev
+    ```
+
     Install RobotJS and target the electron version as defined in the package.json and make sure to have relevant build
     tools installed on your system as this is a native library.
 
