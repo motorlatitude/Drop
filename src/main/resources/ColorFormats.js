@@ -1,4 +1,5 @@
 const glob = require("glob");
+const fs = require("fs");
 const log = require("electron-log");
 
 /**
@@ -56,40 +57,43 @@ class ColorFormats {
       } else {
         log.log("Plugins:", files);
         files.forEach((pluginPath, index) => {
-          // eslint rule disabled here, to enable a plugin system 3rd-party code
-          // must be allowed to load and run here
-          // eslint-disable-next-line security-node/detect-non-literal-require-calls
-          const plug = require(pluginPath);
-          const plugConfigParams = plug.config();
-          if (plugConfigParams.type === "format") {
-            this._colorFormats.push({
-              title: plugConfigParams.format.displayName,
-              sub_title: plugConfigParams.format.displayFormat,
-              icon: plugConfigParams.format.icon,
-              value: plugConfigParams.name,
-              convertFromHex: hexColor => {
-                const r = parseInt("0x" + hexColor.substring(0, 2));
-                const g = parseInt("0x" + hexColor.substring(2, 4));
-                const b = parseInt("0x" + hexColor.substring(4, 6));
-                return plug.convertColor({
-                  hex: hexColor,
-                  rgb: {
-                    r,
-                    g,
-                    b
-                  }
-                });
-              }
-            });
-          } else {
-            log.error(
-              new Error(
-                "Plugin has the wrong type, expected type 'format', received '" +
-                  plugConfigParams.type +
-                  "'"
-              )
-            );
-          }
+          fs.readFile(pluginPath, "utf8", (err, contents) => {
+            // eslint rule disabled here, to enable a plugin system 3rd-party code
+            // must be allowed to load and run here
+            // eslint-disable-next-line security-node/detect-non-literal-require-calls
+            const plug = require(pluginPath);
+            const plugConfigParams = plug.config();
+            if (plugConfigParams.type === "format") {
+              this._colorFormats.push({
+                title: plugConfigParams.format.displayName,
+                sub_title: plugConfigParams.format.displayFormat,
+                icon: plugConfigParams.format.icon,
+                value: plugConfigParams.name,
+                file: contents,
+                convertFromHex: hexColor => {
+                  const r = parseInt("0x" + hexColor.substring(0, 2));
+                  const g = parseInt("0x" + hexColor.substring(2, 4));
+                  const b = parseInt("0x" + hexColor.substring(4, 6));
+                  return plug.convertColor({
+                    hex: hexColor,
+                    rgb: {
+                      r,
+                      g,
+                      b
+                    }
+                  });
+                }
+              });
+            } else {
+              log.error(
+                new Error(
+                  "Plugin has the wrong type, expected type 'format', received '" +
+                    plugConfigParams.type +
+                    "'"
+                )
+              );
+            }
+          });
         });
       }
     });

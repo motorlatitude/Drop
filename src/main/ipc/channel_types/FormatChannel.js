@@ -29,10 +29,20 @@ class FormatChannel extends Channel {
         return this.nextFormat();
       case "BACK":
         return this.previousFormat();
+      case "GET_ALL":
+        return this.getAllFormats();
       default:
         log.warn("UNKNOWN IPC TYPE FOR FORMAT CHANNEL");
         break;
     }
+  }
+
+  /**
+   * Returns all available color formats in an array
+   * @return {[*]} color formats array
+   */
+  getAllFormats() {
+    return this.ColorFormats.formats;
   }
 
   /**

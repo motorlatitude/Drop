@@ -2,6 +2,7 @@ const electron = require("electron");
 const webFrame = electron.webFrame;
 const { ipcRenderer } = electron;
 const moment = require("moment");
+const Prism = require("prismjs");
 
 const KeyFormatter = require("./KeyFormatter.js");
 const packageJSON = require("../../../package.json");
@@ -143,6 +144,74 @@ class SettingsWindow {
           if (this._KeyListSettingKeys.indexOf(settingKey) > -1) {
             setKeyList(settingKey, settings[settingKey]);
           }
+        });
+      });
+    ipcRenderer
+      .invoke("FORMAT", { type: "GET_ALL", args: {} })
+      .then(colorFormats => {
+        const colorFormatListEl = document.getElementById("all-formats-list");
+        colorFormatListEl.innerHTML = "";
+        document.querySelector(".formats-main-frame").innerHTML = "";
+        colorFormats.forEach((format, index) => {
+          const newColorFormatItem = document.createElement("li");
+          newColorFormatItem.setAttribute("data-sidebar-nav", format.value);
+          if (index === 0) {
+            newColorFormatItem.classList.add("active");
+          }
+          newColorFormatItem.innerHTML = format.title;
+          newColorFormatItem.addEventListener("click", e => {
+            console.log("clicked");
+            document
+              .querySelector(".formats-sidebar ul li.active")
+              .classList.remove("active");
+            newColorFormatItem.classList.add("active");
+            document
+              .querySelector(".formats-main-frame ul.visible")
+              .classList.remove("visible");
+            document
+              .querySelector(
+                ".formats-main-frame ul[data-format-group='" +
+                  newColorFormatItem.getAttribute("data-sidebar-nav") +
+                  "']"
+              )
+              .classList.add("visible");
+          });
+          colorFormatListEl.appendChild(newColorFormatItem);
+
+          const newMainColorFormatItem = document.createElement("ul");
+          newMainColorFormatItem.setAttribute(
+            "data-format-group",
+            format.value
+          );
+          if (index === 0) {
+            newMainColorFormatItem.classList.add("visible");
+          }
+
+          const topLiEl = document.createElement("li");
+          topLiEl.innerHTML =
+            "<div class='icon' data-icon='" +
+            format.icon +
+            "'></div><span class='format-title'>" +
+            format.title +
+            "<br/><br/><span class='sub-title'>" +
+            format.sub_title +
+            "</span></span>";
+          newMainColorFormatItem.appendChild(topLiEl);
+          const bottomLiEl = document.createElement("li");
+          bottomLiEl.setAttribute("contentEditable", "true");
+          bottomLiEl.innerHTML =
+            "<pre class='line-numbers'><code class='language-js'>" +
+            Prism.highlight(
+              format.file,
+              Prism.languages.javascript,
+              "javascript"
+            ) +
+            "</code></pre>";
+          newMainColorFormatItem.appendChild(bottomLiEl);
+
+          document
+            .querySelector(".formats-main-frame")
+            .appendChild(newMainColorFormatItem);
         });
       });
   }
