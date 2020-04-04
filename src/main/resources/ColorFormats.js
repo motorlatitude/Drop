@@ -15,7 +15,7 @@ class ColorFormats {
   constructor() {
     this._colorFormats = [];
     this._loadFormats();
-    this._selectedFormat = "css_hex";
+    this._selectedFormat = undefined;
   }
 
   /**
@@ -47,54 +47,72 @@ class ColorFormats {
   }
 
   /**
-   * Load all format plugins from ./formats/*.js directory
+   * Update for plugin format changes that occurred
+   * @param {void} cb callback function
    * @memberof ColorFormats
    */
-  _loadFormats() {
+  updateFormats(cb) {
+    this._colorFormats = [];
+    this._loadFormats(cb);
+  }
+
+  /**
+   * Load all format plugins from ./formats/*.js directory
+   * @param {void} cb callback function
+   * @memberof ColorFormats
+   */
+  _loadFormats(cb) {
     glob(__dirname + "/formats/*.js", { nodir: true }, (err, files) => {
       if (err) {
         log.error(err);
       } else {
         log.log("Plugins:", files);
         files.forEach((pluginPath, index) => {
-          fs.readFile(pluginPath, "utf8", (err, contents) => {
-            // eslint rule disabled here, to enable a plugin system 3rd-party code
-            // must be allowed to load and run here
-            // eslint-disable-next-line security-node/detect-non-literal-require-calls
-            const plug = require(pluginPath);
-            const plugConfigParams = plug.config();
-            if (plugConfigParams.type === "format") {
-              this._colorFormats.push({
-                title: plugConfigParams.format.displayName,
-                sub_title: plugConfigParams.format.displayFormat,
-                icon: plugConfigParams.format.icon,
-                value: plugConfigParams.name,
-                file: contents,
-                convertFromHex: hexColor => {
-                  const r = parseInt("0x" + hexColor.substring(0, 2));
-                  const g = parseInt("0x" + hexColor.substring(2, 4));
-                  const b = parseInt("0x" + hexColor.substring(4, 6));
-                  return plug.convertColor({
-                    hex: hexColor,
-                    rgb: {
-                      r,
-                      g,
-                      b
-                    }
-                  });
-                }
-              });
-            } else {
-              log.error(
-                new Error(
-                  "Plugin has the wrong type, expected type 'format', received '" +
-                    plugConfigParams.type +
-                    "'"
-                )
-              );
-            }
-          });
+          const contents = fs.readFileSync(pluginPath, "utf8");
+          delete require.cache[pluginPath]; // remove require from cache in case this is a reload
+          // eslint rule disabled here, to enable a plugin system 3rd-party code
+          // must be allowed to load and run here
+          // eslint-disable-next-line security-node/detect-non-literal-require-calls
+          const plug = require(pluginPath);
+          const plugConfigParams = plug.config();
+          if (plugConfigParams.type === "format") {
+            this._colorFormats.push({
+              title:
+                plugConfigParams.format.displayName || plugConfigParams.name,
+              sub_title: plugConfigParams.format.displayFormat,
+              icon: plugConfigParams.format.icon,
+              value: plugConfigParams.name,
+              file: contents,
+              convertFromHex: hexColor => {
+                const r = parseInt("0x" + hexColor.substring(0, 2));
+                const g = parseInt("0x" + hexColor.substring(2, 4));
+                const b = parseInt("0x" + hexColor.substring(4, 6));
+                return plug.convertColor({
+                  hex: hexColor,
+                  rgb: {
+                    r,
+                    g,
+                    b
+                  }
+                });
+              }
+            });
+          } else {
+            log.error(
+              new Error(
+                "Plugin has the wrong type, expected type 'format', received '" +
+                  plugConfigParams.type +
+                  "'"
+              )
+            );
+          }
         });
+        if (this._selectedFormat === undefined) {
+          this._selectedFormat = this._colorFormats[0].value;
+        }
+        if (cb) {
+          cb(this._colorFormats);
+        }
       }
     });
   }

@@ -1,4 +1,7 @@
 const log = require("electron-log");
+const fs = require("fs");
+const path = require("path");
+const requireFromString = require("require-from-string");
 
 const Channel = require("./Channel");
 
@@ -31,9 +34,77 @@ class FormatChannel extends Channel {
         return this.previousFormat();
       case "GET_ALL":
         return this.getAllFormats();
+      case "SAVE_FORMAT":
+        return this.saveFormat(ipcEventDataObject.args);
       default:
         log.warn("UNKNOWN IPC TYPE FOR FORMAT CHANNEL");
         break;
+    }
+  }
+
+  /**
+   * Save a new or existing formats code
+   * @param {{value: string, file: string}} args the supplied arguments to write a format
+   */
+  saveFormat(args) {
+    const pluginFormat = requireFromString(args.file);
+    if (pluginFormat.config().name && pluginFormat.config().type === "format") {
+      const pluginPath = path.resolve(
+        __dirname +
+          "/../../resources/formats/" +
+          pluginFormat.config().name +
+          ".js"
+      );
+      if (pluginFormat.config().name !== args.value) {
+        // modified name, remove old and create new
+        fs.unlinkSync(
+          path.resolve(
+            __dirname + "/../../resources/formats/" + args.value + ".js"
+          )
+        ); // delete old plugin file
+      }
+      fs.writeFile(pluginPath, args.file, err => {
+        if (err) {
+          log.error(err);
+        } else {
+          this.ColorFormats.updateFormats(formats => {
+            if (this.WindowManager.windows.settings) {
+              this.WindowManager.windows.settings.webContents.send(
+                "FORMATS_UPDATED",
+                formats
+              );
+            }
+            if (this.WindowManager.windows.history) {
+              const selectedFormat = formats.filter(
+                f => f.value === this.ColorFormats.selectedFormat
+              )[0];
+              if (selectedFormat) {
+                this.WindowManager.windows.history.webContents.send(
+                  "color-type-change",
+                  {
+                    name: selectedFormat.title,
+                    icon: selectedFormat.icon
+                  }
+                );
+              } else {
+                // currently selected color format no longer exists
+                this.ColorFormats.selectedFormat = formats[0].value;
+                this.WindowManager.windows.history.webContents.send(
+                  "color-type-change",
+                  {
+                    name: formats[0].title,
+                    icon: formats[0].icon
+                  }
+                );
+              }
+            }
+          });
+        }
+      });
+    } else {
+      log.error(
+        "Failed to load plugin, plugin does not have a valid name or is not of the correct type"
+      );
     }
   }
 

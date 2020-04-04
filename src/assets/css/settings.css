@@ -467,29 +467,31 @@ body {
 
 /* width */
 .shortcut-main-frame::-webkit-scrollbar,
-.formats-main-frame ul li pre::-webkit-scrollbar {
+.codeflask textarea::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
 .shortcut-main-frame::-webkit-scrollbar-track,
-.formats-main-frame ul li pre::-webkit-scrollbar-track,
-.formats-main-frame ul li pre::-webkit-scrollbar-corner,
-.formats-main-frame ul li pre::-webkit-scrollbar-track-piece {
+.codeflask textarea::-webkit-scrollbar-track,
+.codeflask textarea::-webkit-scrollbar-corner,
+.codeflask textarea::-webkit-scrollbar-track-piece {
   background: #262625;
+  cursor: default;
 }
 
 /* Handle */
 .shortcut-main-frame::-webkit-scrollbar-thumb,
-.formats-main-frame ul li pre::-webkit-scrollbar-thumb {
+.codeflask textarea::-webkit-scrollbar-thumb {
   background: #1a1a19;
   border-radius: 10px;
   border: 2px solid #262625;
+  cursor: default;
 }
 
 /* Handle on hover */
 .shortcut-main-frame::-webkit-scrollbar-thumb:hover,
-.formats-main-frame ul li pre::-webkit-scrollbar-thumb:hover {
+.codeflask textarea::-webkit-scrollbar-thumb:hover {
   background: hsl(60, 2%, 12%, 1);
 }
 
@@ -533,14 +535,83 @@ body {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.formats-main-frame ul li pre {
-  overflow: auto;
+.formats-main-frame ul li .format-buttons {
+  flex: 1 1 auto;
+  text-align: right;
+}
+
+.formats-main-frame ul li .format-buttons .format-button {
+  border: 1px solid #52524a;
+  color: #52524a;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 24px;
+  padding: 0 15px;
+  background: transparent;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.formats-main-frame ul li .format-buttons .format-button:hover {
+  background: #52524a;
+  color: #242423;
+}
+
+.formats-main-frame ul li .format-buttons .format-button:focus {
+  outline: none;
+}
+
+.formats-main-frame ul li .format-buttons .format-button.save-changes {
+  border: 0 solid transparent;
+  background: hsla(272, 100%, 42%, 1);
+  color: #fff;
+}
+
+.formats-main-frame ul li .format-buttons .format-button.save-changes:hover {
+  background: hsla(272, 100%, 46%, 1);
+  color: #fff;
+}
+
+.formats-main-frame ul li .format-buttons .format-button.save-changes:disabled {
+  background: hsla(272, 100%, 46%, 0.5);
+  color: #fff;
+  cursor: not-allowed;
+}
+
+.formats-main-frame ul li .format-buttons .format-button.save-changes:active {
+  background: hsla(272, 100%, 38%, 1);
+  color: #fff;
+  outline: none;
+}
+
+.formats-main-frame ul li .format-buttons .format-button.delete-format {
+  border: 1px solid #f53022;
+  color: #f53022;
+}
+
+.formats-main-frame ul li .format-buttons .format-button.delete-format:hover {
+  background: #f53022;
+  color: #fff;
+}
+
+.formats-main-frame ul li.editor {
+  overflow: hidden;
   height: 240px;
   width: 100%;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   border: 0 solid transparent;
-  padding: 15px;
+  line-height: normal;
+  margin-top: 10px;
+}
+
+.codeflask {
+  background: transparent;
+}
+
+.codeflask textarea {
+  color: #1d1d1c;
+  caret-color: #ff325e;
 }
 
 .formats-main-frame ul li:focus,

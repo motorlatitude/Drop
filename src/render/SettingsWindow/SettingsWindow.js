@@ -2,7 +2,7 @@ const electron = require("electron");
 const webFrame = electron.webFrame;
 const { ipcRenderer } = electron;
 const moment = require("moment");
-const Prism = require("prismjs");
+const CodeFlask = require("codeflask");
 
 const KeyFormatter = require("./KeyFormatter.js");
 const packageJSON = require("../../../package.json");
@@ -149,71 +149,92 @@ class SettingsWindow {
     ipcRenderer
       .invoke("FORMAT", { type: "GET_ALL", args: {} })
       .then(colorFormats => {
-        const colorFormatListEl = document.getElementById("all-formats-list");
-        colorFormatListEl.innerHTML = "";
-        document.querySelector(".formats-main-frame").innerHTML = "";
-        colorFormats.forEach((format, index) => {
-          const newColorFormatItem = document.createElement("li");
-          newColorFormatItem.setAttribute("data-sidebar-nav", format.value);
-          if (index === 0) {
-            newColorFormatItem.classList.add("active");
-          }
-          newColorFormatItem.innerHTML = format.title;
-          newColorFormatItem.addEventListener("click", e => {
-            console.log("clicked");
-            document
-              .querySelector(".formats-sidebar ul li.active")
-              .classList.remove("active");
-            newColorFormatItem.classList.add("active");
-            document
-              .querySelector(".formats-main-frame ul.visible")
-              .classList.remove("visible");
-            document
-              .querySelector(
-                ".formats-main-frame ul[data-format-group='" +
-                  newColorFormatItem.getAttribute("data-sidebar-nav") +
-                  "']"
-              )
-              .classList.add("visible");
-          });
-          colorFormatListEl.appendChild(newColorFormatItem);
-
-          const newMainColorFormatItem = document.createElement("ul");
-          newMainColorFormatItem.setAttribute(
-            "data-format-group",
-            format.value
-          );
-          if (index === 0) {
-            newMainColorFormatItem.classList.add("visible");
-          }
-
-          const topLiEl = document.createElement("li");
-          topLiEl.innerHTML =
-            "<div class='icon' data-icon='" +
-            format.icon +
-            "'></div><span class='format-title'>" +
-            format.title +
-            "<br/><br/><span class='sub-title'>" +
-            format.sub_title +
-            "</span></span>";
-          newMainColorFormatItem.appendChild(topLiEl);
-          const bottomLiEl = document.createElement("li");
-          bottomLiEl.setAttribute("contentEditable", "true");
-          bottomLiEl.innerHTML =
-            "<pre class='line-numbers'><code class='language-js'>" +
-            Prism.highlight(
-              format.file,
-              Prism.languages.javascript,
-              "javascript"
-            ) +
-            "</code></pre>";
-          newMainColorFormatItem.appendChild(bottomLiEl);
-
-          document
-            .querySelector(".formats-main-frame")
-            .appendChild(newMainColorFormatItem);
-        });
+        this._HandleColorFormats(colorFormats);
       });
+
+    ipcRenderer.on("FORMATS_UPDATED", (event, colorFormats) => {
+      console.log(colorFormats);
+      this._HandleColorFormats(colorFormats);
+    });
+  }
+
+  /**
+   * Populate formats tab in settings
+   * @param {*} colorFormats list of available color formats
+   */
+  _HandleColorFormats(colorFormats) {
+    const colorFormatListEl = document.getElementById("all-formats-list");
+    colorFormatListEl.innerHTML = "";
+    document.querySelector(".formats-main-frame").innerHTML = "";
+    colorFormats.forEach((format, index) => {
+      const newColorFormatItem = document.createElement("li");
+      newColorFormatItem.setAttribute("data-sidebar-nav", format.value);
+      if (index === 0) {
+        newColorFormatItem.classList.add("active");
+      }
+      newColorFormatItem.innerHTML = format.title;
+      newColorFormatItem.addEventListener("click", e => {
+        console.log("clicked");
+        document
+          .querySelector(".formats-sidebar ul li.active")
+          .classList.remove("active");
+        newColorFormatItem.classList.add("active");
+        document
+          .querySelector(".formats-main-frame ul.visible")
+          .classList.remove("visible");
+        document
+          .querySelector(
+            ".formats-main-frame ul[data-format-group='" +
+              newColorFormatItem.getAttribute("data-sidebar-nav") +
+              "']"
+          )
+          .classList.add("visible");
+      });
+      colorFormatListEl.appendChild(newColorFormatItem);
+
+      const newMainColorFormatItem = document.createElement("ul");
+      newMainColorFormatItem.setAttribute("data-format-group", format.value);
+      if (index === 0) {
+        newMainColorFormatItem.classList.add("visible");
+      }
+
+      const topLiEl = document.createElement("li");
+      topLiEl.innerHTML =
+        "<div class='icon' data-icon='" +
+        format.icon +
+        "'></div><span class='format-title'>" +
+        format.title +
+        "<br/><br/><span class='sub-title'>" +
+        format.sub_title +
+        "</span></span><div class='format-buttons'><button class='format-button save-changes' id='" +
+        format.value +
+        "_save_changes'>Save Changes</button></div>";
+      newMainColorFormatItem.appendChild(topLiEl);
+      const bottomLiEl = document.createElement("li");
+      bottomLiEl.classList.add("editor");
+      bottomLiEl.setAttribute("id", format.value + "_editor");
+      newMainColorFormatItem.appendChild(bottomLiEl);
+      document
+        .querySelector(".formats-main-frame")
+        .appendChild(newMainColorFormatItem);
+
+      const flask = new CodeFlask("#" + format.value + "_editor", {
+        language: "js",
+        defaultTheme: false
+      });
+      flask.updateCode(format.file);
+      document
+        .getElementById(format.value + "_save_changes")
+        .addEventListener("click", e => {
+          ipcRenderer.invoke("FORMAT", {
+            type: "SAVE_FORMAT",
+            args: {
+              value: format.value,
+              file: flask.getCode()
+            }
+          });
+        });
+    });
   }
 
   /**
