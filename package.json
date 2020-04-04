@@ -69,7 +69,6 @@
   },
   "dependencies": {
     "codeflask": "^1.4.1",
-    "codemirror": "^5.52.2",
     "color-namer": "^1.4.0",
     "electron-log": "^4.0.6",
     "electron-store": "^5.1.0",
