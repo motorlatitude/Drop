@@ -45,12 +45,7 @@ class AppController {
     this._SetEventListeners();
 
     // log log path
-    log.info(
-      "Log Path",
-      log.transports.file.getFile().path
-        ? log.transports.file.getFile().path
-        : "None"
-    );
+    log.info("Log Path", log.transports.file.getFile().path || "None");
     this.logPath = path.dirname(log.transports.file.getFile().path);
     this._App.setPath("temp", this.logPath);
     log.info("Crashes Directory", crashReporter.getCrashesDirectory());

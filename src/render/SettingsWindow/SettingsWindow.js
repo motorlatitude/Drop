@@ -153,7 +153,6 @@ class SettingsWindow {
       });
 
     ipcRenderer.on("FORMATS_UPDATED", (event, colorFormats) => {
-      console.log(colorFormats);
       this._HandleColorFormats(colorFormats);
     });
   }
@@ -487,7 +486,6 @@ class SettingsWindow {
 
     this.keyDownTimeout = null;
     const onKeyDown = e => {
-      console.log(e, e.key, e.keyCode);
       if (document.querySelector(".shortcut-keys.shortcut-active")) {
         const kEl = document.querySelector(".shortcut-keys.shortcut-active ul");
         let keyAlreadyUsed = false;
