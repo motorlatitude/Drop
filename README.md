@@ -17,20 +17,21 @@
     <br/>
 </p>
 
-Drop is a color picker made for windows using electron. It's designed for developers and designers as a way to gather,
-tweak and share colors, featuring a rich UI to support it along the way.
+Drop is a cross platform color picker/eye dropper using electron. It's designed for developers and designers as a way to gather,
+tweak and share colors and color palettes, featuring a rich UI to support it along the way.
 
-- Multi-level Magnification
-- Customizable Shortcuts
-- Different color formats that it can output (CSS RGB, RGBA, HSL, HSLA and Hex with more coming soon!!!)
+- Multi-level magnification
+- Customizable shortcuts
+- Different color formats that it can output (CSS RGB, RGBA, HSL, HSLA, Hex, etc.)
+- Ability to add custom color formats if the presets are not enough
 - Create and share palettes to keep your different projects organized
-- Automatically puts the clicked colour into your clipboard
-- With more features on the way...
+- Automatically puts the picked color into your clipboard
+- With more features on the way... (and open to suggestions)
 
 🏗️ **Development Stage**: Alpha
 
 This project is still in its development stage so some aspects of it will not work as expected and will still contain
-bugs.
+bugs. If you stumble across a bug please open an issue, or make a PR.
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/motorlatitude/Drop/master/src/assets/img/thumbnail.png" alt="Drop Preview - Showing the history window" width="75%">
@@ -38,12 +39,14 @@ bugs.
 
 ## Installation
 
-Installation is simple, just run the setup executable from the latest release.
+Installation is simple, just run the setup executable from the latest release for Windows.
 
 [🔽 Download Latest Release](https://github.com/motorlatitude/Drop/releases)
 
 Once installed, drop will sit in your taskbar and wait for you to need it. It defaults to starting on system launch
 so it will always be ready to use.
+
+Linux users can use the provided .AppImage or snap to install it on their system, otherwise build instructions are listed below.
 
 ## Building
 
