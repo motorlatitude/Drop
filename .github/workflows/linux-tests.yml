@@ -16,6 +16,8 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    # use chrome driver
+    - uses: nanasess/setup-chromedriver@master
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
@@ -25,15 +27,15 @@ jobs:
       with:
         node-version: '13.x'
 
-    # Setup linux Display
-    - name: Setting up linux display
-      run: | 
-        if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
-        if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sleep 3; fi
-
     # Setup linux enviroment for E2E testing
     - name: Install linux packages
-      run: if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -y install libxtst-dev libpng++-dev; fi
+      run: sudo apt-get -y install libxtst-dev libpng++-dev xvfb
+
+    # Setup linux Display
+    - name: Setting up linux display
+      run: |
+        export DISPLAY=:99.0;
+        sleep 3;
 
     # Install RobotJS
     - name: Install Natives
