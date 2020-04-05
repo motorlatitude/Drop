@@ -68,7 +68,8 @@ jobs:
         uses: crazy-max/ghaction-chocolatey@v1
         with:
           args: install googlechrome chromedriver
-
+      # use chrome driver
+      - uses: nanasess/setup-chromedriver@master
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
