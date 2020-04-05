@@ -4,7 +4,7 @@ exports.config = () => ({
   type: "format",
   format: {
     displayName: "CSS HSLA",
-    displayFormat: "hsl(hue, sat%, light%, alpha)",
+    displayFormat: "hsla(hue, sat%, light%, alpha)",
     icon: "css_2"
   }
 });
@@ -44,5 +44,5 @@ exports.convertColor = color => {
     }
     hue = Math.ceil(tempH);
   }
-  return "hsl(" + hue + "," + saturation + "%," + luminescence + "%,1)";
+  return "hsla(" + hue + "," + saturation + "%," + luminescence + "%,1)";
 };

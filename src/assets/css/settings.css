@@ -420,6 +420,10 @@ body {
   background: hsl(60, 2%, 10%, 1);
   border-radius: 3px;
   overflow: hidden;
+  position: relative;
+  top: 0;
+  left: 0;
+  border: 1px solid hsl(60, 2%, 9%, 0.5);
 }
 
 .shortcut-sidebar ul,
@@ -436,18 +440,48 @@ body {
   padding: 0 10px;
   line-height: 45px;
   font-size: 14px;
-  border-bottom: 1px solid hsl(60, 2%, 13%, 1);
+  border-bottom: 1px solid hsla(60, 2%, 9%, 1);
 }
 
 .shortcut-sidebar ul li:hover,
 .formats-sidebar ul li:hover {
-  background: hsl(60, 2%, 12%, 1);
+  background: hsla(60, 2%, 12%, 1);
 }
 
 .shortcut-sidebar ul li.active,
 .formats-sidebar ul li.active {
   color: #fff;
   background: hsla(272, 100%, 26%, 1);
+}
+
+.formats-sidebar .formats-functions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: hsla(60, 2%, 13%, 1);
+  border-top: 1px solid hsl(60, 3%, 10%, 1);
+}
+
+.formats-sidebar .formats-functions button {
+  line-height: 30px;
+  padding: 0 10px;
+  float: left;
+  width: 30px;
+  border: 0 solid transparent;
+  border-right: 1px solid hsla(60, 2%, 9%, 0.5);
+  background: transparent;
+  margin: 0;
+  color: hsl(0, 0%, 100%, 1);
+}
+
+.formats-sidebar .formats-functions button:hover {
+  background: hsl(60, 6%, 31%, 0.1);
+}
+
+.formats-sidebar .formats-functions button:focus,
+.formats-sidebar .formats-functions button:active {
+  outline: none;
 }
 
 .shortcut-main-frame,

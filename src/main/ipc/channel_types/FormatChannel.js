@@ -36,10 +36,22 @@ class FormatChannel extends Channel {
         return this.getAllFormats();
       case "SAVE_FORMAT":
         return this.saveFormat(ipcEventDataObject.args);
+      case "DELETE_FORMAT":
+        return this.deleteFormat(ipcEventDataObject.args);
       default:
         log.warn("UNKNOWN IPC TYPE FOR FORMAT CHANNEL");
         break;
     }
+  }
+
+  /**
+   * delete a formats plugin
+   * @param {{value: string}} args the name of the plugin to be removed as an object
+   */
+  deleteFormat(args) {
+    fs.unlinkSync(
+      path.resolve(__dirname + "/../../resources/formats/" + args.value + ".js")
+    ); // delete old plugin file
   }
 
   /**
