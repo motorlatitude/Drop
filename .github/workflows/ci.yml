@@ -15,18 +15,20 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Decrypt ENV
-        run: |
-          pwd
-          ./.github/decrypt.sh
-        env:
-          ENV_SECRET: ${{ secrets.ENV_SECRET }}
       # Install Chrome
       - run: sudo apt-fast install -y google-chrome
       # use chrome driver
       - uses: nanasess/setup-chromedriver@master
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - name: Decrypt ENV
+        run: |
+          pwd
+          ./.github/decrypt.sh
+          ls -la
+        env:
+          ENV_SECRET: ${{ secrets.ENV_SECRET }}
 
       # Setup Node.JS
       - name: Setup Node
