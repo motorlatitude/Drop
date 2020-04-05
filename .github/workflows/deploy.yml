@@ -66,6 +66,8 @@ jobs:
 
       - name: Deploying
         run: npm run release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       # Cleanup
       - name: Cleanup xvfb pidx
@@ -111,3 +113,5 @@ jobs:
 
       - name: Deploying
         run: npm run release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
