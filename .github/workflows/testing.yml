@@ -34,7 +34,8 @@ jobs:
     # Setup linux Display
     - name: Setting up linux display
       run: |
-        export DISPLAY=:99.0;
+        export DISPLAY=':99.0'
+        xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
         sleep 3;
 
     # Install RobotJS
@@ -51,4 +52,6 @@ jobs:
     
     # Run E2E test
     - name: E2E Testing
-      run: xvfb-run --auto-servernum npm test
+      run: |
+        echo "Running End to End testing via xvfb" 
+        xvfb-run --auto-servernum npm test
