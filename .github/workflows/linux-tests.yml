@@ -1,0 +1,56 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Linux Tests
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  [push, pull_request]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    # Setup Node.JS
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '13.x'
+
+    # Setup linux Display
+    - name: Setting up linux display
+      run: | 
+        if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
+        if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sleep 3; fi
+
+    # Setup linux enviroment for E2E testing
+    - name: Install linux packages
+      run: if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -y install libxtst-dev libpng++-dev; fi
+
+    # Install RobotJS
+    - name: Install Natives
+      run: npm install robotjs --target=7.1.12
+    
+    # Install all remaining dependencies
+    - name: Install Dependencies
+      run: npm ci
+    
+    # Run linting checks
+    - name: Linting Check
+      run: npm run lint
+    
+    # Run E2E test
+    - name: E2E Testing
+      run: npm run test
+      
+    # Build
+    - name: Building
+      run: npm run build
