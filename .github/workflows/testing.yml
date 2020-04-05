@@ -63,11 +63,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # install choco
-      - name: Choco help
-        uses: crazy-max/ghaction-chocolatey@v1
-        with:
-          args: install googlechrome chromedriver webdriverio
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
@@ -77,9 +72,9 @@ jobs:
         with:
           node-version: "13.x"
 
-      # installing webdriverio
-      - name: Installing wdio
-        run: npm i --save-dev @wdio/cli
+      # installing chrome driver
+      - name: Installing chrome driver
+        run: npm i electron-chromedriver
 
       # Install RobotJS
       - name: Install Natives
