@@ -63,6 +63,11 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # install choco
+      - run: '@powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString(\"https://chocolatey.org/install.ps1\"))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin'
+      - run: choco install googlechrome
+
+      - uses: nanasess/setup-chromedriver@master
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
