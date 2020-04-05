@@ -47,6 +47,11 @@ jobs:
     - name: Run Headless E2E Test
       timeout-minutes: 5
       run: |
-        sudo apt-get install -y xvfb
         export DISPLAY=:99.0
-        npm test
+        xvfb-run --auto-servernum npm test
+      env:
+        CI: true
+    
+    # Cleanup
+    - name: Cleanup xvfb pidx
+      uses: bcomnes/cleanup-xvfb@v1
