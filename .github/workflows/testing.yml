@@ -73,8 +73,8 @@ jobs:
           node-version: "13.x"
 
       # installing chrome driver
-      - name: Installing chrome driver
-        run: npm i electron-chromedriver
+      - name: Spectron Test
+        run: node ../test/spec-test.js
 
       # Install RobotJS
       - name: Install Natives
