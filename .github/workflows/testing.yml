@@ -72,6 +72,10 @@ jobs:
         with:
           node-version: "13.x"
 
+      # installing webdriverio
+      - name: Installing wdio
+        run: npm i --save-dev @wdio/cli
+
       # Install RobotJS
       - name: Install Natives
         run: npm install robotjs --target=7.1.12
