@@ -7,9 +7,15 @@ describe("Application launch", function() {
   this.timeout(30000);
 
   beforeEach(function() {
+    let electronPath = path.join(__dirname, "../node_modules", ".bin", "electron");
     this.app = new Application({
       path: electronPath,
       args: [path.join(__dirname, "..")],
+      env: {
+        ELECTRON_ENABLE_LOGGING: true,
+        ELECTRON_ENABLE_STACK_DUMPING: true,
+        NODE_ENV: "development"
+      },
       chromeDriverArgs: ["no-sandbox"],
       startTimeout: 50 * 1000,
       quitTimeout: 10 * 1000,
