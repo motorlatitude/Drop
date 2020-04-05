@@ -61,58 +61,80 @@ class FormatChannel extends Channel {
   saveFormat(args) {
     const pluginFormat = requireFromString(args.file);
     if (pluginFormat.config().name && pluginFormat.config().type === "format") {
-      const pluginPath = path.resolve(
-        __dirname +
-          "/../../resources/formats/" +
-          pluginFormat.config().name +
-          ".js"
-      );
-      if (pluginFormat.config().name !== args.value) {
-        // modified name, remove old and create new
-        fs.unlinkSync(
-          path.resolve(
-            __dirname + "/../../resources/formats/" + args.value + ".js"
-          )
-        ); // delete old plugin file
-      }
-      fs.writeFile(pluginPath, args.file, err => {
-        if (err) {
-          log.error(err);
-        } else {
-          this.ColorFormats.updateFormats(formats => {
-            if (this.WindowManager.windows.settings) {
-              this.WindowManager.windows.settings.webContents.send(
-                "FORMATS_UPDATED",
-                formats
-              );
-            }
-            if (this.WindowManager.windows.history) {
-              const selectedFormat = formats.filter(
-                f => f.value === this.ColorFormats.selectedFormat
-              )[0];
-              if (selectedFormat) {
-                this.WindowManager.windows.history.webContents.send(
-                  "color-type-change",
-                  {
-                    name: selectedFormat.title,
-                    icon: selectedFormat.icon
+      try {
+        const hexColor = "#ffffff";
+        const r = parseInt("0x" + hexColor.substring(0, 2));
+        const g = parseInt("0x" + hexColor.substring(2, 4));
+        const b = parseInt("0x" + hexColor.substring(4, 6));
+        const colorObject = pluginFormat.convertColor({
+          hex: hexColor,
+          rgb: {
+            r,
+            g,
+            b
+          }
+        });
+        if (colorObject) {
+          const pluginPath = path.resolve(
+            __dirname +
+              "/../../resources/formats/" +
+              pluginFormat.config().name +
+              ".js"
+          );
+          if (pluginFormat.config().name !== args.value) {
+            // modified name, remove old and create new
+            fs.unlinkSync(
+              path.resolve(
+                __dirname + "/../../resources/formats/" + args.value + ".js"
+              )
+            ); // delete old plugin file
+          }
+          fs.writeFile(pluginPath, args.file, err => {
+            if (err) {
+              log.error(err);
+            } else {
+              this.ColorFormats.updateFormats(formats => {
+                if (this.WindowManager.windows.settings) {
+                  this.WindowManager.windows.settings.webContents.send(
+                    "FORMATS_UPDATED",
+                    formats
+                  );
+                }
+                if (this.WindowManager.windows.history) {
+                  const selectedFormat = formats.filter(
+                    f => f.value === this.ColorFormats.selectedFormat
+                  )[0];
+                  if (selectedFormat) {
+                    this.WindowManager.windows.history.webContents.send(
+                      "color-type-change",
+                      {
+                        name: selectedFormat.title,
+                        icon: selectedFormat.icon
+                      }
+                    );
+                  } else {
+                    // currently selected color format no longer exists
+                    this.ColorFormats.selectedFormat = formats[0].value;
+                    this.WindowManager.windows.history.webContents.send(
+                      "color-type-change",
+                      {
+                        name: formats[0].title,
+                        icon: formats[0].icon
+                      }
+                    );
                   }
-                );
-              } else {
-                // currently selected color format no longer exists
-                this.ColorFormats.selectedFormat = formats[0].value;
-                this.WindowManager.windows.history.webContents.send(
-                  "color-type-change",
-                  {
-                    name: formats[0].title,
-                    icon: formats[0].icon
-                  }
-                );
-              }
+                }
+              });
             }
           });
+        } else {
+          log.error(
+            "Invalid file format, plugin does not convert hex color correctly"
+          );
         }
-      });
+      } catch (err) {
+        log.error(err);
+      }
     } else {
       log.error(
         "Failed to load plugin, plugin does not have a valid name or is not of the correct type"
