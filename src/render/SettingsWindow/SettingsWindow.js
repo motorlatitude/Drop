@@ -1,3 +1,7 @@
+const Sentry = require("@sentry/electron");
+
+Sentry.init({ dsn: process.env.DSN });
+
 const electron = require("electron");
 const webFrame = electron.webFrame;
 const { ipcRenderer } = electron;

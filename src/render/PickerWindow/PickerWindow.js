@@ -1,3 +1,7 @@
+const Sentry = require("@sentry/electron");
+
+Sentry.init({ dsn: process.env.DSN });
+
 const { ipcRenderer, webFrame } = require("electron");
 const namer = require("color-namer");
 const Mousetrap = require("mousetrap");

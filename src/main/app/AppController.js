@@ -49,6 +49,13 @@ class AppController {
     this.logPath = path.dirname(log.transports.file.getFile().path);
     this._App.setPath("temp", this.logPath);
     log.info("Crashes Directory", crashReporter.getCrashesDirectory());
+    log.info("Setting up CrashReporter");
+    crashReporter.start({
+      companyName: "Rabbit",
+      productName: "Drop",
+      ignoreSystemCrashHandler: true,
+      submitURL: process.env.CRASH_REPORTER_URL
+    });
   }
 
   /**
