@@ -64,7 +64,10 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # install choco
-      - run: '@powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString(\"https://chocolatey.org/install.ps1\"))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin'
+      - name: Choco help
+        uses: crazy-max/ghaction-chocolatey@v1
+
+      # install chrome
       - run: choco install googlechrome
 
       - uses: nanasess/setup-chromedriver@master
