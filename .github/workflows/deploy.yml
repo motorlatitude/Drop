@@ -1,0 +1,99 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  pull_request:
+    branches:
+      - master
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # linux
+  linux:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Install Chrome
+      - run: sudo apt-fast install -y google-chrome
+      # use chrome driver
+      - uses: nanasess/setup-chromedriver@master
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Setup Node.JS
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "13.x"
+
+      # Setup linux environment for E2E testing
+      - name: Install linux packages
+        run: sudo apt-get -y install libxtst-dev libpng++-dev
+
+      # Install RobotJS
+      - name: Install Natives
+        run: npm install robotjs --target=7.1.12
+
+      # Install all remaining dependencies
+      - name: Install Remaining Dependencies
+        run: npm i
+
+      # Run linting checks
+      - name: Linting Check
+        run: npm run lint
+
+      # Run E2E test
+      - name: Run Headless E2E Test
+        timeout-minutes: 5
+        run: |
+          export DISPLAY=:99.0
+          xvfb-run --auto-servernum npm test
+        env:
+          CI: true
+
+      - name: Deploying
+        run: npm run release
+
+      # Cleanup
+      - name: Cleanup xvfb pidx
+        uses: bcomnes/cleanup-xvfb@v1
+  # windows
+  windows:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Setup Node.JS
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "13.x"
+
+      # Install RobotJS
+      - name: Install Natives
+        run: npm install robotjs --target=7.1.12
+
+      # Install all remaining dependencies
+      - name: Install Remaining Dependencies
+        run: npm i
+
+      # Run linting checks
+      - name: Linting Check
+        run: npm run lint
+
+      # Run E2E test
+      - name: Run Headless E2E Test
+        timeout-minutes: 5
+        run: npm test
+
+      - name: Deploying
+        run: npm run release
