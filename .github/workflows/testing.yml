@@ -45,6 +45,8 @@ jobs:
     
     # Run E2E test
     - name: Run Headless E2E Test
-      uses: GabrielBB/xvfb-action@v1.0
-      with:
-        run: npm test
+      timeout-minutes: 5
+      run: |
+        sudo apt-get install -y xvfb
+        export DISPLAY=:99.0
+        npm test
