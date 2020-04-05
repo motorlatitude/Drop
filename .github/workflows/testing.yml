@@ -18,7 +18,7 @@ jobs:
       - name: Decrypt ENV
         run: |
           pwd
-          ../decrypt.sh
+          ./.github/decrypt.sh
         env:
           ENV_SECRET: ${{ secrets.ENV_SECRET }}
       # Install Chrome

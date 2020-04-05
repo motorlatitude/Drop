@@ -16,7 +16,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Decrypt ENV
-        run: ../decrypt.sh
+        run: |
+          pwd
+          ./.github/decrypt.sh
         env:
           ENV_SECRET: ${{ secrets.ENV_SECRET }}
       # Install Chrome
