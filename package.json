@@ -65,7 +65,7 @@
     "husky": "^4.2.3",
     "mocha": "^7.0.1",
     "prettier": "^1.19.1",
-    "spectron": "5.0.0"
+    "spectron": "^9.0.0"
   },
   "dependencies": {
     "color-namer": "^1.4.0",
