@@ -1,13 +1,17 @@
 const Application = require("spectron").Application;
 const assert = require("assert");
-const electronPath = require("electron"); // Require Electron from the binaries included in node_modules.
 const path = require("path");
 
 describe("Application launch", function() {
   this.timeout(30000);
 
   beforeEach(function() {
-    let electronPath = path.join(__dirname, "../node_modules", ".bin", "electron");
+    const electronPath = path.join(
+      __dirname,
+      "../node_modules",
+      ".bin",
+      "electron"
+    );
     this.app = new Application({
       path: electronPath,
       args: [path.join(__dirname, "..")],
@@ -17,9 +21,7 @@ describe("Application launch", function() {
         NODE_ENV: "development"
       },
       chromeDriverArgs: ["no-sandbox"],
-      startTimeout: 50 * 1000,
-      quitTimeout: 10 * 1000,
-      waitTimeout: 10 * 1000
+      startTimeout: 50000
     });
     return this.app.start();
   });
@@ -28,6 +30,10 @@ describe("Application launch", function() {
     if (this.app && this.app.isRunning()) {
       return this.app.stop();
     }
+  });
+
+  it("sanity check", function() {
+    return assert.ok(true);
   });
 
   it("should run", function() {
