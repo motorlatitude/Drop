@@ -7,16 +7,19 @@
 # Drop - Color Picker Tool
 
 <p align="left">
-    <img src="https://travis-ci.com/motorlatitude/Drop.svg?branch=master" alt="Build Status">
+    <a href="https://github.com/motorlatitude/Drop/actions?query=workflow%3ACI">
+        <img src="https://github.com/motorlatitude/Drop/workflows/CI/badge.svg" alt="Build Status">
+    </a>
     <a href="https://app.codacy.com/manual/lenny.glk/Drop?utm_source=github.com&utm_medium=referral&utm_content=motorlatitude/Drop&utm_campaign=Badge_Grade_Dashboard">
       <img src="https://api.codacy.com/project/badge/Grade/65116691e5154f60b6c1ac2912607fb3" alt="Codacy Quality Badge">
     </a>
-    <img src="https://david-dm.org/motorlatitude/drop.svg" alt="Dependency Version">
+    <a href="https://david-dm.org/motorlatitude/drop">
+        <img src="https://david-dm.org/motorlatitude/drop.svg" alt="Dependency Version">
+    </a>
     <img src="https://img.shields.io/github/downloads/motorlatitude/Drop/total?color=green" alt="GitHub All Releases">
     <img src="https://img.shields.io/github/package-json/v/motorlatitude/drop" alt="Drop Version">
     <br/>
 </p>
-
 Drop is a cross platform color picker/eye dropper using electron. It's designed for developers and designers as a way to gather,
 tweak and share colors and color palettes, featuring a rich UI to support it along the way.
 
@@ -36,6 +39,13 @@ bugs. If you stumble across a bug please open an issue, or make a PR.
 <p align="center">
     <img src="https://raw.githubusercontent.com/motorlatitude/Drop/master/src/assets/img/thumbnail.png" alt="Drop Preview - Showing the history window" width="75%">
 </p>
+
+## Support
+
+This is an open source project, feel free to contribute by making a pull request or posting an issue for bugs or feature-requests. If you would like to
+support my work directly, please consider buying me a coffee ☕.
+
+<style>.bmc-button img{height: 34px !important;width: 35px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{padding: 7px 10px 7px 10px !important;line-height: 35px !important;height:51px !important;min-width:217px !important;text-decoration: none !important;display:inline-flex !important;color:#ffffff !important;background-color:#FF813F !important;border-radius: 5px !important;border: 1px solid transparent !important;padding: 7px 10px 7px 10px !important;font-size: 28px !important;letter-spacing:0.6px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Cookie', cursive !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#ffffff !important;}</style><link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet"><a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/motorlatitude"><img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:15px;font-size:28px !important;">Buy me a coffee</span></a>
 
 ## Installation
 
