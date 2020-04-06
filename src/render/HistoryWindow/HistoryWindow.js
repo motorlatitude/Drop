@@ -50,19 +50,28 @@ class HistoryWindow {
       }
     });
 
-    // Generate Palette objects for stored palettes
+    // Generate Palette objects for stored history palettes
     Object.keys(palettes).forEach(paletteId => {
-      const p = new Palette(palettes[paletteId]);
       if (paletteId == "HISTORY") {
+        const p = new Palette(palettes[paletteId]);
         ipcRenderer.on("color-history-update", (evt, newColor) => {
           p.appendNewColorItem(
             document.getElementById("history-list"),
             newColor
           );
         });
+        const pEl = p.createElement();
+        p.appendNewPalette(pEl);
       }
-      const pEl = p.createElement();
-      p.appendNewPalette(pEl);
+    });
+
+    // Generate Palette objects for stored palettes
+    Object.keys(palettes).forEach(paletteId => {
+      if (paletteId != "HISTORY") {
+        const p = new Palette(palettes[paletteId]);
+        const pEl = p.createElement();
+        p.appendNewPalette(pEl);
+      }
     });
   }
 

@@ -25,7 +25,7 @@ tweak and share colors and color palettes, featuring a rich UI to support it alo
 
 - Multi-level magnification
 - Customizable shortcuts
-- Different color formats that it can output (CSS RGB, RGBA, HSL, HSLA, Hex, etc.)
+- Different color formats that it can output (CSS RGB, RGBA, HSL, HSLA, Hex, .NET ARGB, Java RGB, etc.)
 - Ability to add custom color formats if the presets are not enough
 - Create and share palettes to keep your different projects organized
 - Automatically puts the picked color into your clipboard
@@ -56,7 +56,7 @@ You can download the latest release from the github release page
 
   Linux users can use the provided `.AppImage` or `.snap` to install it on their system, otherwise build instructions are listed below. Linux users will also have to make sure that they have the `libxtst-dev` and `libpng++-dev` packages installed.
 
-## Support
+## Contribute
 
 This is an open source project, feel free to contribute by making a pull request or posting an issue for bugs or feature-requests. If you would like to
 support my work directly, please consider buying me a coffee ☕.
