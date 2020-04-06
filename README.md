@@ -40,23 +40,30 @@ bugs. If you stumble across a bug please open an issue, or make a PR.
     <img src="https://raw.githubusercontent.com/motorlatitude/Drop/master/src/assets/img/thumbnail.png" alt="Drop Preview - Showing the history window" width="75%">
 </p>
 
+## Installation
+
+[🔽 Download Latest Release](https://github.com/motorlatitude/Drop/releases)
+
+#### Windows Install
+
+Installation is simple, just run the setup executable from the latest release for Windows.
+
+Once installed, drop will sit in your taskbar and wait for you to need it. It defaults to starting on system launch
+so it will always be ready to use.
+
+#### Linux Install
+
+Linux users can use the provided `.AppImage` or `.snap` to install it on their system, otherwise build instructions are listed below. Linux users
+will also have to make sure that they have the `libxtst-dev libpng++-dev` packages installed.
+
 ## Support
 
 This is an open source project, feel free to contribute by making a pull request or posting an issue for bugs or feature-requests. If you would like to
 support my work directly, please consider buying me a coffee ☕.
 
-<a href="https://www.buymeacoffee.com/motorlatitude" target="_blank"><img src="https://raw.githubusercontent.com/motorlatitude/misc/master/assets/img/bmac.png" alt="Buy Me A Coffee" style="height: 51px !important;" ></a>
-
-## Installation
-
-Installation is simple, just run the setup executable from the latest release for Windows.
-
-[🔽 Download Latest Release](https://github.com/motorlatitude/Drop/releases)
-
-Once installed, drop will sit in your taskbar and wait for you to need it. It defaults to starting on system launch
-so it will always be ready to use.
-
-Linux users can use the provided .AppImage or snap to install it on their system, otherwise build instructions are listed below.
+<a href="https://www.buymeacoffee.com/motorlatitude" target="_blank">
+    <img src="https://raw.githubusercontent.com/motorlatitude/misc/master/assets/img/bmac.png" alt="Buy Me A Coffee" height="50">
+</a>
 
 ## Building
 
