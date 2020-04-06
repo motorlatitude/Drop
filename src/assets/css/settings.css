@@ -426,6 +426,13 @@ body {
   border: 1px solid hsl(60, 2%, 9%, 0.5);
 }
 
+.formats-sidebar-scroll-wrapper {
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+  height: calc(100% - 30px);
+}
+
 .shortcut-sidebar ul,
 .formats-sidebar ul {
   list-style: none;
@@ -464,10 +471,10 @@ body {
 }
 
 .formats-sidebar .formats-functions button {
-  line-height: 30px;
+  line-height: 34px;
   padding: 0 10px;
   float: left;
-  width: 30px;
+  width: 40px;
   border: 0 solid transparent;
   border-right: 1px solid hsla(60, 2%, 9%, 0.5);
   background: transparent;
@@ -501,12 +508,14 @@ body {
 
 /* width */
 .shortcut-main-frame::-webkit-scrollbar,
-.codeflask textarea::-webkit-scrollbar {
+.codeflask textarea::-webkit-scrollbar,
+.formats-sidebar-scroll-wrapper::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
 .shortcut-main-frame::-webkit-scrollbar-track,
+.formats-sidebar-scroll-wrapper::-webkit-scrollbar-track,
 .codeflask textarea::-webkit-scrollbar-track,
 .codeflask textarea::-webkit-scrollbar-corner,
 .codeflask textarea::-webkit-scrollbar-track-piece {
@@ -516,7 +525,8 @@ body {
 
 /* Handle */
 .shortcut-main-frame::-webkit-scrollbar-thumb,
-.codeflask textarea::-webkit-scrollbar-thumb {
+.codeflask textarea::-webkit-scrollbar-thumb,
+.formats-sidebar-scroll-wrapper::-webkit-scrollbar-thumb {
   background: #1a1a19;
   border-radius: 10px;
   border: 2px solid #262625;
@@ -525,7 +535,8 @@ body {
 
 /* Handle on hover */
 .shortcut-main-frame::-webkit-scrollbar-thumb:hover,
-.codeflask textarea::-webkit-scrollbar-thumb:hover {
+.codeflask textarea::-webkit-scrollbar-thumb:hover,
+.formats-sidebar-scroll-wrapper::-webkit-scrollbar-thumb:hover {
   background: hsl(60, 2%, 12%, 1);
 }
 
@@ -665,6 +676,16 @@ body {
 
 .formats-main-frame .icon[data-icon="css_2"] {
   background: url(./../img/css_new.png) no-repeat;
+  background-size: cover;
+}
+
+.formats-main-frame .icon[data-icon="java"] {
+  background: url(./../img/java.png) no-repeat;
+  background-size: cover;
+}
+
+.formats-main-frame .icon[data-icon="dotnet"] {
+  background: url(./../img/dotnet.png) no-repeat;
   background-size: cover;
 }
 
