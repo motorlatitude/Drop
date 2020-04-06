@@ -235,7 +235,8 @@ class SettingsWindow {
             type: "SAVE_FORMAT",
             args: {
               value: format.value,
-              file: flask.getCode()
+              file: flask.getCode(),
+              new: false
             }
           });
         });
@@ -498,7 +499,8 @@ class SettingsWindow {
             type: "SAVE_FORMAT",
             args: {
               value: tempName,
-              file: flask.getCode()
+              file: flask.getCode(),
+              new: true
             }
           });
         });

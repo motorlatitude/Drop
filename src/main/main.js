@@ -17,12 +17,12 @@ const electron = require("electron");
 const { app } = electron;
 const Sentry = require("@sentry/electron");
 
-console.log(process.env.DSN);
-
 Sentry.init({
   dsn: process.env.DSN,
   release: "Drop@" + process.env.npm_package_version
 });
+
+Sentry.captureMessage("Starting Drop");
 
 const WindowManager = require("./windows/WindowManager");
 const AppController = require("./app/AppController");

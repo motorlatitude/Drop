@@ -2,6 +2,7 @@ const log = require("electron-log");
 const fs = require("fs");
 const path = require("path");
 const requireFromString = require("require-from-string");
+const { dialog } = require("electron");
 
 const Channel = require("./Channel");
 
@@ -49,18 +50,40 @@ class FormatChannel extends Channel {
    * @param {{value: string}} args the name of the plugin to be removed as an object
    */
   deleteFormat(args) {
-    fs.unlinkSync(
-      path.resolve(__dirname + "/../../resources/formats/" + args.value + ".js")
-    ); // delete old plugin file
+    const pluginPath = path.resolve(
+      __dirname + "/../../resources/formats/" + args.value + ".js"
+    );
+    if (fs.existsSync(pluginPath)) {
+      fs.unlinkSync(pluginPath); // delete old plugin file
+    } else {
+      log.debug(
+        "Failed to delete plugin format as plugin does not exists at path",
+        pluginPath
+      );
+    }
   }
 
   /**
    * Save a new or existing formats code
-   * @param {{value: string, file: string}} args the supplied arguments to write a format
+   * @param {{value: string, file: string, new: boolean}} args the supplied arguments to write a format
+   * @return {{saved: boolean}} returns boolean if saved successfully or unsuccessfully
    */
   saveFormat(args) {
     const pluginFormat = requireFromString(args.file);
     if (pluginFormat.config().name && pluginFormat.config().type === "format") {
+      if (args.new) {
+        const matchingName = this.ColorFormats.formats.filter(
+          f => f.value === pluginFormat.config().name
+        );
+        if (matchingName[0]) {
+          log.error("Color format with that name already exists");
+          dialog.showErrorBox(
+            "Failed to save format",
+            "A format with this name already exists"
+          );
+          return { saved: false };
+        }
+      }
       try {
         const hexColor = "#ffffff";
         const r = parseInt("0x" + hexColor.substring(0, 2));
@@ -124,6 +147,7 @@ class FormatChannel extends Channel {
                     );
                   }
                 }
+                return { saved: true };
               });
             }
           });
@@ -131,6 +155,11 @@ class FormatChannel extends Channel {
           log.error(
             "Invalid file format, plugin does not convert hex color correctly"
           );
+          dialog.showErrorBox(
+            "Failed to save format",
+            "The created custom color format does not convert color correctly"
+          );
+          return { saved: false };
         }
       } catch (err) {
         log.error(err);
@@ -139,6 +168,11 @@ class FormatChannel extends Channel {
       log.error(
         "Failed to load plugin, plugin does not have a valid name or is not of the correct type"
       );
+      dialog.showErrorBox(
+        "Failed to save format",
+        "The created custom color format does not have a valid name or is not of the correct type"
+      );
+      return { saved: false };
     }
   }
 
