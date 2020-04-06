@@ -129,3 +129,5 @@ to successfully build the application.
       ```bash
       npm start
       ```
+
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B16971%2Fgit%40github.com%3Amotorlatitude%2FDrop.git.svg?type=large)](https://app.fossa.com/projects/custom%2B16971%2Fgit%40github.com%3Amotorlatitude%2FDrop.git?ref=badge_large)
