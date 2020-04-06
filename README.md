@@ -42,19 +42,19 @@ bugs. If you stumble across a bug please open an issue, or make a PR.
 
 ## Installation
 
-[🔽 Download Latest Release](https://github.com/motorlatitude/Drop/releases)
+You can download the latest release from the github release page
 
-#### Windows Install
+[⬇️ Download Latest Release](https://github.com/motorlatitude/Drop/releases)
 
-Installation is simple, just run the setup executable from the latest release for Windows.
+- #### Windows Install
 
-Once installed, drop will sit in your taskbar and wait for you to need it. It defaults to starting on system launch
-so it will always be ready to use.
+  Installation is simple, just run the setup executable from the latest release for Windows.
 
-#### Linux Install
+  Once installed, drop will sit in your taskbar and wait for you to need it. It defaults to starting on system launch so it will always be ready to use.
 
-Linux users can use the provided `.AppImage` or `.snap` to install it on their system, otherwise build instructions are listed below. Linux users
-will also have to make sure that they have the `libxtst-dev libpng++-dev` packages installed.
+- #### Linux Install
+
+  Linux users can use the provided `.AppImage` or `.snap` to install it on their system, otherwise build instructions are listed below. Linux users will also have to make sure that they have the `libxtst-dev` and `libpng++-dev` packages installed.
 
 ## Support
 
@@ -129,5 +129,7 @@ to successfully build the application.
       ```bash
       npm start
       ```
+
+## License
 
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B16971%2Fgit%40github.com%3Amotorlatitude%2FDrop.git.svg?type=large)](https://app.fossa.com/projects/custom%2B16971%2Fgit%40github.com%3Amotorlatitude%2FDrop.git?ref=badge_large)
