@@ -15,10 +15,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Install Chrome
-      - run: sudo apt-fast install -y google-chrome
-      # use chrome driver
-      - uses: nanasess/setup-chromedriver@master
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
@@ -47,19 +43,6 @@ jobs:
       # Install all remaining dependencies
       - name: Install Remaining Dependencies
         run: npm i
-
-      # Run linting checks
-      - name: Linting Check
-        run: npm run lint
-
-      # Run E2E test
-      - name: Run Headless E2E Test
-        timeout-minutes: 5
-        run: |
-          export DISPLAY=:99.0
-          xvfb-run --auto-servernum npm test
-        env:
-          CI: true
 
       - name: Building
         run: npm run build
@@ -99,15 +82,6 @@ jobs:
       # Install all remaining dependencies
       - name: Install Remaining Dependencies
         run: npm i
-
-      # Run linting checks
-      - name: Linting Check
-        run: npm run lint
-
-      # Run E2E test
-      - name: Run Headless E2E Test
-        timeout-minutes: 5
-        run: npm test
 
       - name: Building
         run: npm run build
