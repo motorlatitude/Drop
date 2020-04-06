@@ -45,7 +45,7 @@ bugs. If you stumble across a bug please open an issue, or make a PR.
 This is an open source project, feel free to contribute by making a pull request or posting an issue for bugs or feature-requests. If you would like to
 support my work directly, please consider buying me a coffee ☕.
 
-<a href="https://www.buymeacoffee.com/motorlatitude" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+<a href="https://www.buymeacoffee.com/motorlatitude" target="_blank"><img src="https://raw.githubusercontent.com/motorlatitude/misc/master/assets/img/bmac.png" alt="Buy Me A Coffee" style="height: 51px !important;" ></a>
 
 ## Installation
 
