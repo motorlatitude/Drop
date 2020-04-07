@@ -27,6 +27,7 @@ class PopoverWindow {
     ipcRenderer.on("options", (event, opts) => {
       this._ID = opts.id;
       const optionsListEl = document.getElementById("option-list");
+      optionsListEl.innerHTML = "";
       opts.options.forEach(option => {
         // Create a new select option, li element
         const optItem = document.createElement("li");

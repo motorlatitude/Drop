@@ -147,6 +147,25 @@ class FormatChannel extends Channel {
                     );
                   }
                 }
+                if (this.WindowManager.windows.popover) {
+                  const popoverItems = this.ColorFormats.formats.map(format => {
+                    format.clickHandler = () => {
+                      this.WindowManager.windows.history.webContents.send(
+                        "color-type-change",
+                        {
+                          type: format.value,
+                          name: format.title,
+                          icon: format.icon
+                        }
+                      );
+                      this.ColorFormats.selectedFormat = format.value;
+                    };
+                    return format;
+                  });
+                  this.WindowManager.windows.popover.windowController.setOptions(
+                    popoverItems
+                  );
+                }
                 return { saved: true };
               });
             }
