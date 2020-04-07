@@ -38,9 +38,10 @@ class PickerWindow {
    */
   _ConfigureIPCEvents() {
     ipcRenderer.on("color", (event, arg) => {
-      arg = JSON.parse(arg);
       const elColorSquares = document.getElementById("colorsquares");
-      elColorSquares.innerHTML = "";
+      while (elColorSquares.lastChild) {
+        elColorSquares.firstChild.remove();
+      }
       const middle = Math.floor(Object.keys(arg).length / 2);
       Object.keys(arg).forEach((key, index) => {
         const colorRow = arg[key];
@@ -143,13 +144,10 @@ class PickerWindow {
         Object.keys(allShortcuts).forEach((shortcut, index) => {
           const populatedShortcutObject = {
             key: shortcut,
-            shortcut: settings[shortcut + "Keys"]
-              ? settings[shortcut + "Keys"]
-              : DefaultSettings[shortcut + "Keys"],
+            shortcut:
+              settings[shortcut + "Keys"] || DefaultSettings[shortcut + "Keys"],
             callback: null,
-            enabled: settings[shortcut]
-              ? settings[shortcut]
-              : DefaultSettings[shortcut]
+            enabled: settings[shortcut] || DefaultSettings[shortcut]
           };
           switch (populatedShortcutObject.key) {
             case "shortcutMoveLensRight":

@@ -8,7 +8,7 @@ log.info(
   "\n" +
     " ____  ____   __  ____\n" +
     "(    \\(  _ \\ /  \\(  _  \\ \n" +
-    " ) D ( )   /(  O )) __/\n" +
+    " ) D ( )   /(  O ))  __/\n" +
     "(____/(__\\_) \\__/(__)\n" +
     ""
 );
@@ -17,9 +17,12 @@ const electron = require("electron");
 const { app } = electron;
 const Sentry = require("@sentry/electron");
 
+const release = "Drop@" + process.env.npm_package_version;
+log.info("Release", release);
+
 Sentry.init({
   dsn: process.env.DSN,
-  release: "Drop@" + process.env.npm_package_version
+  release: release
 });
 
 Sentry.captureMessage("Starting Drop");

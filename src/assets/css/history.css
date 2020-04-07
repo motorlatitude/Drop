@@ -179,7 +179,7 @@ body {
   height: 100%;
 }
 
-.main-frame #palettes li {
+.main-frame > #palettes > li {
   width: 100%;
   border-bottom: 1px solid hsla(60, 2%, 18%, 1);
 }

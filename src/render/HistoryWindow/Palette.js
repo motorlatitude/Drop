@@ -100,8 +100,8 @@ class Palette {
 
     // Clear Event Listener
     elColorListClearOption.addEventListener("click", async e => {
-      // clicked trash, clear palette
-      if (!elColorListDeleteOption.classList.contains("disabled")) {
+      // clicked clear, clear palette
+      if (!elColorListClearOption.classList.contains("disabled")) {
         this._Colors = [];
         elColorList.getElementsByClassName("color-palette-list")[0].innerHTML =
           "";
