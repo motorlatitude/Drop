@@ -149,7 +149,8 @@ class MouseCaptureHandler {
         workAreaSize.height <
         this._PreviousMousePosition.y / factor -
           workAreaSize.y +
-          (this.PickerSize * 15 - 90)
+          this.PickerSize * 15 -
+          20
       ) {
         windowY =
           Math.floor(this._PreviousMousePosition.y / factor) -
@@ -176,10 +177,7 @@ class MouseCaptureHandler {
           });
         }
       }
-      this._WindowManager.windows.picker.webContents.send(
-        "color",
-        JSON.stringify(colors)
-      );
+      this._WindowManager.windows.picker.webContents.send("color", colors);
     }
   }
 }
