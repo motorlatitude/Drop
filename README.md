@@ -7,30 +7,34 @@
 # Drop - Color Picker Tool
 
 <p align="left">
-    <img src="https://travis-ci.com/motorlatitude/Drop.svg?branch=master" alt="Build Status">
+    <a href="https://github.com/motorlatitude/Drop/actions?query=workflow%3ACI">
+        <img src="https://github.com/motorlatitude/Drop/workflows/CI/badge.svg" alt="Build Status">
+    </a>
     <a href="https://app.codacy.com/manual/lenny.glk/Drop?utm_source=github.com&utm_medium=referral&utm_content=motorlatitude/Drop&utm_campaign=Badge_Grade_Dashboard">
       <img src="https://api.codacy.com/project/badge/Grade/65116691e5154f60b6c1ac2912607fb3" alt="Codacy Quality Badge">
     </a>
-    <img src="https://david-dm.org/motorlatitude/drop.svg" alt="Dependency Version">
+    <a href="https://david-dm.org/motorlatitude/drop">
+        <img src="https://david-dm.org/motorlatitude/drop.svg" alt="Dependency Version">
+    </a>
     <img src="https://img.shields.io/github/downloads/motorlatitude/Drop/total?color=green" alt="GitHub All Releases">
     <img src="https://img.shields.io/github/package-json/v/motorlatitude/drop" alt="Drop Version">
     <br/>
 </p>
+Drop is a cross platform color picker/eye dropper using electron. It's designed for developers and designers as a way to gather,
+tweak and share colors and color palettes, featuring a rich UI to support it along the way.
 
-Drop is a color picker made for windows using electron. It's designed for developers and designers as a way to gather,
-tweak and share colors, featuring a rich UI to support it along the way.
-
-- Multi-level Magnification
-- Customizable Shortcuts
-- Different color formats that it can output (CSS RGB, RGBA, HSL, HSLA and Hex with more coming soon!!!)
+- Multi-level magnification
+- Customizable shortcuts
+- Different color formats that it can output (CSS RGB, RGBA, HSL, HSLA, Hex, .NET ARGB, Java RGB, etc.)
+- Ability to add custom color formats if the presets are not enough
 - Create and share palettes to keep your different projects organized
-- Automatically puts the clicked colour into your clipboard
-- With more features on the way...
+- Automatically puts the picked color into your clipboard
+- With more features on the way... (and open to suggestions)
 
 🏗️ **Development Stage**: Alpha
 
 This project is still in its development stage so some aspects of it will not work as expected and will still contain
-bugs.
+bugs. If you stumble across a bug please open an issue, or make a PR.
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/motorlatitude/Drop/master/src/assets/img/thumbnail.png" alt="Drop Preview - Showing the history window" width="75%">
@@ -38,12 +42,28 @@ bugs.
 
 ## Installation
 
-Installation is simple, just run the setup executable from the latest release.
+You can download the latest release from the github release page
 
-[🔽 Download Latest Release](https://github.com/motorlatitude/Drop/releases)
+[⬇️ Download Latest Release](https://github.com/motorlatitude/Drop/releases)
 
-Once installed, drop will sit in your taskbar and wait for you to need it. It defaults to starting on system launch
-so it will always be ready to use.
+- #### Windows Install
+
+  Installation is simple, just run the setup executable from the latest release for Windows.
+
+  Once installed, drop will sit in your taskbar and wait for you to need it. It defaults to starting on system launch so it will always be ready to use.
+
+- #### Linux Install
+
+  Linux users can use the provided `.AppImage` or `.snap` to install it on their system, otherwise build instructions are listed below. Linux users will also have to make sure that they have the `libxtst-dev` and `libpng++-dev` packages installed.
+
+## Contribute
+
+This is an open source project, feel free to contribute by making a pull request or posting an issue for bugs or feature-requests. If you would like to
+support my work directly, please consider buying me a coffee ☕.
+
+<a href="https://www.buymeacoffee.com/motorlatitude" target="_blank">
+    <img src="https://raw.githubusercontent.com/motorlatitude/misc/master/assets/img/bmac.png" alt="Buy Me A Coffee" height="50">
+</a>
 
 ## Building
 
@@ -109,3 +129,7 @@ to successfully build the application.
       ```bash
       npm start
       ```
+
+## License
+
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B16971%2Fgit%40github.com%3Amotorlatitude%2FDrop.git.svg?type=large)](https://app.fossa.com/projects/custom%2B16971%2Fgit%40github.com%3Amotorlatitude%2FDrop.git?ref=badge_large)

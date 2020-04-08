@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Drop Settings</title>
     <link href="./../assets/css/settings.css" rel="stylesheet" />
+    <link href="./../assets/css/codeflask.css" rel="stylesheet" />
   </head>
-
   <body>
     <div class="main-frame">
       <div class="titlebar">
@@ -259,7 +259,16 @@
         Picker Page
       </div>
       <div class="settings-frame formats" data-view="formats">
-        Formats Page
+        <div class="formats-sidebar">
+          <div class="formats-sidebar-scroll-wrapper">
+            <ul id="all-formats-list"></ul>
+          </div>
+          <div class="formats-functions">
+            <button id="formats-new">+</button>
+            <button id="formats-delete">-</button>
+          </div>
+        </div>
+        <div class="formats-main-frame"></div>
       </div>
       <div class="settings-frame shortcuts" data-view="shortcuts">
         <div class="shortcut-sidebar">

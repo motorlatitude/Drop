@@ -1,4 +1,5 @@
 const glob = require("glob");
+const fs = require("fs");
 const log = require("electron-log");
 
 /**
@@ -14,7 +15,7 @@ class ColorFormats {
   constructor() {
     this._colorFormats = [];
     this._loadFormats();
-    this._selectedFormat = "css_hex";
+    this._selectedFormat = undefined;
   }
 
   /**
@@ -46,16 +47,29 @@ class ColorFormats {
   }
 
   /**
-   * Load all format plugins from ./formats/*.js directory
+   * Update for plugin format changes that occurred
+   * @param {void} cb callback function
    * @memberof ColorFormats
    */
-  _loadFormats() {
+  updateFormats(cb) {
+    this._colorFormats = [];
+    this._loadFormats(cb);
+  }
+
+  /**
+   * Load all format plugins from ./formats/*.js directory
+   * @param {void} cb callback function
+   * @memberof ColorFormats
+   */
+  _loadFormats(cb) {
     glob(__dirname + "/formats/*.js", { nodir: true }, (err, files) => {
       if (err) {
         log.error(err);
       } else {
         log.log("Plugins:", files);
         files.forEach((pluginPath, index) => {
+          const contents = fs.readFileSync(pluginPath, "utf8");
+          delete require.cache[pluginPath]; // remove require from cache in case this is a reload
           // eslint rule disabled here, to enable a plugin system 3rd-party code
           // must be allowed to load and run here
           // eslint-disable-next-line security-node/detect-non-literal-require-calls
@@ -63,10 +77,12 @@ class ColorFormats {
           const plugConfigParams = plug.config();
           if (plugConfigParams.type === "format") {
             this._colorFormats.push({
-              title: plugConfigParams.format.displayName,
+              title:
+                plugConfigParams.format.displayName || plugConfigParams.name,
               sub_title: plugConfigParams.format.displayFormat,
               icon: plugConfigParams.format.icon,
               value: plugConfigParams.name,
+              file: contents,
               convertFromHex: hexColor => {
                 const r = parseInt("0x" + hexColor.substring(0, 2));
                 const g = parseInt("0x" + hexColor.substring(2, 4));
@@ -91,6 +107,12 @@ class ColorFormats {
             );
           }
         });
+        if (this._selectedFormat === undefined) {
+          this._selectedFormat = this._colorFormats[0].value;
+        }
+        if (cb) {
+          cb(this._colorFormats);
+        }
       }
     });
   }

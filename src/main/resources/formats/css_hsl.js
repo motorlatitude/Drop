@@ -9,7 +9,9 @@ exports.config = () => ({
   }
 });
 
-// convert the inputted hex color format into another format and return the final string value
+// convert the inputted color object format
+// into another format and return the final
+// string value
 exports.convertColor = color => {
   // L
   const rp = color.rgb.r / 255;

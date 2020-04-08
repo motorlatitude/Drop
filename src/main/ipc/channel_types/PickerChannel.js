@@ -84,7 +84,7 @@ class PickerChannel extends Channel {
       });
 
     const format = this.ColorFormats.formats.filter(
-      frmt => frmt.value === this.ColorFormats.selectedFormat
+      f => f.value === this.ColorFormats.selectedFormat
     );
     if (format[0]) {
       const convertedColor = format[0].convertFromHex(color);

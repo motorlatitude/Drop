@@ -131,11 +131,36 @@ body {
   background-color: hsla(197, 100%, 60%, 0.3);
 }
 
+.main-frame .selection .select-box .icon.java {
+  background-color: hsla(29, 100%, 46%, 0.3);
+}
+
+.main-frame .selection .select-box .icon.dotnet {
+  background-color: hsla(199, 97%, 44%, 0.3);
+}
+
 .main-frame .selection .select-box .icon.css_2 .icon-img {
   width: 10px;
   height: 10px;
   margin: 5px;
   background: url(./../img/css_new.png) no-repeat center center;
+  background-size: cover;
+}
+
+.main-frame .selection .select-box .icon.java .icon-img {
+  width: 10px;
+  height: 10px;
+  margin: 5px;
+  background: url(./../img/java.png) no-repeat center center;
+  background-size: cover;
+}
+
+.main-frame .selection .select-box .icon.dotnet .icon-img {
+  width: 20px;
+  height: 20px;
+  margin: 0px;
+  border-radius: 4px;
+  background: url(./../img/dotnet.png) no-repeat center center;
   background-size: cover;
 }
 
@@ -154,7 +179,7 @@ body {
   height: 100%;
 }
 
-.main-frame #palettes li {
+.main-frame > #palettes > li {
   width: 100%;
   border-bottom: 1px solid hsla(60, 2%, 18%, 1);
 }
@@ -174,6 +199,23 @@ body {
 
 .main-frame #palettes li .title .palette-name {
   float: left;
+  white-space: nowrap;
+  width: 170px;
+  overflow: hidden;
+}
+
+.main-frame #palettes li .title .palette-name br {
+  display: none;
+}
+
+.main-frame #palettes li .title .palette-name * {
+  display: inline;
+  white-space: nowrap;
+}
+
+.main-frame #palettes li .title .palette-name:focus {
+  outline: none;
+  border: 0 solid transparent;
 }
 
 .main-frame #palettes li .title .options {

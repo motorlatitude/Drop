@@ -44,7 +44,6 @@ class TrayController {
     const img = nativeImage.createFromPath(
       path.resolve(__dirname, "./../../assets/img/taskbar_icon.png")
     );
-    log.log(img.isEmpty());
     this.tray = new Tray(img);
 
     const pickerShortcut = await KeyAssignment.format(

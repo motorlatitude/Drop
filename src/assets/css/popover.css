@@ -1,90 +1,133 @@
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
 html,
-body{
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background: rgba(0,0,0,0);
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0);
 }
 
-.main-frame{
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    width: auto;
-    height: auto;
-    background: hsla(60,2%,14%,0.98);
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.2), 0 0 10px rgba(0,0,0,0.1);
+.main-frame {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  width: auto;
+  height: auto;
+  background: hsla(60, 2%, 14%, 0.98);
+  border-radius: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.main-frame ul{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
+/* width */
+.main-frame::-webkit-scrollbar {
+  width: 10px;
 }
 
-.main-frame ul li{
-    line-height: 30px;
-    height: 32px;
-    color: #eee;
-    padding: 0 14px;
-    margin: 10px 10px;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
-    font-size: 13px;
-    width: calc(100% - 20px);
-    border-radius: 4px;
-    cursor: default;
+/* Track */
+.main-frame::-webkit-scrollbar-track,
+.main-frame::-webkit-scrollbar-corner,
+.main-frame::-webkit-scrollbar-track-piece {
+  background: #262625;
+  cursor: default;
 }
 
-.main-frame ul li:hover{
-    background: rgba(0, 110, 255, 0.8);
+/* Handle */
+.main-frame::-webkit-scrollbar-thumb {
+  background: #1a1a19;
+  border-radius: 10px;
+  border: 2px solid #262625;
+  cursor: default;
 }
 
-.main-frame ul li .icon{
-    float: left;
-    width: 16px;
-    height: 16px;
-    margin: 7px 0 0 0;
-    background: url(./../img/css.png) no-repeat;
-    background-size: cover;
+/* Handle on hover */
+.main-frame::-webkit-scrollbar-thumb:hover {
+  background: hsl(60, 2%, 12%, 1);
 }
 
-.main-frame ul li[data-icon='css_2'] .icon{
-    background: url(./../img/css_new.png) no-repeat;
-    background-size: cover;
+.main-frame ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
-.main-frame ul li .name{
-    float: left;
-    margin-left: 14px;
+.main-frame ul li {
+  line-height: 30px;
+  height: 32px;
+  color: #eee;
+  padding: 0 14px;
+  margin: 10px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 13px;
+  width: calc(100% - 20px);
+  border-radius: 3px;
+  cursor: default;
 }
 
-.main-frame ul li .format{
-    float: right;
-    color: hsla(60,2%,54%,1);
-    font-size: 11px;
-    margin-left: 14px;
+.main-frame ul li:hover {
+  background: rgba(0, 110, 255, 0.8);
 }
 
-.main-frame ul li:hover .format{
-    color: hsla(60,2%,84%,1);
+.main-frame ul li .icon {
+  float: left;
+  width: 16px;
+  height: 16px;
+  margin: 7px 0 0 0;
+  background: url(./../img/css.png) no-repeat;
+  background-size: cover;
 }
 
-.main-frame ul li.separator{
-    height: 1px;
-    margin: 5px 10px;
-    padding: 0;
-    width: 100%;
-    background: hsla(215,7%,18%,0.95);
-    padding: 0 10px;
-    width: calc(100% - 20px);
-    cursor: default;
+.main-frame ul li[data-icon="css_2"] .icon {
+  background: url(./../img/css_new.png) no-repeat;
+  background-size: cover;
+}
+
+.main-frame ul li[data-icon="java"] .icon {
+  background: url(./../img/java.png) no-repeat;
+  background-size: cover;
+}
+
+.main-frame ul li[data-icon="dotnet"] .icon {
+  background: url(./../img/dotnet.png) no-repeat;
+  background-size: cover;
+  border-radius: 2px;
+}
+
+.main-frame ul li .name {
+  float: left;
+  margin-left: 14px;
+}
+
+.main-frame ul li .format {
+  float: right;
+  color: hsla(60, 2%, 54%, 1);
+  font-size: 11px;
+  margin-left: 14px;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.main-frame ul li:hover .format {
+  color: hsla(60, 2%, 84%, 1);
+}
+
+.main-frame ul li.separator {
+  height: 1px;
+  margin: 5px 10px;
+  padding: 0;
+  width: 100%;
+  background: hsla(215, 7%, 18%, 0.95);
+  padding: 0 10px;
+  width: calc(100% - 20px);
+  cursor: default;
 }

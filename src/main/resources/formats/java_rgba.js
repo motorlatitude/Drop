@@ -1,11 +1,11 @@
 // setup basic information for plugin
 exports.config = () => ({
-  name: "css_rgb",
+  name: "java_rgba",
   type: "format",
   format: {
-    displayName: "CSS RGB",
-    displayFormat: "rgb(rrr,ggg,bbb)",
-    icon: "css_2"
+    displayName: "Java RGBA",
+    displayFormat: "new Color(int r,int g, int b, int a)",
+    icon: "java"
   }
 });
 
@@ -13,5 +13,7 @@ exports.config = () => ({
 // into another format and return the final
 // string value
 exports.convertColor = color => {
-  return "rgb(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + ")";
+  return (
+    "new Color(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + ",255)"
+  );
 };

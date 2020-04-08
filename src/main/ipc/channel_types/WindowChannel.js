@@ -83,17 +83,10 @@ class WindowChannel extends Channel {
     if (this.WindowManager.windows[windowName]) {
       const currentBounds = this.WindowManager.windows[windowName].getBounds();
       const newBounds = {
-        width:
-          newWindowBounds.width !== undefined
-            ? newWindowBounds.width
-            : currentBounds.width,
-        height:
-          newWindowBounds.height !== undefined
-            ? newWindowBounds.height
-            : currentBounds.height,
-        x:
-          newWindowBounds.x !== undefined ? newWindowBounds.x : currentBounds.x,
-        y: newWindowBounds.y !== undefined ? newWindowBounds.y : currentBounds.y
+        width: newWindowBounds.width || currentBounds.width,
+        height: newWindowBounds.height || currentBounds.height,
+        x: newWindowBounds.x || currentBounds.x,
+        y: newWindowBounds.y || currentBounds.y
       };
       this.WindowManager.windows[windowName].setBounds(
         newBounds,

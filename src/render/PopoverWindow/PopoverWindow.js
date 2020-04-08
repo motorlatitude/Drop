@@ -1,3 +1,7 @@
+const Sentry = require("@sentry/electron");
+
+Sentry.init({ dsn: process.env.DSN });
+
 const { ipcRenderer } = require("electron");
 
 /**
@@ -23,6 +27,7 @@ class PopoverWindow {
     ipcRenderer.on("options", (event, opts) => {
       this._ID = opts.id;
       const optionsListEl = document.getElementById("option-list");
+      optionsListEl.innerHTML = "";
       opts.options.forEach(option => {
         // Create a new select option, li element
         const optItem = document.createElement("li");

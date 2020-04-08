@@ -1,7 +1,12 @@
+const Sentry = require("@sentry/electron");
+
+Sentry.init({ dsn: process.env.DSN });
+
 const electron = require("electron");
 const webFrame = electron.webFrame;
 const { ipcRenderer } = electron;
 const moment = require("moment");
+const CodeFlask = require("codeflask");
 
 const KeyFormatter = require("./KeyFormatter.js");
 const packageJSON = require("../../../package.json");
@@ -145,6 +150,97 @@ class SettingsWindow {
           }
         });
       });
+    ipcRenderer
+      .invoke("FORMAT", { type: "GET_ALL", args: {} })
+      .then(colorFormats => {
+        this._HandleColorFormats(colorFormats);
+      });
+
+    ipcRenderer.on("FORMATS_UPDATED", (event, colorFormats) => {
+      this._HandleColorFormats(colorFormats);
+    });
+  }
+
+  /**
+   * Populate formats tab in settings
+   * @param {*} colorFormats list of available color formats
+   */
+  _HandleColorFormats(colorFormats) {
+    const colorFormatListEl = document.getElementById("all-formats-list");
+    colorFormatListEl.innerHTML = "";
+    document.querySelector(".formats-main-frame").innerHTML = "";
+    colorFormats.forEach((format, index) => {
+      const newColorFormatItem = document.createElement("li");
+      newColorFormatItem.setAttribute("data-sidebar-nav", format.value);
+      if (index === 0) {
+        newColorFormatItem.classList.add("active");
+      }
+      newColorFormatItem.innerHTML = format.title;
+      newColorFormatItem.addEventListener("click", e => {
+        const activeListItemEl = document.querySelector(
+          ".formats-sidebar ul li.active"
+        );
+        if (activeListItemEl) {
+          activeListItemEl.classList.remove("active");
+        }
+        newColorFormatItem.classList.add("active");
+        document
+          .querySelector(".formats-main-frame ul.visible")
+          .classList.remove("visible");
+        document
+          .querySelector(
+            ".formats-main-frame ul[data-format-group='" +
+              newColorFormatItem.getAttribute("data-sidebar-nav") +
+              "']"
+          )
+          .classList.add("visible");
+      });
+      colorFormatListEl.appendChild(newColorFormatItem);
+
+      const newMainColorFormatItem = document.createElement("ul");
+      newMainColorFormatItem.setAttribute("data-format-group", format.value);
+      if (index === 0) {
+        newMainColorFormatItem.classList.add("visible");
+      }
+
+      const topLiEl = document.createElement("li");
+      topLiEl.innerHTML =
+        "<div class='icon' data-icon='" +
+        format.icon +
+        "'></div><span class='format-title'>" +
+        format.title +
+        "<br/><br/><span class='sub-title'>" +
+        format.sub_title +
+        "</span></span><div class='format-buttons'><button class='format-button save-changes' id='" +
+        format.value +
+        "_save_changes'>Save Changes</button></div>";
+      newMainColorFormatItem.appendChild(topLiEl);
+      const bottomLiEl = document.createElement("li");
+      bottomLiEl.classList.add("editor");
+      bottomLiEl.setAttribute("id", format.value + "_editor");
+      newMainColorFormatItem.appendChild(bottomLiEl);
+      document
+        .querySelector(".formats-main-frame")
+        .appendChild(newMainColorFormatItem);
+
+      const flask = new CodeFlask("#" + format.value + "_editor", {
+        language: "js",
+        defaultTheme: false
+      });
+      flask.updateCode(format.file);
+      document
+        .getElementById(format.value + "_save_changes")
+        .addEventListener("click", e => {
+          ipcRenderer.invoke("FORMAT", {
+            type: "SAVE_FORMAT",
+            args: {
+              value: format.value,
+              file: flask.getCode(),
+              new: false
+            }
+          });
+        });
+    });
   }
 
   /**
@@ -329,6 +425,100 @@ class SettingsWindow {
       updateButtonEl.removeAttribute("disabled");
     });
 
+    /* FORMATS */
+
+    document.getElementById("formats-new").addEventListener("click", e => {
+      const colorFormatListEl = document.getElementById("all-formats-list");
+      const newColorFormatItem = document.createElement("li");
+      const tempName = "tempName";
+      newColorFormatItem.setAttribute("data-sidebar-nav", tempName);
+      newColorFormatItem.innerHTML = "New Format";
+      newColorFormatItem.addEventListener("click", e => {
+        document
+          .querySelector(".formats-sidebar ul li.active")
+          .classList.remove("active");
+        newColorFormatItem.classList.add("active");
+        document
+          .querySelector(".formats-main-frame ul.visible")
+          .classList.remove("visible");
+        document
+          .querySelector(
+            ".formats-main-frame ul[data-format-group='" + tempName + "']"
+          )
+          .classList.add("visible");
+      });
+      colorFormatListEl.appendChild(newColorFormatItem);
+
+      const newMainColorFormatItem = document.createElement("ul");
+      newMainColorFormatItem.setAttribute("data-format-group", tempName);
+
+      const topLiEl = document.createElement("li");
+      topLiEl.innerHTML =
+        "<div class='icon' data-icon='unknown'></div><span class='format-title'>New Format<br/><br/><span class='sub-title'></span></span><div class='format-buttons'><button class='format-button save-changes' id='" +
+        tempName +
+        "_save_changes'>Save Changes</button></div>";
+      newMainColorFormatItem.appendChild(topLiEl);
+      const bottomLiEl = document.createElement("li");
+      bottomLiEl.classList.add("editor");
+      bottomLiEl.setAttribute("id", tempName + "_editor");
+      newMainColorFormatItem.appendChild(bottomLiEl);
+      document
+        .querySelector(".formats-main-frame")
+        .appendChild(newMainColorFormatItem);
+
+      const flask = new CodeFlask("#" + tempName + "_editor", {
+        language: "js",
+        defaultTheme: false
+      });
+      flask.updateCode(
+        "// setup basic information for plugin\n" +
+          "exports.config = () => ({\n" +
+          '  name: "' +
+          tempName +
+          '",\n' +
+          '  type: "format",\n' +
+          "  format: {\n" +
+          '    displayName: "New Format",\n' +
+          '    displayFormat: "",\n' +
+          '    icon: "unknown"\n' +
+          "  }\n" +
+          "});\n" +
+          "\n" +
+          "// convert the inputted color object format\n" +
+          "// into another format and return the final\n" +
+          "// string value\n" +
+          "exports.convertColor = color => {\n" +
+          '  return "#" + color.hex.toUpperCase();\n' +
+          "};\n" +
+          ""
+      );
+      document
+        .getElementById(tempName + "_save_changes")
+        .addEventListener("click", e => {
+          ipcRenderer.invoke("FORMAT", {
+            type: "SAVE_FORMAT",
+            args: {
+              value: tempName,
+              file: flask.getCode(),
+              new: true
+            }
+          });
+        });
+    });
+
+    document.getElementById("formats-delete").addEventListener("click", e => {
+      const menuItem = document.querySelector(".formats-sidebar ul li.active");
+      const name = menuItem.getAttribute("data-sidebar-nav");
+      ipcRenderer.invoke("FORMAT", {
+        type: "DELETE_FORMAT",
+        args: {
+          value: name
+        }
+      });
+      menuItem.parentNode.removeChild(menuItem);
+      document.querySelectorAll(".formats-sidebar ul li")[0].click();
+    });
+
     /* SHORTCUTS */
 
     const shortcutSidebarItemEl = document.querySelectorAll(
@@ -397,7 +587,6 @@ class SettingsWindow {
 
     this.keyDownTimeout = null;
     const onKeyDown = e => {
-      console.log(e, e.key, e.keyCode);
       if (document.querySelector(".shortcut-keys.shortcut-active")) {
         const kEl = document.querySelector(".shortcut-keys.shortcut-active ul");
         let keyAlreadyUsed = false;

@@ -31,9 +31,16 @@ class Palette {
         .getElementById("template-palette")
         .cloneNode(true);
       templatePalette.id = this._ID;
-      templatePalette.getElementsByClassName(
-        "palette-name"
-      )[0].innerHTML = this._Name;
+      const pNameEl = templatePalette.getElementsByClassName("palette-name")[0];
+      pNameEl.contentEditable = true;
+      pNameEl.innerHTML = this._Name;
+      pNameEl.addEventListener("input", e => {
+        this._Name = pNameEl.innerText;
+        ipcRenderer.invoke("PALETTE", {
+          type: "SAVE",
+          args: this.serialize()
+        });
+      });
       templatePalette
         .getElementsByClassName("delete-palette")[0]
         .classList.remove("disabled");
@@ -93,8 +100,8 @@ class Palette {
 
     // Clear Event Listener
     elColorListClearOption.addEventListener("click", async e => {
-      // clicked trash, clear palette
-      if (!elColorListDeleteOption.classList.contains("disabled")) {
+      // clicked clear, clear palette
+      if (!elColorListClearOption.classList.contains("disabled")) {
         this._Colors = [];
         elColorList.getElementsByClassName("color-palette-list")[0].innerHTML =
           "";

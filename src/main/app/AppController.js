@@ -45,15 +45,17 @@ class AppController {
     this._SetEventListeners();
 
     // log log path
-    log.info(
-      "Log Path",
-      log.transports.file.getFile().path
-        ? log.transports.file.getFile().path
-        : "None"
-    );
+    log.info("Log Path", log.transports.file.getFile().path || "None");
     this.logPath = path.dirname(log.transports.file.getFile().path);
     this._App.setPath("temp", this.logPath);
     log.info("Crashes Directory", crashReporter.getCrashesDirectory());
+    log.info("Setting up CrashReporter");
+    crashReporter.start({
+      companyName: "Rabbit",
+      productName: "Drop",
+      ignoreSystemCrashHandler: true,
+      submitURL: process.env.CRASH_REPORTER_URL
+    });
   }
 
   /**
@@ -182,7 +184,7 @@ class AppController {
     const currentSettings = this._Store.get("settings", DefaultSettings);
     this._App.commandLine.appendSwitch(
       "force-color-profile",
-      currentSettings.colorProfile ? "default" : currentSettings.colorProfile
+      currentSettings.colorProfile || "default"
     );
     log.info("OS:", process.platform);
     if (process.platform === "linux") {
