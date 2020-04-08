@@ -1,6 +1,6 @@
 {
   "name": "drop",
-  "version": "0.0.1-alpha.7",
+  "version": "0.0.1-alpha.8",
   "description": "Color-Picker Tool built on Electron",
   "main": "src/main/main.js",
   "scripts": {
