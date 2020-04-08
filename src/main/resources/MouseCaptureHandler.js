@@ -23,6 +23,7 @@ class MouseCaptureHandler {
     this._PickerWindowController = pwc;
 
     this._PollingInterval = null;
+    this._PollingInterval2 = null;
     this._PreviousMousePosition = { x: 0, y: 0 };
     this._PreviousImage = null;
   }
@@ -32,7 +33,9 @@ class MouseCaptureHandler {
    */
   startPolling() {
     log.log("Starting Polling");
-    this._PollingInterval = setInterval(this._mouseCapture.bind(this), 16);
+    robot.setMouseDelay(0);
+    this._PollingInterval = setInterval(this._mouseCapture.bind(this), 0);
+    this._PollingInterval2 = setInterval(this._windowMovement.bind(this), 0);
   }
 
   /**
@@ -43,6 +46,8 @@ class MouseCaptureHandler {
       log.log("Stopping Polling");
       clearInterval(this._PollingInterval);
       this._PollingInterval = null;
+      clearInterval(this._PollingInterval2);
+      this._PollingInterval2 = null;
     }
   }
 
@@ -66,25 +71,81 @@ class MouseCaptureHandler {
   _shouldCapture(ignore = false) {
     if (ignore) {
       return true;
-    } else {
-      if (
-        !this._WindowManager.isQuitting &&
-        this._WindowManager.windows.picker &&
-        this._PickerWindowController.isVisible
-      ) {
-        const currentMousePosition = robot.getMousePos();
-        if (
-          this._PreviousMousePosition.x !== currentMousePosition.x ||
-          this._PreviousMousePosition.y !== currentMousePosition.y
-        ) {
-          this._PreviousMousePosition.x = currentMousePosition.x;
-          this._PreviousMousePosition.y = currentMousePosition.y;
-          return true;
-        }
-        return false;
-      }
+    }
+
+    if (
+      this._WindowManager.isQuitting &&
+      !this._WindowManager.windows.picker &&
+      !this._PickerWindowController.isVisible
+    ) {
       return false;
     }
+
+    const currentMousePosition = robot.getMousePos();
+    if (
+      this._PreviousMousePosition.x === currentMousePosition.x &&
+      this._PreviousMousePosition.y === currentMousePosition.y
+    ) {
+      return false;
+    }
+
+    this._PreviousMousePosition.x = currentMousePosition.x;
+    this._PreviousMousePosition.y = currentMousePosition.y;
+    return true;
+  }
+
+  /**
+   * Move window with cursor
+   * @param {boolean} [ignoreChecks = false] should checks be ignored
+   * @return {boolean}
+   */
+  _windowMovement(ignoreChecks = false) {
+    return setImmediate(() => {
+      if (!this._shouldCapture(ignoreChecks)) {
+        return false;
+      }
+      // get current screen
+      const currentScreen = electron.screen.getDisplayNearestPoint({
+        x: this._PreviousMousePosition.x,
+        y: this._PreviousMousePosition.y
+      });
+      const factor = currentScreen.scaleFactor;
+      const workAreaSize = currentScreen.workArea;
+      // scale windows X and Y coords to display
+      let windowX = Math.floor(this._PreviousMousePosition.x / factor) - 20;
+      let windowY = Math.floor(this._PreviousMousePosition.y / factor) - 20;
+      if (
+        workAreaSize.width <
+        this._PreviousMousePosition.x / factor -
+          workAreaSize.x +
+          this.PickerSize * 15
+      ) {
+        windowX =
+          Math.floor(this._PreviousMousePosition.x / factor) -
+          (this.PickerSize * 15 - 20);
+      }
+      if (
+        workAreaSize.height <
+        this._PreviousMousePosition.y / factor -
+          workAreaSize.y +
+          this.PickerSize * 15 -
+          20
+      ) {
+        windowY =
+          Math.floor(this._PreviousMousePosition.y / factor) -
+          (this.PickerSize * 15 - 20);
+      }
+      this._WindowManager.windows.picker.setBounds(
+        {
+          x: windowX,
+          y: windowY,
+          width: this.PickerSize * 15,
+          height: this.PickerSize * 15
+        },
+        false
+      );
+      return true;
+    });
   }
 
   /**
@@ -95,6 +156,7 @@ class MouseCaptureHandler {
    */
   _mouseCapture(ignoreChecks = false) {
     if (this._shouldCapture(ignoreChecks)) {
+      this._windowMovement(ignoreChecks);
       // get current screen
       const currentScreen = electron.screen.getDisplayNearestPoint({
         x: this._PreviousMousePosition.x,
@@ -132,39 +194,6 @@ class MouseCaptureHandler {
       );
       const img = this._PreviousImage;
       const multi = img.width / this.PickerSize;
-      // scale windows X and Y coords to display
-      let windowX = Math.floor(this._PreviousMousePosition.x / factor) - 20;
-      let windowY = Math.floor(this._PreviousMousePosition.y / factor) - 20;
-      if (
-        workAreaSize.width <
-        this._PreviousMousePosition.x / factor -
-          workAreaSize.x +
-          this.PickerSize * 15
-      ) {
-        windowX =
-          Math.floor(this._PreviousMousePosition.x / factor) -
-          (this.PickerSize * 15 - 20);
-      }
-      if (
-        workAreaSize.height <
-        this._PreviousMousePosition.y / factor -
-          workAreaSize.y +
-          this.PickerSize * 15 -
-          20
-      ) {
-        windowY =
-          Math.floor(this._PreviousMousePosition.y / factor) -
-          (this.PickerSize * 15 - 20);
-      }
-      this._WindowManager.windows.picker.setBounds(
-        {
-          x: windowX,
-          y: windowY,
-          width: this.PickerSize * 15,
-          height: this.PickerSize * 15
-        },
-        false
-      );
       const colors = {};
       for (let k = 0; k < this.PickerSize; k++) {
         colors[k] = [];

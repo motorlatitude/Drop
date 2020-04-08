@@ -184,7 +184,7 @@ class AppController {
     const currentSettings = this._Store.get("settings", DefaultSettings);
     this._App.commandLine.appendSwitch(
       "force-color-profile",
-      currentSettings.colorProfile ? "default" : currentSettings.colorProfile
+      currentSettings.colorProfile || "default"
     );
     log.info("OS:", process.platform);
     if (process.platform === "linux") {
