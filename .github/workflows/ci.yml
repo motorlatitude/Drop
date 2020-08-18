@@ -34,7 +34,7 @@ jobs:
 
       # Setup linux environment for E2E testing
       - name: Install linux packages
-        run: sudo apt-get -y install libxtst-dev libpng++-dev
+        run: sudo apt-get -y install libxtst-dev libpng++-dev libcairo2-dev libpango1.0-dev
 
       # Install RobotJS
       - name: Install Natives
