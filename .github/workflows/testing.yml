@@ -15,10 +15,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Install Chrome
-      - run: sudo apt-fast install -y google-chrome
-      # use chrome driver
-      - uses: nanasess/setup-chromedriver@master
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
@@ -42,7 +38,7 @@ jobs:
 
       # Install RobotJS
       - name: Install Natives
-        run: npm install robotjs --target=7.1.12
+        run: npm install robotjs canvas --target=7.3.2
 
       # Install all remaining dependencies
       - name: Install Remaining Dependencies
@@ -89,7 +85,7 @@ jobs:
 
       # Install RobotJS
       - name: Install Natives
-        run: npm install robotjs --target=7.1.12
+        run: npm install robotjs canvas --target=7.3.2
 
       # Install all remaining dependencies
       - name: Install Remaining Dependencies
