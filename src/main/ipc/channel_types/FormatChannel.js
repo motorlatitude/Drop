@@ -28,7 +28,6 @@ class FormatChannel extends Channel {
       channelProps.tray,
       channelProps.colorFormats
     );
-    console.log(ipcEventDataObject);
     switch (ipcEventDataObject.type) {
       case "NEXT":
         return this.nextFormat();

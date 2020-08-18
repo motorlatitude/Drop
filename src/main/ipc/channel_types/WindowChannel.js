@@ -28,7 +28,6 @@ class WindowChannel extends Channel {
       channelProps.tray,
       channelProps.colorFormats
     );
-    console.log(ipcEventDataObject);
     switch (ipcEventDataObject.type) {
       case "GET_BOUNDS":
         return this.getBounds(ipcEventDataObject.windowName);

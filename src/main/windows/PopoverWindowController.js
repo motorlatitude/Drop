@@ -13,7 +13,7 @@ class PopoverWindowController {
    * @param {WindowManager} wm the WindowManager instance for the application
    * @param {[{any}]} options the select options
    * @param {*} position the position of the drop down
-   * @param {ColoeFormats} cf the ColorFormats instance
+   * @param {ColorFormats} cf the ColorFormats instance
    * @memberof PopoverWindowController
    */
   constructor(wm, options, position, cf) {
