@@ -44,7 +44,7 @@ jobs:
 
       # Install RobotJS
       - name: Install Natives
-        run: npm install robotjs canvas --target=7.3.2
+        run: npm install robotjs canvas --target=9.2.0
 
       # Install all remaining dependencies
       - name: Install Remaining Dependencies
@@ -89,7 +89,7 @@ jobs:
 
       # Install RobotJS
       - name: Install Natives
-        run: npm install robotjs canvas --target=7.3.2
+        run: npm install robotjs canvas --target=9.2.0
 
       # Install all remaining dependencies
       - name: Install Remaining Dependencies
