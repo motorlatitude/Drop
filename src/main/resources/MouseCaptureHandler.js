@@ -23,7 +23,7 @@ class MouseCaptureHandler {
     this._PickerWindowController = pwc;
 
     this._PollingInterval = null;
-    this._PollingInterval2 = null;
+    // this._PollingInterval2 = null;
     this._PreviousMousePosition = { x: 0, y: 0 };
     this._PreviousImage = null;
   }
@@ -35,7 +35,7 @@ class MouseCaptureHandler {
     log.log("Starting Polling");
     robot.setMouseDelay(0);
     this._PollingInterval = setInterval(this._mouseCapture.bind(this), 0);
-    this._PollingInterval2 = setInterval(this._windowMovement.bind(this), 0);
+    // this._PollingInterval2 = setInterval(this._windowMovement.bind(this), 0);
   }
 
   /**
@@ -46,8 +46,8 @@ class MouseCaptureHandler {
       log.log("Stopping Polling");
       clearInterval(this._PollingInterval);
       this._PollingInterval = null;
-      clearInterval(this._PollingInterval2);
-      this._PollingInterval2 = null;
+      // clearInterval(this._PollingInterval2);
+      // this._PollingInterval2 = null;
     }
   }
 

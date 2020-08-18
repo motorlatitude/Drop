@@ -657,6 +657,13 @@ body {
 .codeflask textarea {
   color: #1d1d1c;
   caret-color: #ff325e;
+  font-family: FiraCode, "IBM Plex Mono", "Courier New", Courier, monospace;
+  font-weight: 450;
+}
+
+.codeflask__flatten {
+  font-weight: 600 !important;
+  font-family: FiraCode, "IBM Plex Mono", "Courier New", Courier, monospace !important;
 }
 
 .formats-main-frame ul li:focus,
