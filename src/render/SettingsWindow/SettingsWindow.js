@@ -231,14 +231,19 @@ class SettingsWindow {
       document
         .getElementById(format.value + "_save_changes")
         .addEventListener("click", e => {
-          ipcRenderer.invoke("FORMAT", {
-            type: "SAVE_FORMAT",
-            args: {
-              value: format.value,
-              file: flask.getCode(),
-              new: false
-            }
-          });
+          ipcRenderer.invoke(
+            "FORMAT",
+            JSON.parse(
+              JSON.stringify({
+                type: "SAVE_FORMAT",
+                args: {
+                  value: format.value,
+                  file: flask.getCode(),
+                  new: false
+                }
+              })
+            )
+          );
         });
     });
   }
@@ -495,14 +500,19 @@ class SettingsWindow {
       document
         .getElementById(tempName + "_save_changes")
         .addEventListener("click", e => {
-          ipcRenderer.invoke("FORMAT", {
-            type: "SAVE_FORMAT",
-            args: {
-              value: tempName,
-              file: flask.getCode(),
-              new: true
-            }
-          });
+          ipcRenderer.invoke(
+            "FORMAT",
+            JSON.parse(
+              JSON.stringify({
+                type: "SAVE_FORMAT",
+                args: {
+                  value: tempName,
+                  file: flask.getCode(),
+                  new: true
+                }
+              })
+            )
+          );
         });
     });
 

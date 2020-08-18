@@ -33,6 +33,7 @@ class SettingChannel extends Channel {
       channelProps.tray,
       channelProps.colorFormats
     );
+    console.log(ipcEventDataObject);
     switch (ipcEventDataObject.type) {
       case "CHECK_UPDATE":
         return this.checkForUpdate(autoUpdater);
@@ -130,7 +131,7 @@ class SettingChannel extends Channel {
         break;
     }
 
-    return undefined;
+    return { response: undefined };
   }
 
   /**

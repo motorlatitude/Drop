@@ -34,7 +34,7 @@ jobs:
 
       # Setup linux environment for E2E testing
       - name: Install linux packages
-        run: sudo apt-get -y install libxtst-dev libpng++-dev libcairo2-dev libpango1.0-dev
+        run: sudo apt-get -y install libxtst-dev libpng++-dev libcairo2-dev libpango1.0-dev libgif-dev
 
       # Install RobotJS
       - name: Install Natives
@@ -82,6 +82,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "13.x"
+
+      - name: Install GTK Dependencies
+      run: |
+        Invoke-WebRequest "http://ftp.gnome.org/pub/GNOME/binaries/win64/gtk+/2.22/gtk+-bundle_2.22.1-20101229_win64.zip" -OutFile "gtk.zip"
+        Expand-Archive gtk.zip -DestinationPath "C:\GTK"
+        Invoke-WebRequest "https://downloads.sourceforge.net/project/libjpeg-turbo/2.0.4/libjpeg-turbo-2.0.4-vc64.exe" -OutFile "libjpeg.exe" -UserAgent NativeHost
+        .\libjpeg.exe /S
 
       # Install RobotJS
       - name: Install Natives

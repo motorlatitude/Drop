@@ -28,6 +28,7 @@ class PickerChannel extends Channel {
       channelProps.tray,
       channelProps.colorFormats
     );
+    console.log(ipcEventDataObject);
     switch (ipcEventDataObject.type) {
       case "GET_SIZE":
         return this.getPickerSize();
@@ -44,6 +45,7 @@ class PickerChannel extends Channel {
   /**
    * A new color has been  picked by the user from the screen
    * @param {{color: string}} args event arguments
+   * @return {undefined}
    */
   newColorPick(args) {
     const color = args.color;
@@ -97,12 +99,14 @@ class PickerChannel extends Channel {
     setTimeout(() => {
       this.WindowManager.windows.picker.hide();
     }, 250);
+    return { response: undefined };
   }
 
   /**
    * Change the size of the picker
    *
    * @param {*} args
+   * @return {undefined}
    * @memberof PickerChannel
    */
   modifyPickerSize(args) {
@@ -115,6 +119,7 @@ class PickerChannel extends Channel {
       this.WindowManager.windows.picker.windowController.pickerSize =
         pickerSize - 5;
     }
+    return { response: undefined };
   }
 
   /**
@@ -127,6 +132,7 @@ class PickerChannel extends Channel {
     if (this.WindowManager.windows.picker) {
       return this.WindowManager.windows.picker.windowController.pickerSize;
     }
+    return { response: undefined };
   }
 }
 

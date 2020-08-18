@@ -13,15 +13,17 @@ class PopoverWindowController {
    * @param {WindowManager} wm the WindowManager instance for the application
    * @param {[{any}]} options the select options
    * @param {*} position the position of the drop down
+   * @param {ColoeFormats} cf the ColorFormats instance
    * @memberof PopoverWindowController
    */
-  constructor(wm, options, position) {
+  constructor(wm, options, position, cf) {
     // eslint-disable-next-line security-node/detect-insecure-randomness
     this._windowId = Math.random()
       .toString(36)
       .substr(2, 9);
     this.window = null;
     this.windowManager = wm;
+    this.colorFormats = cf;
     this.createWindow(wm, options, position);
   }
 
@@ -73,7 +75,15 @@ class PopoverWindowController {
         ipcMain.on(
           "options-" + this._windowId + "-click-" + val._id,
           (evt, args) => {
-            val.clickHandler(args);
+            this.windowManager.windows.history.webContents.send(
+              "color-type-change",
+              {
+                type: val.value,
+                name: val.title,
+                icon: val.icon
+              }
+            );
+            this.colorFormats.selectedFormat = val.value;
           }
         );
       }

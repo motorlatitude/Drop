@@ -28,6 +28,7 @@ class FormatChannel extends Channel {
       channelProps.tray,
       channelProps.colorFormats
     );
+    console.log(ipcEventDataObject);
     switch (ipcEventDataObject.type) {
       case "NEXT":
         return this.nextFormat();
@@ -115,6 +116,7 @@ class FormatChannel extends Channel {
           fs.writeFile(pluginPath, args.file, err => {
             if (err) {
               log.error(err);
+              return { saved: false };
             } else {
               this.ColorFormats.updateFormats(formats => {
                 if (this.WindowManager.windows.settings) {
@@ -148,28 +150,20 @@ class FormatChannel extends Channel {
                   }
                 }
                 if (this.WindowManager.windows.popover) {
-                  const popoverItems = this.ColorFormats.formats.map(format => {
-                    format.clickHandler = () => {
-                      this.WindowManager.windows.history.webContents.send(
-                        "color-type-change",
-                        {
-                          type: format.value,
-                          name: format.title,
-                          icon: format.icon
-                        }
-                      );
-                      this.ColorFormats.selectedFormat = format.value;
-                    };
-                    return format;
-                  });
+                  const popoverItems = JSON.parse(
+                    JSON.stringify(this.ColorFormats.formats)
+                  );
                   this.WindowManager.windows.popover.windowController.setOptions(
                     popoverItems
                   );
+                  return popoverItems;
                 }
                 return { saved: true };
               });
+              return { saved: false };
             }
           });
+          return { saved: false };
         } else {
           log.error(
             "Invalid file format, plugin does not convert hex color correctly"
@@ -182,6 +176,7 @@ class FormatChannel extends Channel {
         }
       } catch (err) {
         log.error(err);
+        return { saved: false };
       }
     } else {
       log.error(
@@ -200,7 +195,7 @@ class FormatChannel extends Channel {
    * @return {[*]} color formats array
    */
   getAllFormats() {
-    return this.ColorFormats.formats;
+    return JSON.parse(JSON.stringify(this.ColorFormats.formats));
   }
 
   /**

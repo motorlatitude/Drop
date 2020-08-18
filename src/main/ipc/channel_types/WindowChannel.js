@@ -28,6 +28,7 @@ class WindowChannel extends Channel {
       channelProps.tray,
       channelProps.colorFormats
     );
+    console.log(ipcEventDataObject);
     switch (ipcEventDataObject.type) {
       case "GET_BOUNDS":
         return this.getBounds(ipcEventDataObject.windowName);
@@ -62,7 +63,8 @@ class WindowChannel extends Channel {
         height: b.height
       };
     }
-    return new Error("Could not find window with the name", windowName);
+    console.error(new Error("Could not find window with the name", windowName));
+    return { response: undefined };
   }
 
   /**
@@ -94,7 +96,9 @@ class WindowChannel extends Channel {
       );
       return this.WindowManager.windows[windowName].getBounds();
     }
-    return new Error("Could not find window with the name", windowName);
+
+    console.error(new Error("Could not find window with the name", windowName));
+    return { response: undefined };
   }
 
   /**
@@ -125,30 +129,19 @@ class WindowChannel extends Channel {
         );
       }
       this.WindowManager.windows[windowName].show();
-      return undefined;
+      return { response: undefined };
     } else if (windowName === "settings") {
       const w = new SettingsWindowController(this.WindowManager);
       w.window.on("ready-to-show", () => {
         w.window.show();
       });
-      return undefined;
+      return { response: undefined };
     } else if (windowName === "popover") {
       log.debug("Creating Popover Window");
 
-      const popoverItems = this.ColorFormats.formats.map(format => {
-        format.clickHandler = () => {
-          this.WindowManager.windows.history.webContents.send(
-            "color-type-change",
-            {
-              type: format.value,
-              name: format.title,
-              icon: format.icon
-            }
-          );
-          this.ColorFormats.selectedFormat = format.value;
-        };
-        return format;
-      });
+      const popoverItems = JSON.parse(
+        JSON.stringify(this.ColorFormats.formats)
+      );
 
       const windowBounds = this.WindowManager.windows.history.getBounds();
       const windowScreen = screen.getDisplayNearestPoint({
@@ -159,17 +152,23 @@ class WindowChannel extends Channel {
       if (windowY + 260 >= windowScreen.bounds.height) {
         windowY = windowY - (260 - 60) * windowScreen.scaleFactor;
       }
-      const w = new PopoverWindowController(this.WindowManager, popoverItems, {
-        x: windowBounds.x + 30,
-        y: windowY
-      });
+      const w = new PopoverWindowController(
+        this.WindowManager,
+        popoverItems,
+        {
+          x: windowBounds.x + 30,
+          y: windowY
+        },
+        this.ColorFormats
+      );
 
       w.window.on("ready-to-show", () => {
         w.window.show();
       });
-      return undefined;
+      return { response: undefined };
     }
-    return new Error("Could not find window with the name", windowName);
+    console.error(new Error("Could not find window with the name", windowName));
+    return { response: undefined };
   }
 
   /**
@@ -182,9 +181,10 @@ class WindowChannel extends Channel {
   hideWindow(windowName) {
     if (this.WindowManager.windows[windowName]) {
       this.WindowManager.windows[windowName].hide();
-      return undefined;
+      return { response: undefined };
     }
-    return new Error("Could not find window with the name", windowName);
+    console.error(new Error("Could not find window with the name", windowName));
+    return { response: undefined };
   }
 
   /**

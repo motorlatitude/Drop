@@ -46,36 +46,36 @@ class MouseChannel extends Channel {
       case "RIGHT":
         if (args.shift) {
           robot.moveMouse(currentMousePosition.x + 10, currentMousePosition.y);
-          return undefined;
+          return { response: undefined };
         }
         robot.moveMouse(currentMousePosition.x + 1, currentMousePosition.y);
-        return undefined;
+        return { response: undefined };
       case "LEFT":
         if (args.shift) {
           robot.moveMouse(currentMousePosition.x - 10, currentMousePosition.y);
-          return undefined;
+          return { response: undefined };
         }
         robot.moveMouse(currentMousePosition.x - 1, currentMousePosition.y);
-        return undefined;
+        return { response: undefined };
       case "UP":
         if (args.shift) {
           robot.moveMouse(currentMousePosition.x, currentMousePosition.y - 10);
-          return undefined;
+          return { response: undefined };
         }
         robot.moveMouse(currentMousePosition.x, currentMousePosition.y - 1);
-        return undefined;
+        return { response: undefined };
       case "DOWN":
         if (args.shift) {
           robot.moveMouse(currentMousePosition.x, currentMousePosition.y + 10);
-          return undefined;
+          return { response: undefined };
         }
         robot.moveMouse(currentMousePosition.x, currentMousePosition.y + 1);
-        return undefined;
+        return { response: undefined };
       default:
         log.error(
           new Error("Unknown direction to move the mouse in", args.direction)
         );
-        return undefined;
+        return { response: undefined };
     }
   }
 }
