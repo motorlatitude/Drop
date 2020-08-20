@@ -88,6 +88,12 @@ class PaletteChannel extends Channel {
       id: palette.id
     };
     this.Store.set("palettes", paletteStore);
+    if (palette.refresh === true) {
+      this.WindowManager.windows.history.webContents.send(
+        "refresh-palettes",
+        {}
+      );
+    }
     return paletteStore[palette.id];
   }
 
@@ -104,7 +110,7 @@ class PaletteChannel extends Channel {
     });
     delete paletteStore[paletteId];
     this.Store.set("palettes", paletteStore);
-    return undefined;
+    return { response: undefined };
   }
 }
 

@@ -24,6 +24,7 @@ class PickerWindow {
     this.activeColor = null;
     this._ConfigureWindowEventListeners();
     this._ConfigureIPCEvents();
+    this._controlDown = false;
     this._Audio = new Audio("./../assets/audio/drop.wav");
 
     // ensure that web frame doesn't zoom in/out using default keyboard shortcuts e.g. ctrl+plus
@@ -40,7 +41,7 @@ class PickerWindow {
     ipcRenderer.on("color", (event, arg) => {
       const elColorSquares = document.getElementById("colorsquares");
       while (elColorSquares.lastChild) {
-        elColorSquares.firstChild.remove();
+        elColorSquares.removeChild(elColorSquares.lastChild);
       }
       const middle = Math.floor(Object.keys(arg).length / 2);
       Object.keys(arg).forEach((key, index) => {
@@ -96,6 +97,32 @@ class PickerWindow {
         type: "PICKED",
         args: { color: this.activeColor }
       });
+      if (this._controlDown) {
+        // control is down, save in new palette
+        ipcRenderer
+          .invoke("SETTING", {
+            type: "GET_SETTING",
+            args: {
+              key: "createNewPaletteOnPick"
+            }
+          })
+          .then(res => {
+            if (res.response) {
+              ipcRenderer.invoke("PALETTE", {
+                type: "SAVE",
+                args: {
+                  // eslint-disable-next-line security-node/detect-insecure-randomness
+                  id: Math.random()
+                    .toString(36)
+                    .substr(2, 9),
+                  name: "New Color Palette",
+                  colors: [this.activeColor],
+                  refresh: true
+                }
+              });
+            }
+          });
+      }
     });
 
     ipcRenderer.on("SHORTCUTS_UPDATED", () => {
@@ -105,6 +132,12 @@ class PickerWindow {
     // shortcuts
     this._ConfigureShortcuts();
 
+    window.addEventListener("keydown", event => {
+      if (event.key === "Control" || event.key === "ctrl" || event.ctrlKey) {
+        this._controlDown = true;
+      }
+    });
+
     window.addEventListener("keyup", event => {
       if (
         event.key === "Escape" ||
@@ -113,6 +146,7 @@ class PickerWindow {
       ) {
         ipcRenderer.invoke("WINDOW", { type: "HIDE", windowName: "picker" });
       }
+      this._controlDown = false;
     });
   }
 

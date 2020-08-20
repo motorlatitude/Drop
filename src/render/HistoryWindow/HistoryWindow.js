@@ -87,6 +87,10 @@ class HistoryWindow {
       document.getElementById("select").classList.remove("active");
     });
 
+    ipcRenderer.on("refresh-palettes", (e, args) => {
+      location.reload();
+    });
+
     ipcRenderer.on("color-type-change", (e, arg) => {
       document.querySelector("#select .name").innerHTML = arg.name;
       document.querySelector("#select .icon").className = "icon " + arg.icon;

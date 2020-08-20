@@ -41,7 +41,8 @@ class SettingsWindow {
       "shortcutIncreaseSize",
       "shortcutDecreaseSize",
       "shortcutFormatNext",
-      "shortcutFormatPrevious"
+      "shortcutFormatPrevious",
+      "createNewPaletteOnPick"
     ];
     this._KeyListSettingKeys = [
       "shortcutOpenHistoryKeys",

@@ -33,5 +33,6 @@ exports.defaultSettings = {
   shortcutDecreaseSize: true,
   shortcutOpenHistory: true,
   historyLimit: "30",
-  colorProfile: "default"
+  colorProfile: "default",
+  createNewPaletteOnPick: true
 };
