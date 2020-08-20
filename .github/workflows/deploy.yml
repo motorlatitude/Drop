@@ -89,7 +89,7 @@ jobs:
 
       # Install Canvas
       - name: Install node-canvas
-        run: npm install canvas --build-from-source
+        run: npm install canvas --target=9.2.0 --build-from-source
 
       # Install RobotJS
       - name: Install Natives
