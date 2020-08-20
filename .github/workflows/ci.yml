@@ -30,7 +30,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: "13.x"
+          node-version: "14.x"
 
       # Setup linux environment for E2E testing
       - name: Install linux packages
@@ -73,7 +73,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: "13.x"
+          node-version: "14.x"
 
       - name: Install GTK Dependencies
         run: |
@@ -84,7 +84,7 @@ jobs:
 
       # Install RobotJS
       - name: Install Natives
-        run: npm install robotjs canvas --target=9.2.0
+        run: npm install robotjs canvas --target=9.2.0 --build-from-source
 
       # Install all remaining dependencies
       - name: Install Remaining Dependencies
