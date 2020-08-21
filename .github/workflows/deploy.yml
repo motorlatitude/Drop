@@ -99,6 +99,11 @@ jobs:
       - name: Install Remaining Dependencies
         run: npm i
 
+      - name: Rebuild For Electron
+        run: |
+          npm install -g electron-rebuild
+          electron-rebuild -f -w canvas
+
       - name: Deploying
         run: npm run release
         env:

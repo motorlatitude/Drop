@@ -102,6 +102,11 @@ jobs:
       - name: Install Remaining Dependencies
         run: npm i
 
+      - name: Rebuild For Electron
+        run: |
+          npm install -g electron-rebuild
+          electron-rebuild -f -w canvas
+
       # Run linting checks
       - name: Linting Check
         run: npm run lint

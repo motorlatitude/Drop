@@ -94,6 +94,11 @@ jobs:
       - name: Install Remaining Dependencies
         run: npm i
 
+      - name: Rebuild For Electron
+        run: |
+          npm install -g electron-rebuild
+          electron-rebuild -f -w canvas
+
       - name: Building
         run: npm run build
         env:
