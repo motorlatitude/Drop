@@ -92,7 +92,7 @@ jobs:
 
       # Install Canvas
       - name: Install node-canvas
-        run: npm install svg2img --target=9.2.0
+        run: npm install svg2img
 
       # Install RobotJS
       - name: Install Natives
