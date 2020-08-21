@@ -1,36 +1,47 @@
 .codeflask .token.punctuation {
   color: #ff7b00;
 }
+
 .codeflask .token.keyword {
   color: #ae57ffd5;
 }
+
 .codeflask .token.operator {
   color: #fff1d6;
 }
+
 .codeflask .token.string {
   color: #abfd41;
 }
+
 .codeflask .token.comment {
   color: #76838a;
 }
+
 .codeflask .token.function {
   color: #ff325e;
 }
+
 .codeflask .token.boolean {
   color: #ffab3d;
 }
+
 .codeflask .token.number {
   color: #5af7bbcb;
 }
+
 .codeflask .token.selector {
   color: #8500ff;
 }
+
 .codeflask .token.property {
   color: #8500ff;
 }
+
 .codeflask .token.tag {
   color: #8500ff;
 }
+
 .codeflask .token.attr-value {
   color: #8500ff;
 }

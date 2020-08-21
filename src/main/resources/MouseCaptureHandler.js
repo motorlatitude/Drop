@@ -34,6 +34,7 @@ class MouseCaptureHandler {
   startPolling() {
     log.log("Starting Polling");
     robot.setMouseDelay(0);
+    this._mouseCapture(true);
     this._PollingInterval = setInterval(this._mouseCapture.bind(this), 0);
     // this._PollingInterval2 = setInterval(this._windowMovement.bind(this), 0);
   }

@@ -68,7 +68,6 @@ class SettingsWindow {
     document.body.style.zoom = 1.0;
     webFrame.setZoomFactor(1);
     webFrame.setVisualZoomLevelLimits(1, 1);
-    webFrame.setLayoutZoomLevelLimits(0, 0);
   }
 
   /**

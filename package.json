@@ -71,7 +71,7 @@
     "spectron": "^11.1.0"
   },
   "dependencies": {
-    "@sentry/electron": "^1.5.2",
+    "@sentry/electron": "^2.0.0",
     "canvas": "^2.6.1",
     "codeflask": "^1.4.1",
     "color-namer": "^1.4.0",

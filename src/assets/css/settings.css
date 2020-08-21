@@ -373,10 +373,7 @@ body {
   line-height: 18px;
 }
 
-.settings-frame
-  .drop-updater
-  label[for="drop-btn-check-update"]
-  span#lastUpdateCheck {
+#lastUpdateCheck {
   font-size: 10px;
 }
 
@@ -571,6 +568,7 @@ body {
   justify-content: stretch;
   line-height: 10px;
 }
+
 .formats-main-frame ul li .format-title {
   margin-top: 5px;
 }
@@ -658,12 +656,12 @@ body {
   color: #1d1d1c;
   caret-color: #ff325e;
   font-family: FiraCode, "IBM Plex Mono", "Courier New", Courier, monospace;
-  font-weight: 450;
+  font-weight: 600;
 }
 
 .codeflask__flatten {
-  font-weight: 600 !important;
-  font-family: FiraCode, "IBM Plex Mono", "Courier New", Courier, monospace !important;
+  font-weight: 600;
+  font-family: FiraCode, "IBM Plex Mono", "Courier New", Courier, monospace;
 }
 
 .formats-main-frame ul li:focus,
@@ -767,6 +765,7 @@ body {
   -ms-user-select: none;
   user-select: none;
 }
+
 /* Hide the browser's default checkbox */
 .settings-frame .settings-checkbox input {
   position: absolute;

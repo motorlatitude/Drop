@@ -86,7 +86,7 @@ class SettingChannel extends Channel {
    */
   getSetting(args) {
     const currentSettings = this.Store.get("settings", DefaultSettings);
-    log.log("GET", args.key, currentSettings[args.key]);
+    // log.log("GET", args.key, currentSettings[args.key]);
     return { response: currentSettings[args.key] };
   }
 

@@ -81,7 +81,6 @@ class FormatChannel extends Channel {
             "Failed to save format",
             "A format with this name already exists"
           );
-          return { saved: false };
         }
       }
       try {
