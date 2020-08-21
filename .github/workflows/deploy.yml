@@ -101,8 +101,8 @@ jobs:
 
       - name: Rebuild For Electron
         run: |
-          npm install -g electron-rebuild
-          electron-rebuild -f -w canvas
+          npm install electron-rebuild
+          .\node_modules\.bin\electron-rebuild.cmd -f -w canvas --version 9.2.0
 
       - name: Deploying
         run: npm run release
