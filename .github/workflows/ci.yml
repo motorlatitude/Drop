@@ -75,6 +75,9 @@ jobs:
         with:
           node-version: "14.x"
 
+      - name: Python version
+        run: python --version
+
       - name: Configure node-gyp
         run: node-gyp configure
 
