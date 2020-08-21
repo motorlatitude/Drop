@@ -84,7 +84,7 @@ jobs:
 
       # Install Canvas
       - name: Install node-canvas
-        run: npm install svg2img
+        run: npm install canvas --build-from-source
 
       # Install RobotJS
       - name: Install Natives
