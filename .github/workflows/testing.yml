@@ -83,6 +83,9 @@ jobs:
         with:
           node-version: "14.x"
 
+      - name: Configure node-gyp
+        run: node-gyp configure
+
       - name: Install GTK Dependencies
         run: |
           Invoke-WebRequest "http://ftp.gnome.org/pub/GNOME/binaries/win64/gtk+/2.22/gtk+-bundle_2.22.1-20101229_win64.zip" -OutFile "gtk.zip"
