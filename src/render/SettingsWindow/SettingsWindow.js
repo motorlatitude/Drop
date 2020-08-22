@@ -529,6 +529,16 @@ class SettingsWindow {
       document.querySelectorAll(".formats-sidebar ul li")[0].click();
     });
 
+    /* PICKER */
+
+    const pollingRateEl = document.getElementById("pollingRate");
+    pollingRateEl.addEventListener("change", e => {
+      ipcRenderer.invoke("SETTING", {
+        type: "MODIFY_SETTING",
+        args: { key: "pollingRate", value: pollingRateEl.value }
+      });
+    });
+
     /* SHORTCUTS */
 
     const shortcutSidebarItemEl = document.querySelectorAll(

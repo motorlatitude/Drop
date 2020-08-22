@@ -2,6 +2,7 @@ const robot = require("robotjs"); // => /!\ when installing robotjs add --target
 const electron = require("electron");
 const log = require("electron-log");
 
+const DefaultSettings = require("../resources/Defaults").defaultSettings;
 /**
  * MouseCaptureHandler Class
  *
@@ -13,17 +14,19 @@ class MouseCaptureHandler {
   /**
    * Creates an instance of MouseCaptureHandler.
    * @param {*} wm
+   * @param {Store} store the apps Store instance
    * @param {*} pwc
    * @memberof MouseCaptureHandler
    */
-  constructor(wm, pwc) {
+  constructor(wm, store, pwc) {
     this.PickerSize = 17;
+
+    this._Store = store;
 
     this._WindowManager = wm;
     this._PickerWindowController = pwc;
 
     this._PollingInterval = null;
-    // this._PollingInterval2 = null;
     this._PreviousMousePosition = { x: 0, y: 0 };
     this._PreviousImage = null;
   }
@@ -35,8 +38,11 @@ class MouseCaptureHandler {
     log.log("Starting Polling");
     robot.setMouseDelay(0);
     this._mouseCapture(true);
-    this._PollingInterval = setInterval(this._mouseCapture.bind(this), 0);
-    // this._PollingInterval2 = setInterval(this._windowMovement.bind(this), 0);
+    const currentSettings = this._Store.get("settings", DefaultSettings);
+    this._PollingInterval = setInterval(
+      this._mouseCapture.bind(this),
+      parseInt(currentSettings.pollingRate)
+    );
   }
 
   /**
@@ -47,8 +53,6 @@ class MouseCaptureHandler {
       log.log("Stopping Polling");
       clearInterval(this._PollingInterval);
       this._PollingInterval = null;
-      // clearInterval(this._PollingInterval2);
-      // this._PollingInterval2 = null;
     }
   }
 

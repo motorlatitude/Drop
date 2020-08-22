@@ -9,10 +9,12 @@ class PickerWindowController {
   /**
    * @constructor
    * @param {WindowManager} wm the WindowManager instance for the app
+   * @param {Store} store the Store instance
    */
-  constructor(wm) {
+  constructor(wm, store) {
     this.window = null;
-    this._MouseCaptureHandler = new MouseCaptureHandler(wm, this);
+    this._MouseCaptureHandler = new MouseCaptureHandler(wm, store, this);
+    this._Store = store;
     this.createWindow(wm);
     this.isVisible = false;
   }

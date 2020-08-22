@@ -34,5 +34,6 @@ exports.defaultSettings = {
   shortcutOpenHistory: true,
   historyLimit: "30",
   colorProfile: "default",
-  createNewPaletteOnPick: true
+  createNewPaletteOnPick: true,
+  pollingRate: 0
 };

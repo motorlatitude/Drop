@@ -65,7 +65,8 @@ class AppController {
     log.info("Application Ready");
     // eslint-disable-next-line no-unused-vars
     const pickerWindowController = new PickerWindowController(
-      this._WindowManager
+      this._WindowManager,
+      this._Store
     );
 
     this.registerGlobalShortcuts();

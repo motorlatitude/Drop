@@ -258,12 +258,27 @@
       <div class="settings-frame picker" data-view="picker">
         <ul>
           <li>
-            <div class="col-left">Pick:</div>
+            <div class="col-left">Picker:</div>
             <div class="col-right">
               <label for="createNewPaletteOnPick" class="settings-checkbox"
                 >Create a new palette when holding ctrl
                 <input id="createNewPaletteOnPick" type="checkbox" checked />
                 <span class="checkmark"></span>
+              </label>
+            </div>
+          </li>
+          <li>
+            <div class="col-left">Performance:</div>
+            <div class="col-right">
+              <label for="pollingRate">
+                <input
+                  id="pollingRate"
+                  type="number"
+                  value="0"
+                  min="0"
+                  max="1000"
+                />
+                Polling Interval (in ms)
               </label>
             </div>
           </li>
