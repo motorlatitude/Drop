@@ -54,7 +54,7 @@ class PickerChannel extends Channel {
     });
     const historyStore = paletteStore.HISTORY.colors;
     if (currentSettings.isHistoryLimit) {
-      if (historyStore.length > parseInt(currentSettings.historyLimit)) {
+      if (historyStore.length > parseInt(currentSettings.historyLimit, 10)) {
         historyStore.shift();
       }
     }

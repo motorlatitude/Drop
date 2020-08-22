@@ -41,7 +41,7 @@ class MouseCaptureHandler {
     const currentSettings = this._Store.get("settings", DefaultSettings);
     this._PollingInterval = setInterval(
       this._mouseCapture.bind(this),
-      parseInt(currentSettings.pollingRate)
+      parseInt(currentSettings.pollingRate, 10)
     );
   }
 
