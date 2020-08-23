@@ -1,5 +1,6 @@
 const electron = require("electron");
 const { ipcMain, screen, app, shell } = electron;
+const log = require("electron-log");
 
 const PaletteChannel = require("./channel_types/PaletteChannel");
 const WindowChannel = require("./channel_types/WindowChannel");
@@ -75,7 +76,14 @@ class MessageHandler {
    * Open the logs directory using the system default explorer
    */
   openLogsDirectory() {
-    shell.openItem(this._AppController.logPath);
+    shell
+      .openPath(this._AppController.logPath)
+      .then(() => {
+        log.log("Opened Log Path using default file manager");
+      })
+      .catch(error => {
+        log.error(error);
+      });
   }
 
   /**
