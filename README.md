@@ -14,7 +14,7 @@
       <img src="https://api.codacy.com/project/badge/Grade/65116691e5154f60b6c1ac2912607fb3" alt="Codacy Quality Badge">
     </a>
     <a href="https://depfu.com/github/motorlatitude/Drop?project_id=15240">
-        <img src="https://badges.depfu.com/badges/74935b78548f6153328ee87d8e08318b/count.svg" alt="Dependency Version">
+      <img src="https://badges.depfu.com/badges/74935b78548f6153328ee87d8e08318b/count.svg" alt="Dependency Version">
     </a>
     <img src="https://img.shields.io/github/downloads/motorlatitude/Drop/total?color=green" alt="GitHub All Releases">
     <img src="https://img.shields.io/github/package-json/v/motorlatitude/drop" alt="Drop Version">

@@ -25,6 +25,7 @@ class PickerWindow {
     this._ConfigureWindowEventListeners();
     this._ConfigureIPCEvents();
     this._controlDown = false;
+    this._shiftDown = false;
     this._Audio = new Audio("./../assets/audio/drop.wav");
 
     // ensure that web frame doesn't zoom in/out using default keyboard shortcuts e.g. ctrl+plus
@@ -94,7 +95,7 @@ class PickerWindow {
         });
       ipcRenderer.invoke("PICKER", {
         type: "PICKED",
-        args: { color: this.activeColor }
+        args: { color: this.activeColor, hidePickerWindow: !this._shiftDown }
       });
       if (this._controlDown) {
         // control is down, save in new palette
@@ -135,6 +136,9 @@ class PickerWindow {
       if (event.key === "Control" || event.key === "ctrl" || event.ctrlKey) {
         this._controlDown = true;
       }
+      if (event.key === "Shift" || event.key === "shift" || event.shiftKey) {
+        this._shiftDown = true;
+      }
     });
 
     window.addEventListener("keyup", event => {
@@ -146,6 +150,7 @@ class PickerWindow {
         ipcRenderer.invoke("WINDOW", { type: "HIDE", windowName: "picker" });
       }
       this._controlDown = false;
+      this._shiftDown = false;
     });
   }
 

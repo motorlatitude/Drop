@@ -95,9 +95,11 @@ class PickerChannel extends Channel {
       log.error(new Error("Unknown selected format"));
     }
 
-    setTimeout(() => {
-      this.WindowManager.windows.picker.hide();
-    }, 250);
+    if (args.hidePickerWindow) {
+      setTimeout(() => {
+        this.WindowManager.windows.picker.hide();
+      }, 250);
+    }
     return { response: undefined };
   }
 
