@@ -73,7 +73,7 @@
     "color-namer": "^1.4.0",
     "dotenv": "^8.2.0",
     "electron-log": "^4.2.4",
-    "electron-store": "^5.1.0",
+    "electron-store": "^5.2.0",
     "electron-updater": "^4.3.4",
     "glob": "^7.1.6",
     "moment": "^2.27.0",
