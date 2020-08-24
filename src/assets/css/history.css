@@ -445,12 +445,13 @@ body {
 }
 
 #context-menu-delete {
-  color: #ff6666;
+  color: #f66;
 }
 
 #context-menu-delete svg path {
-  fill: #ff6666;
+  fill: #f66;
 }
+
 .context-menu ul li:hover {
   background: rgba(0, 110, 255, 0.8);
 }
