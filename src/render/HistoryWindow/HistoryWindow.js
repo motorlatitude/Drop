@@ -95,6 +95,12 @@ class HistoryWindow {
       document.querySelector("#select .icon").className = "icon " + arg.icon;
     });
 
+    document.getElementsByTagName("body")[0].addEventListener("click", () => {
+      if (document.getElementById("menu").classList.contains("visible")) {
+        document.getElementById("menu").classList.remove("visible");
+      }
+    });
+
     document.getElementById("select").addEventListener("click", async () => {
       const dropdownState = await ipcRenderer.invoke("WINDOW", {
         type: "IS_VISIBLE",

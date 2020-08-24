@@ -101,7 +101,6 @@ class PickerWindow {
           }
         })
         .then(res => {
-          console.log(res);
           let hidePicker = true;
           if (this._shiftDown) {
             if (res.response) {
