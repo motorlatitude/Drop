@@ -43,6 +43,9 @@ class PopoverWindowController {
         this.setOptions(options);
       });
     }
+    setInterval(() => {
+      this.window.setAlwaysOnTop(true);
+    }, 10000);
     this.window.loadURL("file://" + __dirname + "/../../views/popover.html");
     this._ConfigureEventListeners();
   }

@@ -13,6 +13,7 @@ class Palette {
     this._Colors = p.colors;
     this._Name = p.name;
     this._ID = p.id;
+    this._prevDeleteColor = undefined;
   }
 
   /**
@@ -200,6 +201,7 @@ class Palette {
       "contextmenu",
       e => {
         const menu = document.getElementById("menu");
+
         menu.style.top = e.clientY + "px";
         if (e.clientY + menu.clientHeight > window.innerHeight) {
           menu.style.top = e.clientY - menu.clientHeight + "px";
@@ -224,7 +226,13 @@ class Palette {
             menu.classList.remove("visible");
           }
         };
+        if (this._prevDeleteColor) {
+          document
+            .getElementById("context-menu-delete")
+            .removeEventListener("click", this._prevDeleteColor);
+        }
 
+        this._prevDeleteColor = deleteColor;
         document
           .getElementById("context-menu-delete")
           .addEventListener("click", deleteColor);

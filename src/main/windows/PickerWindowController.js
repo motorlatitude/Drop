@@ -53,7 +53,9 @@ class PickerWindowController {
       width: 255,
       height: 255
     });
-    this.window.setAlwaysOnTop(true);
+    setInterval(() => {
+      this.window.setAlwaysOnTop(true);
+    }, 10000);
     this.window.setVisibleOnAllWorkspaces(true);
     this.window.setSkipTaskbar(true);
     this.window.loadFile(__dirname + "./../../views/index.html");

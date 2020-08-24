@@ -36,18 +36,37 @@ class HistoryWindow {
     const primaryScreenSize = await ipcRenderer.invoke(
       "get-primary-screen-size"
     );
-    ipcRenderer.invoke("WINDOW", {
-      type: "SET_BOUNDS",
-      windowName: "history",
-      args: {
-        height: 110 + Object.keys(palettes).length * 110,
-        y:
-          primaryScreenSize.height -
-          230 -
-          (Object.keys(palettes).length - 1) * 110,
-        animate: true
-      }
-    });
+    ipcRenderer
+      .invoke("WINDOW", {
+        type: "GET_BOUNDS",
+        windowName: "history"
+      })
+      .then(historyWindowBounds => {
+        const newHeight = 110 + Object.keys(palettes).length * 110;
+        if (historyWindowBounds.y + newHeight > primaryScreenSize.height) {
+          ipcRenderer.invoke("WINDOW", {
+            type: "SET_BOUNDS",
+            windowName: "history",
+            args: {
+              height: newHeight,
+              y:
+                primaryScreenSize.height -
+                230 -
+                (Object.keys(palettes).length - 1) * 110,
+              animate: true
+            }
+          });
+        } else {
+          ipcRenderer.invoke("WINDOW", {
+            type: "SET_BOUNDS",
+            windowName: "history",
+            args: {
+              height: newHeight,
+              animate: true
+            }
+          });
+        }
+      });
 
     // Generate Palette objects for stored history palettes
     Object.keys(palettes).forEach(paletteId => {
