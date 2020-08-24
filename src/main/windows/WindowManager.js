@@ -60,6 +60,7 @@ class WindowManager {
           210;
         baseWindowOptions.width = 390;
         baseWindowOptions.height = 210;
+
         break;
       case "popover":
         baseWindowOptions.width = 340;

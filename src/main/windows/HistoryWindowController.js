@@ -24,7 +24,9 @@ class HistoryWindowController {
     this.window = historyWindow;
     // and load the index.html of the app.
     this.window.loadFile(__dirname + "./../../views/history.html");
-
+    setInterval(() => {
+      this.window.setAlwaysOnTop(true);
+    }, 10000);
     this.window.on("closed", () => {
       this.window = null;
     });

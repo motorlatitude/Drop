@@ -205,22 +205,24 @@ class Palette {
           menu.style.top = e.clientY - menu.clientHeight + "px";
         }
         menu.style.left = e.clientX + "px";
-        if (e.clientX + menu.clientWidth > window.innerWidth) {
-          menu.style.left = e.clientX - menu.clientWidth + "px";
+        if (e.clientX + 120 > window.innerWidth) {
+          menu.style.left = e.clientX - 120 + "px";
         }
 
         const deleteColor = () => {
-          const index = [...el.parentElement.children].indexOf(el);
-          this._Colors.splice(this._Colors.length - index - 1, 1);
-          el.parentNode.removeChild(el);
-          ipcRenderer.invoke("PALETTE", {
-            type: "SAVE",
-            args: this.serialize()
-          });
-          document
-            .getElementById("context-menu-delete")
-            .removeEventListener("click", deleteColor);
-          menu.classList.remove("visible");
+          if (el.parentElement) {
+            const index = [...el.parentElement.children].indexOf(el);
+            this._Colors.splice(this._Colors.length - index - 1, 1);
+            el.parentNode.removeChild(el);
+            ipcRenderer.invoke("PALETTE", {
+              type: "SAVE",
+              args: this.serialize()
+            });
+            document
+              .getElementById("context-menu-delete")
+              .removeEventListener("click", deleteColor);
+            menu.classList.remove("visible");
+          }
         };
 
         document
