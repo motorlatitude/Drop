@@ -84,9 +84,9 @@ class ColorFormats {
               value: plugConfigParams.name,
               file: contents,
               convertFromHex: hexColor => {
-                const r = parseInt("0x" + hexColor.substring(0, 2));
-                const g = parseInt("0x" + hexColor.substring(2, 4));
-                const b = parseInt("0x" + hexColor.substring(4, 6));
+                const r = parseInt("0x" + hexColor.substring(0, 2), 16);
+                const g = parseInt("0x" + hexColor.substring(2, 4), 16);
+                const b = parseInt("0x" + hexColor.substring(4, 6), 16);
                 return plug.convertColor({
                   hex: hexColor,
                   rgb: {

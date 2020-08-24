@@ -85,9 +85,9 @@ class FormatChannel extends Channel {
       }
       try {
         const hexColor = "#ffffff";
-        const r = parseInt("0x" + hexColor.substring(0, 2));
-        const g = parseInt("0x" + hexColor.substring(2, 4));
-        const b = parseInt("0x" + hexColor.substring(4, 6));
+        const r = parseInt("0x" + hexColor.substring(0, 2), 16);
+        const g = parseInt("0x" + hexColor.substring(2, 4), 16);
+        const b = parseInt("0x" + hexColor.substring(4, 6), 16);
         const colorObject = pluginFormat.convertColor({
           hex: hexColor,
           rgb: {

@@ -212,7 +212,6 @@ class Palette {
     el.addEventListener(
       "dragstart",
       async e => {
-        console.log("Starting Drag");
         e.target.classList.add("dragging");
 
         // set ghost overlay image
@@ -242,7 +241,6 @@ class Palette {
     el.addEventListener(
       "dragend",
       async e => {
-        console.log("Ending Drag");
         e.target.classList.remove("dragging");
         if (
           temporaryPaletteElement &&

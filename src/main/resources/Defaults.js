@@ -35,5 +35,6 @@ exports.defaultSettings = {
   historyLimit: "30",
   colorProfile: "default",
   createNewPaletteOnPick: true,
-  pollingRate: 0
+  pollingRate: 0,
+  quickPicking: true
 };

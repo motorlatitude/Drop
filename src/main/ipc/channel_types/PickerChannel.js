@@ -80,7 +80,6 @@ class PickerChannel extends Channel {
       if (error) {
         console.err(error);
       }
-      console.log("Setting Tray Image");
       this.Tray.setTrayImage(nativeImage.createFromBuffer(image));
     });
 

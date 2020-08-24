@@ -93,10 +93,29 @@ class PickerWindow {
         .catch(err => {
           console.error(err);
         });
-      ipcRenderer.invoke("PICKER", {
-        type: "PICKED",
-        args: { color: this.activeColor, hidePickerWindow: !this._shiftDown }
-      });
+      ipcRenderer
+        .invoke("SETTING", {
+          type: "GET_SETTING",
+          args: {
+            key: "quickPicking"
+          }
+        })
+        .then(res => {
+          console.log(res);
+          let hidePicker = true;
+          if (this._shiftDown) {
+            if (res.response) {
+              hidePicker = false;
+            }
+          }
+          ipcRenderer.invoke("PICKER", {
+            type: "PICKED",
+            args: {
+              color: this.activeColor,
+              hidePickerWindow: hidePicker
+            }
+          });
+        });
       if (this._controlDown) {
         // control is down, save in new palette
         ipcRenderer
