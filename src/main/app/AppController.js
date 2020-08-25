@@ -73,7 +73,8 @@ class AppController {
 
     // eslint-disable-next-line no-unused-vars
     const historyWindowController = new HistoryWindowController(
-      this._WindowManager
+      this._WindowManager,
+      this._Store
     );
     const trayController = new TrayController(this._WindowManager, this._Store);
 

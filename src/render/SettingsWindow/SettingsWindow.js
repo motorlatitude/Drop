@@ -140,6 +140,10 @@ class SettingsWindow {
               document.getElementById("colorProfile").value =
                 settings[settingKey];
               break;
+            case "pollingRate":
+              document.getElementById("pollingRate").value =
+                settings[settingKey];
+              break;
           }
           // If key is part of this._CheckboxSettingKeys array then set checkbox according to store value
           if (this._CheckboxSettingKeys.indexOf(settingKey) > -1) {

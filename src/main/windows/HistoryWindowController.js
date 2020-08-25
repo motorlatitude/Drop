@@ -1,3 +1,6 @@
+const electron = require("electron");
+
+const DefaultSettings = require("../resources/Defaults").defaultSettings;
 /**
  * Handles the palette window controls
  */
@@ -5,10 +8,14 @@ class HistoryWindowController {
   /**
    *
    * @param {WindowManager} wm  The apps window manager instance
+   * @param {Store} store The apps store instance
    */
-  constructor(wm) {
+  constructor(wm, store) {
     this.window = null;
     this._windowManager = wm;
+    this._Store = store;
+    this._moving = false;
+
     this.createWindow(wm);
   }
 
@@ -27,8 +34,32 @@ class HistoryWindowController {
     setInterval(() => {
       this.window.setAlwaysOnTop(true);
     }, 10000);
+
     this.window.on("closed", () => {
       this.window = null;
+    });
+
+    this._setBounds();
+    this._ConfigureEventListeners();
+  }
+
+  /**
+   * Sets the windows event listeners
+   */
+  _ConfigureEventListeners() {
+    // save window position on move for future
+    this.window.on("move", e => {
+      this._moving = setTimeout(() => {
+        const currentSettings = this._Store.get("settings", DefaultSettings);
+        const b = this.window.getBounds();
+        currentSettings.historyWindowBounds = {
+          x: b.x,
+          y: b.y,
+          width: b.width,
+          height: b.height
+        };
+        this._Store.set("settings", currentSettings);
+      }, 1000);
     });
 
     this.window.on("close", e => {
@@ -50,6 +81,39 @@ class HistoryWindowController {
     this.window.on("hide", () => {
       this.window.setOpacity(0);
     });
+  }
+
+  /**
+   * Sets the bounds of the window from the settings store
+   */
+  _setBounds() {
+    const currentSettings = this._Store.get("settings", DefaultSettings);
+    if (currentSettings.historyWindowBounds !== undefined) {
+      if (
+        currentSettings.historyWindowBounds.x == 0 &&
+        currentSettings.historyWindowBounds.y == 0
+      ) {
+        this.window.setBounds({
+          x:
+            electron.screen.getPrimaryDisplay().workArea.x +
+            electron.screen.getPrimaryDisplay().workAreaSize.width -
+            400,
+          y:
+            electron.screen.getPrimaryDisplay().workArea.y +
+            electron.screen.getPrimaryDisplay().workAreaSize.height -
+            210,
+          width: currentSettings.historyWindowBounds.width,
+          height: currentSettings.historyWindowBounds.height
+        });
+      } else {
+        this.window.setBounds({
+          x: currentSettings.historyWindowBounds.x,
+          y: currentSettings.historyWindowBounds.y,
+          width: currentSettings.historyWindowBounds.width,
+          height: currentSettings.historyWindowBounds.height
+        });
+      }
+    }
   }
 }
 

@@ -201,7 +201,7 @@ class Palette {
       "contextmenu",
       e => {
         const menu = document.getElementById("menu");
-
+        menu.classList.add("visible");
         menu.style.top = e.clientY + "px";
         if (e.clientY + menu.clientHeight > window.innerHeight) {
           menu.style.top = e.clientY - menu.clientHeight + "px";
@@ -236,8 +236,6 @@ class Palette {
         document
           .getElementById("context-menu-delete")
           .addEventListener("click", deleteColor);
-
-        menu.classList.add("visible");
 
         e.preventDefault();
       },
