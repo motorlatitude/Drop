@@ -4,6 +4,10 @@ const path = require("path");
 require("dotenv").config({
   path: path.resolve(__dirname + "../../../electron-builder.env")
 });
+if (process.env.NODE_ENV === "test") {
+  log.transports.file.level = false;
+  log.transports.console.level = false;
+}
 log.info(
   "\n" +
     " ____  ____   __  ____\n" +
@@ -37,4 +41,5 @@ const windowBoss = new WindowManager();
 
 // Initializing App Controller
 log.info("Initializing");
-new AppController(app, store, windowBoss);
+const AC = new AppController(app, store, windowBoss);
+module.exports = { controller: AC };

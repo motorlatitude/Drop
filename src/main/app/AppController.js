@@ -13,6 +13,11 @@ const ColorFormats = require("./../resources/ColorFormats");
 const HistoryWindowController = require("./../windows/HistoryWindowController");
 const PickerWindowController = require("./../windows/PickerWindowController");
 
+if (process.env.NODE_ENV === "test") {
+  log.transports.file.level = false;
+  log.transports.console.level = false;
+}
+
 /**
  * AppController Class
  *

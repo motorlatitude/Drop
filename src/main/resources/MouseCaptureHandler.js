@@ -3,6 +3,11 @@ const electron = require("electron");
 const log = require("electron-log");
 
 const DefaultSettings = require("../resources/Defaults").defaultSettings;
+
+if (process.env.NODE_ENV === "test") {
+  log.transports.file.level = false;
+  log.transports.console.level = false;
+}
 /**
  * MouseCaptureHandler Class
  *

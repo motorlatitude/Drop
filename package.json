@@ -6,7 +6,9 @@
   "scripts": {
     "start": "./node_modules/.bin/electron .",
     "lint": "./node_modules/.bin/eslint -c .eslintrc.json --fix .",
-    "test": "mocha",
+    "test": "electron-mocha --recursive",
+    "coverage": "nyc --reporter=text --reporter=lcov electron-mocha --recursive",
+    "codacy-coverage": "bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/lcov.info",
     "build": "electron-builder build --publish never",
     "release": "electron-builder build --publish always"
   },
@@ -57,6 +59,7 @@
     "chai": "^4.2.0",
     "electron": "^9.2.0",
     "electron-builder": "^22.8.0",
+    "electron-mocha": "^9.1.0",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^6.11.0",
@@ -67,6 +70,7 @@
     "husky": "^4.2.5",
     "mocha": "^7.2.0",
     "nan": "2.14.0",
+    "nyc": "^15.1.0",
     "prettier": "^1.19.1",
     "spectron": "^11.1.0"
   },

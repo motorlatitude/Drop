@@ -2,6 +2,10 @@ const electron = require("electron");
 const { BrowserWindow, nativeImage } = electron;
 const log = require("electron-log");
 const path = require("path");
+if (process.env.NODE_ENV === "test") {
+  log.transports.file.level = false;
+  log.transports.console.level = false;
+}
 
 /**
  * Class WindowManager
@@ -45,7 +49,9 @@ class WindowManager {
       icon: icn,
       webPreferences: {
         nodeIntegration: true,
-        experimentalFeatures: true
+        worldSafeExecuteJavaScript: true,
+        preload: path.join(__dirname, "../resources/sentry.js"),
+        enableRemoteModule: true
       }
     };
     switch (windowName) {

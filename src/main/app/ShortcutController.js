@@ -1,6 +1,12 @@
 const { globalShortcut } = require("electron");
 const log = require("electron-log");
 const KeyAssignment = require("../resources/KeyAssignment");
+
+if (process.env.NODE_ENV === "test") {
+  log.transports.file.level = false;
+  log.transports.console.level = false;
+}
+
 /**
  * ShortcutController Class
  *

@@ -6,6 +6,11 @@ const Channel = require("./Channel");
 const SettingsWindowController = require("./../../windows/SettingsWindowController");
 const PopoverWindowController = require("./../../windows/PopoverWindowController");
 
+if (process.env.NODE_ENV === "test") {
+  log.transports.file.level = false;
+  log.transports.console.level = false;
+}
+
 /**
  * WindowChannel Class
  *

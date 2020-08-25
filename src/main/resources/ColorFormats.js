@@ -1,6 +1,10 @@
 const glob = require("glob");
 const fs = require("fs");
 const log = require("electron-log");
+if (process.env.NODE_ENV === "test") {
+  log.transports.file.level = false;
+  log.transports.console.level = false;
+}
 
 /**
  * ColorFormats Class

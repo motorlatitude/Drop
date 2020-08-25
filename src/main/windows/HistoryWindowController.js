@@ -90,8 +90,8 @@ class HistoryWindowController {
     const currentSettings = this._Store.get("settings", DefaultSettings);
     if (currentSettings.historyWindowBounds !== undefined) {
       if (
-        currentSettings.historyWindowBounds.x == 0 &&
-        currentSettings.historyWindowBounds.y == 0
+        currentSettings.historyWindowBounds.x === 0 &&
+        currentSettings.historyWindowBounds.y === 0
       ) {
         this.window.setBounds({
           x:

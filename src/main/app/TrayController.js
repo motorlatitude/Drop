@@ -6,6 +6,11 @@ const DefaultSettings = require("../resources/Defaults").defaultSettings;
 const KeyAssignment = require("../resources/KeyAssignment");
 const SettingsWindowController = require("./../windows/SettingsWindowController");
 
+if (process.env.NODE_ENV === "test") {
+  log.transports.file.level = false;
+  log.transports.console.level = false;
+}
+
 /**
  * TrayController Class
  *

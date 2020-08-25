@@ -1,3 +1,6 @@
 node_modules
 dist/*
 electron-builder.env
+.codacy-coverage/*
+.nyc_output/*
+coverage/*

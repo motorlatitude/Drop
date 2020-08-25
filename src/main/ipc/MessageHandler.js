@@ -9,6 +9,11 @@ const MouseChannel = require("./channel_types/MouseChannel");
 const PickerChannel = require("./channel_types/PickerChannel");
 const FormatChannel = require("./channel_types/FormatChannel");
 
+if (process.env.NODE_ENV === "test") {
+  log.transports.file.level = false;
+  log.transports.console.level = false;
+}
+
 /**
  * MessageHandler Class
  *

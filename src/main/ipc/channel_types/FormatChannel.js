@@ -6,6 +6,11 @@ const { dialog } = require("electron");
 
 const Channel = require("./Channel");
 
+if (process.env.NODE_ENV === "test") {
+  log.transports.file.level = false;
+  log.transports.console.level = false;
+}
+
 /**
  * IPC Channel for changing format
  *

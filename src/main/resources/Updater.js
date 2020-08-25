@@ -2,6 +2,11 @@ const log = require("electron-log");
 
 const { autoUpdater } = require("electron-updater");
 const DefaultSettings = require("../resources/Defaults").defaultSettings;
+
+if (process.env.NODE_ENV === "test") {
+  log.transports.file.level = false;
+  log.transports.console.level = false;
+}
 /**
  * Updater Class
  *

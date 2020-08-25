@@ -88,14 +88,14 @@ to successfully build the application.
     If building on linux, you may require the following packages;
 
     ```bash
-    sudo apt-get -y install libxtst-dev libpng++-dev
+    sudo apt-get -y install libxtst-dev libpng++-dev libcairo2-dev libpango1.0-dev libgif-dev
     ```
 
     Install RobotJS and target the electron version as defined in the package.json and make sure to have relevant build
     tools installed on your system as this is a native library.
 
     ```bash
-    npm install robotjs@0.6.0 --target=7.1.12
+    npm install robotjs canvas --target=9.2.0
     ```
 
 3.  ### Install NPM Dependencies

@@ -6,6 +6,11 @@ const svg2img = require("svg2img");
 const DefaultSettings = require("../../resources/Defaults").defaultSettings;
 const Channel = require("./Channel");
 
+if (process.env.NODE_ENV === "test") {
+  log.transports.file.level = false;
+  log.transports.console.level = false;
+}
+
 /**
  * IPC Channel for picker events
  *

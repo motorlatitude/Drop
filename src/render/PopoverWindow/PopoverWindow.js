@@ -1,7 +1,3 @@
-const Sentry = require("@sentry/electron");
-
-Sentry.init({ dsn: process.env.DSN });
-
 const { ipcRenderer } = require("electron");
 
 /**
