@@ -58,7 +58,9 @@ describe("Checking MouseCaptureHandler", function() {
     setTimeout(() => {
       mch.stopPolling();
       assert.strictEqual(mch._PollingInterval, null);
-      return done();
-    }, 2000);
+      setTimeout(() => {
+        return done();
+      }, 1000);
+    }, 1000);
   });
 });
