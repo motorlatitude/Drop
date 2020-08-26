@@ -37,10 +37,14 @@ class Palette {
       pNameEl.innerHTML = this._Name;
       pNameEl.addEventListener("input", e => {
         this._Name = pNameEl.innerText;
-        ipcRenderer.invoke("PALETTE", {
-          type: "SAVE",
-          args: this.serialize()
-        });
+        ipcRenderer
+          .invoke("PALETTE", {
+            type: "SAVE",
+            args: this.serialize()
+          })
+          .catch(err => {
+            console.warn(err);
+          });
       });
       templatePalette
         .getElementsByClassName("delete-palette")[0]
@@ -57,7 +61,11 @@ class Palette {
         e.preventDefault();
         const color = e.dataTransfer.getData("text");
         this._Colors.push(color);
-        ipcRenderer.invoke("PALETTE", { type: "SAVE", args: this.serialize() });
+        ipcRenderer
+          .invoke("PALETTE", { type: "SAVE", args: this.serialize() })
+          .catch(err => {
+            console.warn(err);
+          });
         this.appendNewColorItem(colorPaletteListEl, color);
       });
 
@@ -93,7 +101,11 @@ class Palette {
     elColorListDeleteOption.addEventListener("click", async e => {
       // clicked trash, delete palette
       if (!elColorListDeleteOption.classList.contains("disabled")) {
-        ipcRenderer.invoke("PALETTE", { type: "DELETE", args: this._ID });
+        ipcRenderer
+          .invoke("PALETTE", { type: "DELETE", args: this._ID })
+          .catch(err => {
+            console.warn(err);
+          });
         this.removePalette(elColorList);
         this.changeHistoryWindowBounds(-110, 110);
       }
@@ -106,7 +118,11 @@ class Palette {
         this._Colors = [];
         elColorList.getElementsByClassName("color-palette-list")[0].innerHTML =
           "";
-        ipcRenderer.invoke("PALETTE", { type: "SAVE", args: this.serialize() });
+        ipcRenderer
+          .invoke("PALETTE", { type: "SAVE", args: this.serialize() })
+          .catch(err => {
+            console.warn(err);
+          });
       }
     });
 
@@ -135,15 +151,19 @@ class Palette {
       type: "GET_BOUNDS",
       windowName: "history"
     });
-    ipcRenderer.invoke("WINDOW", {
-      type: "SET_BOUNDS",
-      windowName: "history",
-      args: {
-        height: windowBounds.height + heightModifier,
-        y: windowBounds.y + yModifier,
-        animate: true
-      }
-    });
+    ipcRenderer
+      .invoke("WINDOW", {
+        type: "SET_BOUNDS",
+        windowName: "history",
+        args: {
+          height: windowBounds.height + heightModifier,
+          y: windowBounds.y + yModifier,
+          animate: true
+        }
+      })
+      .catch(err => {
+        console.warn(err);
+      });
   }
 
   /**
@@ -185,7 +205,11 @@ class Palette {
     el.addEventListener(
       "click",
       e => {
-        ipcRenderer.invoke("PICKER", { type: "PICKED", args: { color } });
+        ipcRenderer
+          .invoke("PICKER", { type: "PICKED", args: { color } })
+          .catch(err => {
+            console.warn(err);
+          });
         // remove color if in history palette as it will get added to the front
         if (this._ID == "HISTORY") {
           document
@@ -216,10 +240,14 @@ class Palette {
             const index = [...el.parentElement.children].indexOf(el);
             this._Colors.splice(this._Colors.length - index - 1, 1);
             el.parentNode.removeChild(el);
-            ipcRenderer.invoke("PALETTE", {
-              type: "SAVE",
-              args: this.serialize()
-            });
+            ipcRenderer
+              .invoke("PALETTE", {
+                type: "SAVE",
+                args: this.serialize()
+              })
+              .catch(err => {
+                console.warn(err);
+              });
             document
               .getElementById("context-menu-delete")
               .removeEventListener("click", deleteColor);
@@ -282,10 +310,14 @@ class Palette {
           temporaryPaletteElement.querySelectorAll(".history>ul>li").length > 0
         ) {
           // save palette
-          ipcRenderer.invoke("PALETTE", {
-            type: "SAVE",
-            args: temporaryPalette.serialize()
-          });
+          ipcRenderer
+            .invoke("PALETTE", {
+              type: "SAVE",
+              args: temporaryPalette.serialize()
+            })
+            .catch(err => {
+              console.warn(err);
+            });
           [temporaryPalette, temporaryPaletteElement] = [undefined, undefined];
         } else {
           this.changeHistoryWindowBounds(-110, 110);

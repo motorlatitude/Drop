@@ -17,38 +17,34 @@ describe("Checking ColorFormats", function() {
   });
 
   it("ColorFormats should load color formats on constructions and store in _colorFormats", function(done) {
-    const c = new this.ColorFormats();
-    setTimeout(() => {
-      assert.strictEqual(c.formats.length, 9);
+    new this.ColorFormats().then(({ c: c, cf: cf }) => {
+      assert.strictEqual(c.length, 9);
       done();
-    }, 5000);
+    });
   });
 
   it("Should select the first color format as the selected color format", function(done) {
-    const c = new this.ColorFormats();
-    setTimeout(() => {
-      assert.strictEqual(c.formats[0].value, c.selectedFormat);
+    new this.ColorFormats().then(({ c: c, cf: cf }) => {
+      assert.strictEqual(c[0].value, cf.selectedFormat);
       done();
-    }, 5000);
+    });
   });
 
   it("Should set selected color format", function(done) {
-    const c = new this.ColorFormats();
-    setTimeout(() => {
-      const selColor = c.formats[1].value;
-      c.selectedFormat = selColor;
-      assert.strictEqual(c.selectedFormat, selColor);
+    new this.ColorFormats().then(({ c: c, cf: cf }) => {
+      const selColor = c[1].value;
+      cf.selectedFormat = selColor;
+      assert.strictEqual(cf.selectedFormat, selColor);
       done();
-    }, 5000);
+    });
   });
 
   it("Should reload formats and return formats list", function(done) {
-    const c = new this.ColorFormats();
-    setTimeout(() => {
-      c.updateFormats(formats => {
+    new this.ColorFormats().then(({ c: c, cf: cf }) => {
+      cf.updateFormats(formats => {
         assert.strictEqual(formats.length, 9);
         done();
       });
-    }, 5000);
+    });
   });
 });

@@ -13,7 +13,7 @@ describe("End To End Electron Testing Using Spectron", function() {
         env: {
           ELECTRON_ENABLE_LOGGING: true,
           ELECTRON_ENABLE_STACK_DUMPING: true,
-          NODE_ENV: "development"
+          NODE_ENV: "test"
         },
         chromeDriverArgs: ["no-sandbox"],
         startTimeout: 50000

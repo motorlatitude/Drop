@@ -150,11 +150,17 @@ class SettingsWindow {
             setKeyList(settingKey, settings[settingKey]);
           }
         });
+      })
+      .catch(err => {
+        console.warn(err);
       });
     ipcRenderer
       .invoke("FORMAT", { type: "GET_ALL", args: {} })
       .then(colorFormats => {
         this._HandleColorFormats(colorFormats);
+      })
+      .catch(err => {
+        console.warn(err);
       });
 
     ipcRenderer.on("FORMATS_UPDATED", (event, colorFormats) => {
@@ -256,7 +262,11 @@ class SettingsWindow {
    */
   _ConfigureEventListeners() {
     document.getElementById("close-window").addEventListener("click", e => {
-      ipcRenderer.invoke("WINDOW", { type: "HIDE", windowName: "settings" });
+      ipcRenderer
+        .invoke("WINDOW", { type: "HIDE", windowName: "settings" })
+        .catch(err => {
+          console.warn(err);
+        });
     });
 
     // Navigation Control
@@ -292,7 +302,9 @@ class SettingsWindow {
             document
               .getElementById("openLogDirectory")
               .addEventListener("click", e => {
-                ipcRenderer.invoke("open-logs");
+                ipcRenderer.invoke("open-logs").catch(err => {
+                  console.warn(err);
+                });
                 e.preventDefault();
               });
           }
@@ -307,13 +319,17 @@ class SettingsWindow {
       const checkboxEl = document.getElementById(settingKey);
       if (checkboxEl) {
         checkboxEl.addEventListener("change", e => {
-          ipcRenderer.invoke("SETTING", {
-            type: "MODIFY_SETTING",
-            args: {
-              key: settingKey,
-              value: checkboxEl.checked
-            }
-          });
+          ipcRenderer
+            .invoke("SETTING", {
+              type: "MODIFY_SETTING",
+              args: {
+                key: settingKey,
+                value: checkboxEl.checked
+              }
+            })
+            .catch(err => {
+              checkboxEl.checked = !checkboxEl.checked;
+            });
           switch (settingKey) {
             case "isHistoryLimit":
               if (checkboxEl.checked) {
@@ -335,18 +351,26 @@ class SettingsWindow {
     /* GENERAL */
     const historyLimitEl = document.getElementById("historyLimit");
     historyLimitEl.addEventListener("change", e => {
-      ipcRenderer.invoke("SETTING", {
-        type: "MODIFY_SETTING",
-        args: { key: "historyLimit", value: historyLimitEl.value }
-      });
+      ipcRenderer
+        .invoke("SETTING", {
+          type: "MODIFY_SETTING",
+          args: { key: "historyLimit", value: historyLimitEl.value }
+        })
+        .catch(err => {
+          console.warn(err);
+        });
     });
 
     const colorProfileEl = document.getElementById("colorProfile");
     colorProfileEl.addEventListener("change", e => {
-      ipcRenderer.invoke("SETTING", {
-        type: "MODIFY_SETTING",
-        args: { key: "colorProfile", value: colorProfileEl.value }
-      });
+      ipcRenderer
+        .invoke("SETTING", {
+          type: "MODIFY_SETTING",
+          args: { key: "colorProfile", value: colorProfileEl.value }
+        })
+        .catch(err => {
+          console.warn(err);
+        });
     });
 
     /* ABOUT */
@@ -356,10 +380,14 @@ class SettingsWindow {
       if (!updateButtonEl.getAttribute("disabled")) {
         updateButtonEl.setAttribute("disabled", true);
         if (updateButtonEl.getAttribute("data-function") == "check") {
-          ipcRenderer.invoke("SETTING", {
-            type: "MODIFY_SETTING",
-            args: { key: "lastUpdateCheck", value: new Date().getTime() }
-          });
+          ipcRenderer
+            .invoke("SETTING", {
+              type: "MODIFY_SETTING",
+              args: { key: "lastUpdateCheck", value: new Date().getTime() }
+            })
+            .catch(err => {
+              console.warn(err);
+            });
           document.getElementById("lastUpdateCheck").innerHTML =
             "Last checked " + moment(new Date().getTime()).fromNow();
           document.getElementById("update-status").innerHTML =
@@ -501,31 +529,39 @@ class SettingsWindow {
       document
         .getElementById(tempName + "_save_changes")
         .addEventListener("click", e => {
-          ipcRenderer.invoke(
-            "FORMAT",
-            JSON.parse(
-              JSON.stringify({
-                type: "SAVE_FORMAT",
-                args: {
-                  value: tempName,
-                  file: flask.getCode(),
-                  new: true
-                }
-              })
+          ipcRenderer
+            .invoke(
+              "FORMAT",
+              JSON.parse(
+                JSON.stringify({
+                  type: "SAVE_FORMAT",
+                  args: {
+                    value: tempName,
+                    file: flask.getCode(),
+                    new: true
+                  }
+                })
+              )
             )
-          );
+            .catch(err => {
+              console.warn(err);
+            });
         });
     });
 
     document.getElementById("formats-delete").addEventListener("click", e => {
       const menuItem = document.querySelector(".formats-sidebar ul li.active");
       const name = menuItem.getAttribute("data-sidebar-nav");
-      ipcRenderer.invoke("FORMAT", {
-        type: "DELETE_FORMAT",
-        args: {
-          value: name
-        }
-      });
+      ipcRenderer
+        .invoke("FORMAT", {
+          type: "DELETE_FORMAT",
+          args: {
+            value: name
+          }
+        })
+        .catch(err => {
+          console.warn(err);
+        });
       menuItem.parentNode.removeChild(menuItem);
       document.querySelectorAll(".formats-sidebar ul li")[0].click();
     });
@@ -534,10 +570,14 @@ class SettingsWindow {
 
     const pollingRateEl = document.getElementById("pollingRate");
     pollingRateEl.addEventListener("change", e => {
-      ipcRenderer.invoke("SETTING", {
-        type: "MODIFY_SETTING",
-        args: { key: "pollingRate", value: pollingRateEl.value }
-      });
+      ipcRenderer
+        .invoke("SETTING", {
+          type: "MODIFY_SETTING",
+          args: { key: "pollingRate", value: pollingRateEl.value }
+        })
+        .catch(err => {
+          console.warn(err);
+        });
     });
 
     /* SHORTCUTS */
@@ -590,19 +630,27 @@ class SettingsWindow {
               keys.push(key.getAttribute("data-key"));
             });
 
-          ipcRenderer.invoke("SETTING", {
-            type: "MODIFY_SETTING",
-            args: { key: shortcutFor + "Keys", value: keys }
-          });
+          ipcRenderer
+            .invoke("SETTING", {
+              type: "MODIFY_SETTING",
+              args: { key: shortcutFor + "Keys", value: keys }
+            })
+            .catch(err => {
+              console.warn(err);
+            });
         }
         document
           .querySelector(".shortcut-keys.shortcut-active")
           .classList.remove("shortcut-active");
         document.removeEventListener("keydown", onKeyDown);
-        ipcRenderer.invoke("SETTING", {
-          type: "ENABLE_SHORTCUTS",
-          args: {}
-        });
+        ipcRenderer
+          .invoke("SETTING", {
+            type: "ENABLE_SHORTCUTS",
+            args: {}
+          })
+          .catch(err => {
+            console.warn(err);
+          });
       }
     };
 
@@ -651,10 +699,14 @@ class SettingsWindow {
         keyCaptureEl.innerHTML = "<ul></ul>";
         document.addEventListener("keydown", onKeyDown);
         // unregister all global shortcuts
-        ipcRenderer.invoke("SETTING", {
-          type: "DISABLE_SHORTCUTS",
-          args: {}
-        });
+        ipcRenderer
+          .invoke("SETTING", {
+            type: "DISABLE_SHORTCUTS",
+            args: {}
+          })
+          .catch(err => {
+            console.warn(err);
+          });
         e.preventDefault();
       });
     });

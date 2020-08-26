@@ -50,8 +50,7 @@ class WindowManager {
       webPreferences: {
         nodeIntegration: true,
         worldSafeExecuteJavaScript: true,
-        preload: path.join(__dirname, "../resources/sentry.js"),
-        enableRemoteModule: true
+        preload: path.join(__dirname, "../resources/sentry.js")
       }
     };
     switch (windowName) {

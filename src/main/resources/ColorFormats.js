@@ -18,8 +18,12 @@ class ColorFormats {
    */
   constructor() {
     this._colorFormats = [];
-    this._loadFormats();
     this._selectedFormat = undefined;
+    return new Promise(resolve => {
+      this._loadFormats((c, cf) => {
+        resolve({ c, cf });
+      });
+    });
   }
 
   /**
@@ -115,7 +119,7 @@ class ColorFormats {
           this._selectedFormat = this._colorFormats[0].value;
         }
         if (cb) {
-          cb(this._colorFormats);
+          cb(this._colorFormats, this);
         }
       }
     });

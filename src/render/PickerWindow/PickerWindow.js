@@ -87,7 +87,7 @@ class PickerWindow {
           }
         })
         .catch(err => {
-          console.error(err);
+          console.warn(err);
         });
       ipcRenderer
         .invoke("SETTING", {
@@ -103,13 +103,20 @@ class PickerWindow {
               hidePicker = false;
             }
           }
-          ipcRenderer.invoke("PICKER", {
-            type: "PICKED",
-            args: {
-              color: this.activeColor,
-              hidePickerWindow: hidePicker
-            }
-          });
+          ipcRenderer
+            .invoke("PICKER", {
+              type: "PICKED",
+              args: {
+                color: this.activeColor,
+                hidePickerWindow: hidePicker
+              }
+            })
+            .catch(err => {
+              console.warn(err);
+            });
+        })
+        .catch(err => {
+          console.warn(err);
         });
       if (this._controlDown) {
         // control is down, save in new palette
@@ -122,19 +129,26 @@ class PickerWindow {
           })
           .then(res => {
             if (res.response) {
-              ipcRenderer.invoke("PALETTE", {
-                type: "SAVE",
-                args: {
-                  // eslint-disable-next-line security-node/detect-insecure-randomness
-                  id: Math.random()
-                    .toString(36)
-                    .substr(2, 9),
-                  name: "New Color Palette",
-                  colors: [this.activeColor],
-                  refresh: true
-                }
-              });
+              ipcRenderer
+                .invoke("PALETTE", {
+                  type: "SAVE",
+                  args: {
+                    // eslint-disable-next-line security-node/detect-insecure-randomness
+                    id: Math.random()
+                      .toString(36)
+                      .substr(2, 9),
+                    name: "New Color Palette",
+                    colors: [this.activeColor],
+                    refresh: true
+                  }
+                })
+                .catch(err => {
+                  console.warn(err);
+                });
             }
+          })
+          .catch(err => {
+            console.warn(err);
           });
       }
     });
@@ -161,7 +175,11 @@ class PickerWindow {
         event.key === "Esc" ||
         event.keyCode === 27
       ) {
-        ipcRenderer.invoke("WINDOW", { type: "HIDE", windowName: "picker" });
+        ipcRenderer
+          .invoke("WINDOW", { type: "HIDE", windowName: "picker" })
+          .catch(err => {
+            console.warn(err);
+          });
       }
       this._controlDown = false;
       this._shiftDown = false;
@@ -204,100 +222,148 @@ class PickerWindow {
           switch (populatedShortcutObject.key) {
             case "shortcutMoveLensRight":
               populatedShortcutObject.callback = () => {
-                ipcRenderer.invoke("MOUSE", {
-                  type: "MOVE",
-                  args: { direction: "RIGHT", shift: false }
-                });
+                ipcRenderer
+                  .invoke("MOUSE", {
+                    type: "MOVE",
+                    args: { direction: "RIGHT", shift: false }
+                  })
+                  .catch(err => {
+                    console.warn(err);
+                  });
               };
               break;
             case "shortcutMoveLensLeft":
               populatedShortcutObject.callback = () => {
-                ipcRenderer.invoke("MOUSE", {
-                  type: "MOVE",
-                  args: { direction: "LEFT", shift: false }
-                });
+                ipcRenderer
+                  .invoke("MOUSE", {
+                    type: "MOVE",
+                    args: { direction: "LEFT", shift: false }
+                  })
+                  .catch(err => {
+                    console.warn(err);
+                  });
               };
               break;
             case "shortcutMoveLensDown":
               populatedShortcutObject.callback = () => {
-                ipcRenderer.invoke("MOUSE", {
-                  type: "MOVE",
-                  args: { direction: "DOWN", shift: false }
-                });
+                ipcRenderer
+                  .invoke("MOUSE", {
+                    type: "MOVE",
+                    args: { direction: "DOWN", shift: false }
+                  })
+                  .catch(err => {
+                    console.warn(err);
+                  });
               };
               break;
             case "shortcutMoveLensUp":
               populatedShortcutObject.callback = () => {
-                ipcRenderer.invoke("MOUSE", {
-                  type: "MOVE",
-                  args: { direction: "UP", shift: false }
-                });
+                ipcRenderer
+                  .invoke("MOUSE", {
+                    type: "MOVE",
+                    args: { direction: "UP", shift: false }
+                  })
+                  .catch(err => {
+                    console.warn(err);
+                  });
               };
               break;
             case "shortcutMoveLensRight10px":
               populatedShortcutObject.callback = () => {
-                ipcRenderer.invoke("MOUSE", {
-                  type: "MOVE",
-                  args: { direction: "RIGHT", shift: true }
-                });
+                ipcRenderer
+                  .invoke("MOUSE", {
+                    type: "MOVE",
+                    args: { direction: "RIGHT", shift: true }
+                  })
+                  .catch(err => {
+                    console.warn(err);
+                  });
               };
               break;
             case "shortcutMoveLensLeft10px":
               populatedShortcutObject.callback = () => {
-                ipcRenderer.invoke("MOUSE", {
-                  type: "MOVE",
-                  args: { direction: "LEFT", shift: true }
-                });
+                ipcRenderer
+                  .invoke("MOUSE", {
+                    type: "MOVE",
+                    args: { direction: "LEFT", shift: true }
+                  })
+                  .catch(err => {
+                    console.warn(err);
+                  });
               };
               break;
             case "shortcutMoveLensDown10px":
               populatedShortcutObject.callback = () => {
-                ipcRenderer.invoke("MOUSE", {
-                  type: "MOVE",
-                  args: { direction: "DOWN", shift: true }
-                });
+                ipcRenderer
+                  .invoke("MOUSE", {
+                    type: "MOVE",
+                    args: { direction: "DOWN", shift: true }
+                  })
+                  .catch(err => {
+                    console.warn(err);
+                  });
               };
               break;
             case "shortcutMoveLensUp10px":
               populatedShortcutObject.callback = () => {
-                ipcRenderer.invoke("MOUSE", {
-                  type: "MOVE",
-                  args: { direction: "UP", shift: true }
-                });
+                ipcRenderer
+                  .invoke("MOUSE", {
+                    type: "MOVE",
+                    args: { direction: "UP", shift: true }
+                  })
+                  .catch(err => {
+                    console.warn(err);
+                  });
               };
               break;
             case "shortcutIncreaseSize":
               populatedShortcutObject.callback = () => {
-                ipcRenderer.invoke("PICKER", {
-                  type: "MODIFY_SIZE",
-                  args: { zoomType: "increase" }
-                });
+                ipcRenderer
+                  .invoke("PICKER", {
+                    type: "MODIFY_SIZE",
+                    args: { zoomType: "increase" }
+                  })
+                  .catch(err => {
+                    console.warn(err);
+                  });
                 window.scrollTo(0, 0);
               };
               break;
             case "shortcutDecreaseSize":
               populatedShortcutObject.callback = () => {
-                ipcRenderer.invoke("PICKER", {
-                  type: "MODIFY_SIZE",
-                  args: { zoomType: "decrease" }
-                });
+                ipcRenderer
+                  .invoke("PICKER", {
+                    type: "MODIFY_SIZE",
+                    args: { zoomType: "decrease" }
+                  })
+                  .catch(err => {
+                    console.warn(err);
+                  });
                 window.scrollTo(0, 0);
               };
               break;
             case "shortcutFormatNext":
               populatedShortcutObject.callback = () => {
-                ipcRenderer.invoke("FORMAT", {
-                  type: "NEXT",
-                  args: {}
-                });
+                ipcRenderer
+                  .invoke("FORMAT", {
+                    type: "NEXT",
+                    args: {}
+                  })
+                  .catch(err => {
+                    console.warn(err);
+                  });
               };
               break;
             case "shortcutFormatPrevious":
               populatedShortcutObject.callback = () => {
-                ipcRenderer.invoke("FORMAT", {
-                  type: "BACK",
-                  args: {}
-                });
+                ipcRenderer
+                  .invoke("FORMAT", {
+                    type: "BACK",
+                    args: {}
+                  })
+                  .catch(err => {
+                    console.warn(err);
+                  });
               };
               break;
           }
@@ -313,6 +379,9 @@ class PickerWindow {
             );
           }
         });
+      })
+      .catch(err => {
+        console.warn(err);
       });
   }
 }

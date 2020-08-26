@@ -83,16 +83,17 @@ class AppController {
     );
     const trayController = new TrayController(this._WindowManager, this._Store);
 
-    const colorFormats = new ColorFormats();
-    const messageHandler = new MessageHandler(
-      this,
-      this._WindowManager,
-      this._Store,
-      trayController,
-      colorFormats,
-      this._Updater
-    );
-    messageHandler.setupListeners();
+    new ColorFormats().then(({ c: colours, cf: colorFormats }) => {
+      const messageHandler = new MessageHandler(
+        this,
+        this._WindowManager,
+        this._Store,
+        trayController,
+        colorFormats,
+        this._Updater
+      );
+      messageHandler.setupListeners();
+    });
   }
 
   /**
@@ -178,9 +179,13 @@ class AppController {
    * @memberof AppController
    */
   setLoginItem(startOnLogin) {
-    this._App.setLoginItemSettings({
-      openAtLogin: startOnLogin
-    });
+    if (this._App.setLoginItemSettings) {
+      this._App.setLoginItemSettings({
+        openAtLogin: startOnLogin
+      });
+    } else {
+      log.warn("We can't set the openAtLogin");
+    }
   }
 
   /**
@@ -189,12 +194,14 @@ class AppController {
    */
   _SetFlags() {
     const currentSettings = this._Store.get("settings", DefaultSettings);
-    this._App.commandLine.appendSwitch(
-      "force-color-profile",
-      currentSettings.colorProfile || "default"
-    );
+    if (this._App.commandLine.appendSwitch) {
+      this._App.commandLine.appendSwitch(
+        "force-color-profile",
+        currentSettings.colorProfile || "default"
+      );
+    }
     log.info("OS:", process.platform);
-    if (process.platform === "linux") {
+    if (process.platform === "linux" && this._App.commandLine.appendSwitch) {
       this._App.commandLine.appendSwitch("enable-transparent-visuals");
       this._App.commandLine.appendSwitch("disable-gpu");
     }

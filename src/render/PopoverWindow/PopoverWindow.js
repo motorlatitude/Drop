@@ -48,10 +48,14 @@ class PopoverWindow {
               const ipcChannelName =
                 "options-" + this._ID + "-click-" + option._id;
               ipcRenderer.send(ipcChannelName, option.value);
-              ipcRenderer.invoke("WINDOW", {
-                type: "HIDE",
-                windowName: "popover"
-              });
+              ipcRenderer
+                .invoke("WINDOW", {
+                  type: "HIDE",
+                  windowName: "popover"
+                })
+                .catch(err => {
+                  console.warn(err);
+                });
             },
             false
           );

@@ -40,28 +40,39 @@ class HistoryWindow {
       .then(historyWindowBounds => {
         const newHeight = 110 + Object.keys(palettes).length * 110;
         if (historyWindowBounds.y + newHeight > primaryScreenSize.height) {
-          ipcRenderer.invoke("WINDOW", {
-            type: "SET_BOUNDS",
-            windowName: "history",
-            args: {
-              height: newHeight,
-              y:
-                primaryScreenSize.height -
-                230 -
-                (Object.keys(palettes).length - 1) * 110,
-              animate: true
-            }
-          });
+          ipcRenderer
+            .invoke("WINDOW", {
+              type: "SET_BOUNDS",
+              windowName: "history",
+              args: {
+                height: newHeight,
+                y:
+                  primaryScreenSize.height -
+                  230 -
+                  (Object.keys(palettes).length - 1) * 110,
+                animate: true
+              }
+            })
+            .catch(err => {
+              console.warn(err);
+            });
         } else {
-          ipcRenderer.invoke("WINDOW", {
-            type: "SET_BOUNDS",
-            windowName: "history",
-            args: {
-              height: newHeight,
-              animate: true
-            }
-          });
+          ipcRenderer
+            .invoke("WINDOW", {
+              type: "SET_BOUNDS",
+              windowName: "history",
+              args: {
+                height: newHeight,
+                animate: true
+              }
+            })
+            .catch(err => {
+              console.warn(err);
+            });
         }
+      })
+      .catch(err => {
+        console.warn(err);
       });
 
     // Generate Palette objects for stored history palettes
@@ -94,7 +105,11 @@ class HistoryWindow {
    */
   configureWindowControls() {
     document.querySelector(".picker-button").addEventListener("click", () => {
-      ipcRenderer.invoke("WINDOW", { type: "SHOW", windowName: "picker" });
+      ipcRenderer
+        .invoke("WINDOW", { type: "SHOW", windowName: "picker" })
+        .catch(err => {
+          console.warn(err);
+        });
     });
 
     ipcRenderer.on("popover-hidden", () => {
@@ -122,22 +137,38 @@ class HistoryWindow {
         windowName: "popover"
       });
       if (!dropdownState.visible) {
-        ipcRenderer.invoke("WINDOW", { type: "SHOW", windowName: "popover" });
+        ipcRenderer
+          .invoke("WINDOW", { type: "SHOW", windowName: "popover" })
+          .catch(err => {
+            console.warn(err);
+          });
         document.getElementById("select").classList.add("active");
       } else {
-        ipcRenderer.invoke("WINDOW", { type: "HIDE", windowName: "popover" });
+        ipcRenderer
+          .invoke("WINDOW", { type: "HIDE", windowName: "popover" })
+          .catch(err => {
+            console.warn(err);
+          });
         document.getElementById("select").classList.remove("active");
       }
     });
 
     document.querySelector(".window-options").addEventListener("click", () => {
-      ipcRenderer.invoke("WINDOW", { type: "HIDE", windowName: "history" });
+      ipcRenderer
+        .invoke("WINDOW", { type: "HIDE", windowName: "history" })
+        .catch(err => {
+          console.warn(err);
+        });
     });
 
     document
       .getElementsByClassName("settings-cog")[0]
       .addEventListener("click", () => {
-        ipcRenderer.invoke("WINDOW", { type: "SHOW", windowName: "settings" });
+        ipcRenderer
+          .invoke("WINDOW", { type: "SHOW", windowName: "settings" })
+          .catch(err => {
+            console.warn(err);
+          });
       });
 
     document.getElementsByClassName("quit")[0].addEventListener("click", () => {
