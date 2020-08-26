@@ -8,7 +8,13 @@ describe("End To End Electron Testing Using Spectron", function() {
 
     beforeEach(function() {
       this.app = new Application({
-        path: path.resolve(__dirname, "../../node_modules/.bin/electron"),
+        path:
+          process.platform === "linux"
+            ? path.resolve(__dirname, "../../node_modules/.bin/electron")
+            : path.resolve(
+                __dirname,
+                "../../node_modules/bin/electron-rebuild.cmd"
+              ),
         args: [path.join(__dirname, "../..")],
         env: {
           ELECTRON_ENABLE_LOGGING: true,
