@@ -43,6 +43,7 @@ class AppController {
     this._WindowManager = wm;
     this._ShortcutManager = new ShortcutController();
     this._Updater = new Updater(this._Store, this._WindowManager);
+    this._MessageHandler = undefined;
 
     // call private methods
     log.info("Setting Up Application");
@@ -84,7 +85,7 @@ class AppController {
     const trayController = new TrayController(this._WindowManager, this._Store);
 
     new ColorFormats().then(({ c: colours, cf: colorFormats }) => {
-      const messageHandler = new MessageHandler(
+      this._MessageHandler = new MessageHandler(
         this,
         this._WindowManager,
         this._Store,
@@ -92,7 +93,7 @@ class AppController {
         colorFormats,
         this._Updater
       );
-      messageHandler.setupListeners();
+      this._MessageHandler.setupListeners();
     });
   }
 
