@@ -4,7 +4,7 @@ const path = require("path");
 
 describe("End To End Electron Testing Using Spectron", function() {
   describe("Application launch", function() {
-    this.timeout(30000);
+    this.timeout(50000);
 
     beforeEach(function() {
       let electronPath = path.join(
@@ -30,7 +30,6 @@ describe("End To End Electron Testing Using Spectron", function() {
         chromeDriverArgs: ["no-sandbox"],
         startTimeout: 50000
       });
-      console.log(this.app);
       return this.app.start();
     });
 
