@@ -30,6 +30,7 @@ describe("End To End Electron Testing Using Spectron", function() {
         chromeDriverArgs: ["no-sandbox"],
         startTimeout: 50000
       });
+      console.log(this.app);
       return this.app.start();
     });
 
