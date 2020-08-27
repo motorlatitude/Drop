@@ -7,11 +7,20 @@ describe("End To End Electron Testing Using Spectron", function() {
     this.timeout(30000);
 
     beforeEach(function() {
+      let electronPath = path.join(
+        __dirname,
+        "..",
+        "..",
+        "node_modules",
+        ".bin",
+        "electron"
+      );
+
+      if (process.platform === "win32") {
+        electronPath += ".cmd";
+      }
       this.app = new Application({
-        path:
-          process.platform === "linux"
-            ? path.resolve(__dirname, "../../node_modules/.bin/electron")
-            : path.resolve(__dirname, "../../node_modules/.bin/electron.cmd"),
+        path: electronPath,
         args: [path.join(__dirname, "../..")],
         env: {
           ELECTRON_ENABLE_LOGGING: true,
