@@ -15,9 +15,16 @@ describe("End To End Electron Testing Using Spectron", function() {
         ".bin",
         "electron"
       );
-
       if (process.platform === "win32") {
-        electronPath += ".cmd";
+        electronPath = path.join(
+          __dirname,
+          "..",
+          "..",
+          "node_modules",
+          "electron",
+          "dist",
+          "electron.exe"
+        );
       }
       this.app = new Application({
         path: electronPath,

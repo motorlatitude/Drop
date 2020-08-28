@@ -61,52 +61,20 @@ class MessageHandler {
     const au = this._AutoUpdater;
     const ac = this._AppController;
 
-    ipcMain
-      .handle("PALETTE", (e, a) => new PaletteChannel(channelProps, e, a))
-      .catch(err => {
-        log.warn(err);
-      });
-    ipcMain
-      .handle("WINDOW", (e, a) => new WindowChannel(channelProps, e, a))
-      .catch(err => {
-        log.warn(err);
-      });
-    ipcMain
-      .handle(
-        "SETTING",
-        (e, a) => new SettingChannel(channelProps, e, a, au, ac)
-      )
-      .catch(err => {
-        log.warn(err);
-      });
-    ipcMain
-      .handle("MOUSE", (e, a) => new MouseChannel(channelProps, e, a))
-      .catch(err => {
-        log.warn(err);
-      });
-    ipcMain
-      .handle("PICKER", (e, a) => new PickerChannel(channelProps, e, a))
-      .catch(err => {
-        log.warn(err);
-      });
-    ipcMain
-      .handle("FORMAT", (e, a) => new FormatChannel(channelProps, e, a))
-      .catch(err => {
-        log.warn(err);
-      });
+    ipcMain.handle("PALETTE", (e, a) => new PaletteChannel(channelProps, e, a));
+    ipcMain.handle("WINDOW", (e, a) => new WindowChannel(channelProps, e, a));
+    ipcMain.handle(
+      "SETTING",
+      (e, a) => new SettingChannel(channelProps, e, a, au, ac)
+    );
+    ipcMain.handle("MOUSE", (e, a) => new MouseChannel(channelProps, e, a));
+    ipcMain.handle("PICKER", (e, a) => new PickerChannel(channelProps, e, a));
+    ipcMain.handle("FORMAT", (e, a) => new FormatChannel(channelProps, e, a));
 
     // General App/Electron IPCs
-    ipcMain
-      .handle("get-primary-screen-size", this.getScreenSize.bind(self))
-      .catch(err => {
-        log.warn(err);
-      });
+    ipcMain.handle("get-primary-screen-size", this.getScreenSize.bind(self));
     ipcMain.on("quit-app", this.quitApp.bind(self));
-    ipcMain
-      .handle("open-logs", this.openLogsDirectory.bind(self))
-      .catch(err => {
-        log.warn(err);
-      });
+    ipcMain.handle("open-logs", this.openLogsDirectory.bind(self));
   }
 
   /**
