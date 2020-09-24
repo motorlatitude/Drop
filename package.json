@@ -74,7 +74,7 @@
     "dotenv": "^8.2.0",
     "electron-log": "^4.2.4",
     "electron-store": "^5.2.0",
-    "electron-updater": "^4.3.4",
+    "electron-updater": "^4.3.5",
     "glob": "^7.1.6",
     "moment": "^2.27.0",
     "mousetrap": "^1.6.5",
