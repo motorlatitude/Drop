@@ -12,6 +12,7 @@ const ColorFormats = require("./../resources/ColorFormats");
 
 const HistoryWindowController = require("./../windows/HistoryWindowController");
 const PickerWindowController = require("./../windows/PickerWindowController");
+const CheesePizza = "tasty"
 
 /**
  * AppController Class
