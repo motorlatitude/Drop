@@ -72,7 +72,7 @@
     "codeflask": "^1.4.1",
     "color-namer": "^1.4.0",
     "dotenv": "^8.2.0",
-    "electron-log": "^4.2.4",
+    "electron-log": "^4.3.4",
     "electron-store": "^5.2.0",
     "electron-updater": "^4.3.5",
     "glob": "^7.1.6",
