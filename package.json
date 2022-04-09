@@ -76,7 +76,7 @@
     "electron-store": "^5.2.0",
     "electron-updater": "^4.3.5",
     "glob": "^7.1.6",
-    "moment": "^2.28.0",
+    "moment": "^2.29.2",
     "mousetrap": "^1.6.5",
     "require-from-string": "^2.0.2",
     "robotjs": "^0.6.0",
